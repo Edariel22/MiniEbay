@@ -1,0 +1,17 @@
+# Ignore Tomcat runtime stuff
+/logs/
+/work/
+/temp/
+/conf/
+
+# Ignore OS junk
+.DS_Store
+Thumbs.db
+
+# Ignore compiled files
+*.class
+*.war
+*.jar
+
+# Keep our JDBC driver in /lib, but don’t push Tomcat’s
+apache-tomcat-*/
