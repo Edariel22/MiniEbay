@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Your first web form!</title>
+		<title>Web form to Login to MiniEbay!</title>
 	</head>
 	<body>
 		<form id="form_1" action="validationHashing.jsp" method="post">
@@ -11,11 +11,14 @@
 				</tr>
 				<tr>
 					<td> Password </td>
-					<td><input type="text" id="userPass"  name="userPass" />
+					<td><input type="password" id="userPass"  name="userPass" />
 				</tr>
 			</table>
 			<input type="submit" id="Submit" value="submit" />
 			<input type="reset" id="Submit" value="reset" />
+			<a href="addNewUser.html">
+								<button type="button">Sign Up</button>
+							</a>
 		</form>
 	</body>
 </html>

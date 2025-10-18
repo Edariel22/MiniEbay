@@ -1,5 +1,5 @@
-//This class belongs to the ut.JAR.CPEN410 package
-package ut.JAR.CPEN410;
+//This class belongs to the ut.JAR.MiniEbay package
+package ut.JAR.MiniEbay;
 
 //Import the java.sql package for managing the ResulSet objects
 import java.sql.* ;
