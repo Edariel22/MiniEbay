@@ -1,12 +1,10 @@
-<%/******
- This page create a connection to the Products database, and list all products in the table products using the 
-//ut.JAR.CPEN410.ApplicationProductManager class.**/
-%>
 
 <%//Import the ut.JAR.CPEN410 package for accessing the database %>
-<%@ page import="ut.JAR.CPEN410.*"%>
+
+<%@ page import="ut.JAR.CPEN410.applicationProductManager"%>
 <%//Import the java.sql package to use the ResultSet class %>
-<%@ page import="java.sql.*"%>
+
+<%@ page import="java.sql.ResultSet"%>
 
 
 <html>
@@ -14,9 +12,9 @@
 		<title>MiniEbay - Product Listing</title>
 	</head>
 	<body>
-	<h1>Here are the listing of the products</h1>
+	<h1>Here are the listing of the products 2</h1>
 	<table border=1>
-	<tr><td>Name</td><td>Description</td><td>Bid</td></tr>
+	<tr><td>Name</td><td>Description</td><td>Department</td><td>Bid</td><td>Due Date</td><td>Picture</td></tr>
 	<%
 	//Try to connect the database using the applicationProductManager class
 	try{
@@ -33,12 +31,18 @@
 			//Iterate over the ResultSet
 			while (res.next())
 			{
+				String deptName = ProductsMnger.getDepartmentName(res.getInt(4));
 				//Count each retrieved record from the query
 				count++;%>
 				<tr>
-				<%//Print the products name, the description, and the bid%>
-				<td><%=res.getString(2)%></td><td><%=res.getString(3)%></td><td><%=res.getString(6)%></td>
+				<td><%=res.getString(2)%></td> <!-- Product Name -->
+				<td><%=res.getString(3)%></td> <!-- Description -->
+				<td><%=deptName%></td> <!-- Department Name -->
+				<td><%=res.getString(6)%></td> <!-- Start Bid -->
+				<td><%=res.getString(7)%></td> <!-- Due Date -->
+				<td><img src="/MiniEbay<%=res.getString(8)%>" width="100" height="100"></td> <!-- Picture -->
 				</tr>
+
 				
 			<%}
 				//Print the number of retrieved records

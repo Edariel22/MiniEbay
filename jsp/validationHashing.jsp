@@ -1,5 +1,6 @@
 <%@ page import="java.lang.*"%>
 <%@ page import="ut.JAR.CPEN410.*"%>
+<%@ page import="ut.JAR.MiniEbay.*"%>
 <%//Import the java.sql package to use the ResultSet class %>
 <%@ page import="java.sql.*"%>
 <html>
@@ -17,7 +18,7 @@
 	//Try to connect the database using the applicationDBManager class
 	try{
 			//Create the appDBMnger object
-			applicationDBAuthenticationGood appDBAuth = new applicationDBAuthenticationGood();
+			applicationDBAuthenticationGoodComplete appDBAuth = new applicationDBAuthenticationGoodComplete();
 			System.out.println("Connecting...");
 			System.out.println(appDBAuth.toString());
 			
@@ -51,7 +52,7 @@
 				session.setAttribute("userName", null);
 				
 				//return to the login page
-				response.sendRedirect("loginHashing.html");
+				response.sendRedirect("../html/loginHashing.html");
 				}
 				res.close();
 				//Close the connection to the database
@@ -61,7 +62,7 @@
 			{%>
 				Nothing to show!
 				<%e.printStackTrace();
-				response.sendRedirect("loginHashing.html");
+				response.sendRedirect("../html/loginHashing.html");
 			}finally{
 				System.out.println("Finally");
 			}

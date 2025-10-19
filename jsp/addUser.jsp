@@ -1,5 +1,6 @@
 <%@ page import="java.lang.*"%>
 <%@ page import="ut.JAR.CPEN410.*"%>
+<%@ page import="ut.JAR.MiniEbay.*" %>
 <%//Import the java.sql package to use the ResultSet class %>
 <%@ page import="java.sql.*"%>
 <html>
@@ -14,13 +15,11 @@
 	String userPass = request.getParameter("userPass");
 	String completeName = request.getParameter("completeName");
 	String telephone = request.getParameter("telephone");
-	
-	
-	
+
 	//Try to connect the database using the applicationDBManager class
 	try{
 			//Create the appDBMnger object
-			applicationDBAuthenticationGood appDBAuth = new applicationDBAuthenticationGood();
+			applicationDBAuthenticationGoodComplete appDBAuth = new applicationDBAuthenticationGoodComplete();
 			System.out.println("Connecting...");
 			System.out.println(appDBAuth.toString());
 			
@@ -30,8 +29,11 @@
 			
 			
 			<%//Verify if the user has been authenticated
-			if (res){%>
-				USer added
+			if (res){
+				//Set session to users userName
+				session.setAttribute("userName", userName);
+				%>
+				User added
 			<%}else{
 				//Close any session associated with the user
 				session.setAttribute("userName", null);
