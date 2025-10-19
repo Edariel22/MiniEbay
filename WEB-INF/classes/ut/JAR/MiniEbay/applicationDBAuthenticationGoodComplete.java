@@ -46,11 +46,11 @@ public class applicationDBAuthenticationGoodComplete{
 		String fields, tables, whereClause, hashingVal;
 		
 		//Define the table where the selection is performed
-		tables="usergood, roleuser";
+		tables="users, roleuser";
 		//Define the list fields list to retrieve assigned roles to the user
-		fields ="usergood.userName, roleuser.roleId, usergood.Name";
+		fields ="users.userName, roleuser.roleId, users.Name";
 		hashingVal = hashingSha256(userName + userPass);
-		whereClause="usergood.userName = roleuser.userName and usergood.userName='" +userName +"' and hashing='" + hashingVal + "'";
+		whereClause="users.userName = roleuser.userName and users.userName='" +userName +"' and hashing='" + hashingVal + "'";
 		
 		
 		System.out.println("listing...");
@@ -95,10 +95,10 @@ public class applicationDBAuthenticationGoodComplete{
 		String fields, tables, whereClause, hashingVal;
 		
 		//Define the table where the selection is performed
-		tables="roleuser, role, rolewebpagegood, webpagegood, usergood, webpageprevious";
+		tables="roleuser, role, rolewebpagegood, webpagegood, users, webpageprevious";
 		//Define the list fields list to retrieve assigned roles to the user
-		fields ="usergood.userName, roleuser.roleId, usergood.Name ";
-		whereClause=" usergood.userName = roleuser.userName and usergood.userName='" +userName +"' and role.roleId=roleuser.roleId and ";
+		fields ="users.userName, roleuser.roleId, users.Name ";
+		whereClause=" users.userName = roleuser.userName and users.userName='" +userName +"' and role.roleId=roleuser.roleId and ";
 		whereClause+=" rolewebpagegood.roleId=role.roleId and rolewebpagegood.pageURL=webpagegood.pageURL and webpagegood.pageURL='" +currentPage+"' and ";
 		whereClause+=" webpageprevious.previousPageURL='"+previousPage+"' and webpageprevious.currentPageURL=webpagegood.pageURL";
 		
@@ -116,13 +116,11 @@ public class applicationDBAuthenticationGoodComplete{
 		boolean res;
 		String table, values, hashingValue;
 		hashingValue=hashingSha256(userName + userPass);
-		//Changed table name from usergood to match database name users
+		//Changed table name from users to match database name users
 		table="users";
-
 		values="'"+userName+"', '" +hashingValue+"', '"+ completeName + "', '" + userTelephone + "'";
 		res=myDBConn.doInsert(table, values);
 		System.out.println("Insertion result" + res);
-		System.out.println("DEBUG SQL => INSERT INTO " + table + " VALUES (" + values + ");");
 
 		return res;
 	}
