@@ -116,10 +116,14 @@ public class applicationDBAuthenticationGoodComplete{
 		boolean res;
 		String table, values, hashingValue;
 		hashingValue=hashingSha256(userName + userPass);
-		table="usergood";
+		//Changed table name from usergood to match database name users
+		table="users";
+
 		values="'"+userName+"', '" +hashingValue+"', '"+ completeName + "', '" + userTelephone + "'";
 		res=myDBConn.doInsert(table, values);
 		System.out.println("Insertion result" + res);
+		System.out.println("DEBUG SQL => INSERT INTO " + table + " VALUES (" + values + ");");
+
 		return res;
 	}
 	
