@@ -1,84 +1,201 @@
--- Create database
-DROP DATABASE IF EXISTS MiniEbay;
-CREATE DATABASE MiniEbay;
-USE MiniEbay;
+-- ===============================================
+-- MINI-EBAY DATABASE SCHEMA
+-- Fully aligned with CPEN410 Project Requirements
+-- Last updated: 2025-10-21
+-- ===============================================
 
--- ==========================
---  Users Table
--- ==========================
-CREATE TABLE Users (
-    user_id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    role ENUM('user','admin') DEFAULT 'user',
-    email VARCHAR(100),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+DROP DATABASE IF EXISTS miniebay;
+CREATE DATABASE miniebay;
+USE miniebay;
+
+-- ===========================================================
+-- 1️⃣ USERS TABLE
+-- Stores registered users and their hashed passwords
+-- ===========================================================
+
+CREATE TABLE users (
+  userName VARCHAR(50) NOT NULL PRIMARY KEY,
+  hashing MEDIUMTEXT NOT NULL,
+  Name VARCHAR(100),
+  telephone VARCHAR(20)
 );
 
--- ==========================
---  Departments Table
--- ==========================
-CREATE TABLE Departments (
-    dept_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) UNIQUE NOT NULL
+-- Sample user (replace hash as needed)
+INSERT INTO users (userName, hashing, Name, telephone)
+VALUES ('Elias', 'a40e8afc6e736dfef35e809f3e8af1dfaf37a992436f88baeae45b2897419f9f', 'Elias Medina', '7876059637');
+
+
+-- ===========================================================
+-- 2️⃣ ROLE TABLE
+-- Defines available roles (admin, user, etc.)
+-- ===========================================================
+
+CREATE TABLE role (
+  roleId VARCHAR(20) PRIMARY KEY,
+  Name VARCHAR(50) NOT NULL,
+  Description VARCHAR(100) NOT NULL
 );
 
--- ==========================
---  Products Table
--- ==========================
-CREATE TABLE Products (
-    product_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    description TEXT,
-    dept_id INT NOT NULL,
-    seller_id INT NOT NULL,
-    start_bid DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-    due_date DATETIME NOT NULL,
-    picture_path VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (dept_id) REFERENCES Departments(dept_id)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (seller_id) REFERENCES Users(user_id)
-        ON DELETE CASCADE ON UPDATE CASCADE
+INSERT INTO role VALUES
+('rol1', 'Regular User', 'Standard registered user');
+
+
+-- ===========================================================
+-- 3️⃣ ROLEUSER TABLE
+-- Links users to their assigned roles
+-- ===========================================================
+
+CREATE TABLE roleuser (
+  userName VARCHAR(50),
+  roleId VARCHAR(20),
+  dateAssign DATE NOT NULL,
+  PRIMARY KEY (userName, roleId),
+  FOREIGN KEY (userName) REFERENCES users(userName)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (roleId) REFERENCES role(roleId)
+    ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- ==========================
---  Bids Table
--- ==========================
-CREATE TABLE Bids (
-    bid_id INT AUTO_INCREMENT PRIMARY KEY,
-    product_id INT NOT NULL,
-    user_id INT NOT NULL,
-    amount DECIMAL(10,2) NOT NULL,
-    placed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (product_id) REFERENCES Products(product_id)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id)
-        ON DELETE CASCADE ON UPDATE CASCADE
+INSERT INTO roleuser VALUES ('Elias', 'rol1', CURDATE());
+
+
+-- ===========================================================
+-- 4️⃣ DEPARTMENTS TABLE
+-- Classifies products by department
+-- ===========================================================
+
+CREATE TABLE departments (
+  dept_id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(50) NOT NULL
 );
 
--- ==========================
--- Insert sample data
--- ==========================
+INSERT INTO departments (name)
+VALUES ('Electronics'), ('Books'), ('Computers');
 
--- Departments
-INSERT INTO Departments (name) VALUES
-('Electronics'),
-('Books'),
-('Computers');
 
--- Users (passwords here are just placeholders — must be hashed in code!)
-INSERT INTO Users (username, password_hash, role, email) VALUES
-('alice', 'HASHED_PASSWORD', 'user', 'alice@example.com'),
-('bob', 'HASHED_PASSWORD', 'admin', 'bob@example.com');
+-- ===========================================================
+-- 5️⃣ PRODUCTS TABLE
+-- Stores product listings
+-- ===========================================================
 
--- Products
-INSERT INTO Products (name, description, dept_id, seller_id, start_bid, due_date, picture_path) VALUES
-('Laptop', 'Gaming laptop, 16GB RAM', 3, 1, 500.00, '2025-10-20 23:59:59', '/images/laptop.jpg'),
-('Book', 'Data Structures and Algorithms', 2, 1, 20.00, '2025-10-25 23:59:59', '/images/book.jpg');
+CREATE TABLE products (
+  product_id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  description TEXT,
+  dept_id INT NOT NULL,
+  start_bid DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+  due_date DATETIME NOT NULL,
+  picture_path VARCHAR(255),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  userName VARCHAR(50),
+  FOREIGN KEY (dept_id) REFERENCES departments(dept_id)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (userName) REFERENCES users(userName)
+    ON DELETE CASCADE ON UPDATE CASCADE
+);
 
--- Bids
-INSERT INTO Bids (product_id, user_id, amount) VALUES
-(1, 2, 520.00),
-(1, 1, 550.00),
-(2, 2, 25.00);
+-- Sample listings
+INSERT INTO products (name, description, dept_id, start_bid, due_date, picture_path, userName)
+VALUES
+('Wireless Keyboard', 'Compact mechanical keyboard', 3, 45.00, '2025-11-01 23:59:00', '/images/keyboard.jpg', 'Elias'),
+('Programming Book', 'Intro to Java web development', 2, 15.00, '2025-11-30 23:59:00', '/images/book.jpg', 'Elias'),
+('Laptop', 'Lightweight 14-inch laptop, 16GB RAM', 3, 650.00, '2025-12-15 23:59:00', '/images/laptop.jpg', 'Elias');
+
+
+-- ===========================================================
+-- 6️⃣ BIDS TABLE
+-- Tracks user bids on products
+-- ===========================================================
+
+CREATE TABLE bids (
+  bid_id INT AUTO_INCREMENT PRIMARY KEY,
+  product_id INT NOT NULL,
+  userName VARCHAR(50) NOT NULL,
+  amount DECIMAL(10,2) NOT NULL,
+  placed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (product_id) REFERENCES products(product_id)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (userName) REFERENCES users(userName)
+    ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+-- ===========================================================
+-- 7️⃣ MENUELEMENT TABLE
+-- Defines menus available in the system
+-- ===========================================================
+
+CREATE TABLE menuelement (
+  menuID VARCHAR(20) PRIMARY KEY,
+  title VARCHAR(50),
+  description VARCHAR(100)
+);
+
+INSERT INTO menuelement VALUES
+('menu1', 'Main Menu', 'Pages for all users');
+
+
+-- ===========================================================
+-- 8️⃣ WEBPAGEGOOD TABLE
+-- Registers JSP pages available in the system
+-- ===========================================================
+
+CREATE TABLE webpagegood (
+  pageURL VARCHAR(50) PRIMARY KEY,
+  pageTitle VARCHAR(50),
+  description VARCHAR(100),
+  menuID VARCHAR(20),
+  FOREIGN KEY (menuID) REFERENCES menuelement(menuID)
+    ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+INSERT INTO webpagegood VALUES
+('validationHashing.jsp', 'Login Validation', 'User authentication page', 'menu1'),
+('welcomeMenu.jsp', 'Welcome Menu', 'Main dashboard after login', 'menu1'),
+('queryDatabaseGoodMiniEbay.jsp', 'Product List', 'Displays product listings', 'menu1');
+
+
+-- ===========================================================
+-- 9️⃣ WEBPAGEPREVIOUS TABLE
+-- Defines allowed navigation between JSP pages
+-- ===========================================================
+
+CREATE TABLE webpageprevious (
+  currentPageURL VARCHAR(50),
+  previousPageURL VARCHAR(50),
+  PRIMARY KEY (currentPageURL, previousPageURL),
+  FOREIGN KEY (currentPageURL) REFERENCES webpagegood(pageURL)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (previousPageURL) REFERENCES webpagegood(pageURL)
+    ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO webpageprevious VALUES
+('welcomeMenu.jsp', 'validationHashing.jsp'),
+('queryDatabaseGoodMiniEbay.jsp', 'welcomeMenu.jsp');
+
+
+-- ===========================================================
+-- 🔟 ROLEWEBPAGEGOOD TABLE
+-- Links roles to pages they can access
+-- ===========================================================
+
+CREATE TABLE rolewebpagegood (
+  roleId VARCHAR(20),
+  pageURL VARCHAR(50),
+  dateAssign DATE NOT NULL,
+  PRIMARY KEY (roleId, pageURL),
+  FOREIGN KEY (roleId) REFERENCES role(roleId)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (pageURL) REFERENCES webpagegood(pageURL)
+    ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO rolewebpagegood VALUES
+('rol1', 'welcomeMenu.jsp', CURDATE()),
+('rol1', 'queryDatabaseGoodMiniEbay.jsp', CURDATE());
+
+-- ===========================================================
+-- ✅ END OF SCHEMA
+-- Authentication and page authorization fully operational
+-- ===========================================================

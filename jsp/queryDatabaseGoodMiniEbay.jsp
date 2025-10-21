@@ -35,12 +35,12 @@
 				//Count each retrieved record from the query
 				count++;%>
 				<tr>
-				<td><%=res.getString(2)%></td> <!-- Product Name -->
-				<td><%=res.getString(3)%></td> <!-- Description -->
+				<td><%=res.getString("name")%></td> <!-- Product Name -->
+				<td><%=res.getString("description")%></td> <!-- Description -->
 				<td><%=deptName%></td> <!-- Department Name -->
-				<td><%=res.getString(6)%></td> <!-- Start Bid -->
-				<td><%=res.getString(7)%></td> <!-- Due Date -->
-				<td><img src="/MiniEbay<%=res.getString(8)%>" width="100" height="100"></td> <!-- Picture -->
+				<td><%=res.getString("start_bid")%></td> <!-- Start Bid -->
+				<td><%=res.getString("due_date")%></td> <!-- Due Date -->
+				<td><img src="/MiniEbay<%=res.getString(7)%>" width="100" height="100"></td> <!-- Picture -->
 				</tr>
 
 				

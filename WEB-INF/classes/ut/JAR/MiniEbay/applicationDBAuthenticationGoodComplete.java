@@ -49,12 +49,12 @@ public class applicationDBAuthenticationGoodComplete{
 		tables="users, roleuser";
 		//Define the list fields list to retrieve assigned roles to the user
 		fields ="users.userName, roleuser.roleId, users.Name";
-		hashingVal = hashingSha256(userName + userPass);
+		hashingVal = hashingSha256(userPass);
 		whereClause="users.userName = roleuser.userName and users.userName='" +userName +"' and hashing='" + hashingVal + "'";
 		
 		
 		System.out.println("listing...");
-		
+	
 		//Return the ResultSet containing all roles assigned to the user
 		return myDBConn.doSelect(fields, tables, whereClause);
 	}
