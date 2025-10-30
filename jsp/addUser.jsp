@@ -50,7 +50,7 @@
 			User has been succesfully added!
 			<%
 			//Set the current page attribute
-            session.setAttribute("currentPage", "addUser.jsp");
+            session.setAttribute("currentPage", "../jsp/addUser.jsp");
 
             //Create a session variable
             if (session.getAttribute("userName")==null ){
@@ -66,16 +66,14 @@
             //Redirect the User to the welcome page.
             response.sendRedirect("../jsp/welcomeMenu.jsp"); %>
 
-            //Redirect the User to the welcome page
-            response.sendRedirect("welcomeMenu.jsp"); %>
 
 			<%}else{
 				//Close any session associated with the user and send them back
 				//to the adding user page html
 				session.setAttribute("userName", null);
+				response.sendRedirect("../html/addNewUser.html");
 				%>
-				Cannot be added <br>
-				response.sendRedirect("addNewUser.html");
+				Cannot be added...				
 			<%}
 				
 				//Close the connection to the database
