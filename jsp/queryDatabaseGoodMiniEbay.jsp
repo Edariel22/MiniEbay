@@ -1,7 +1,7 @@
 
-<%//Import the ut.JAR.CPEN410 package for accessing the database %>
+<%//Import the ut.JAR.MiniEbay package for accessing the database %>
 
-<%@ page import="ut.JAR.CPEN410.applicationProductManager"%>
+<%@ page import="ut.JAR.MiniEbay.applicationProductManager"%>
 <%//Import the java.sql package to use the ResultSet class %>
 
 <%@ page import="java.sql.ResultSet"%>

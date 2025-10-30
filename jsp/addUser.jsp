@@ -1,5 +1,4 @@
 <%@ page import="java.lang.*"%>
-<%@ page import="ut.JAR.CPEN410.*"%>
 <%@ page import="ut.JAR.MiniEbay.*" %>
 <%//Import the java.sql package to use the ResultSet class %>
 <%@ page import="java.sql.*"%>
