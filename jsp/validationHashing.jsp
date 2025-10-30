@@ -31,7 +31,7 @@
 				
 				
 				//Create the current page attribute
-				session.setAttribute("currentPage", "validationHashing.jsp");
+				session.setAttribute("currentPage", "../jsp/validationHashing.jsp");
 				
 				//Create a session variable
 				if (session.getAttribute("userName")==null ){
@@ -44,7 +44,7 @@
 				
 				//redirect to the welcome page
 				//response.sendRedirect("welcome.jsp");
-				response.sendRedirect("welcomeMenu.jsp");
+				response.sendRedirect("../jsp/welcomeMenu.jsp");
 				
 			}else{
 				//Close any session associated with the user

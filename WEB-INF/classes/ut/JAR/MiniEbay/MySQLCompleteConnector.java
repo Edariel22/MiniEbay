@@ -10,7 +10,7 @@ import java.sql.* ;
 public class MySQLCompleteConnector{
 
 	//Database credential <jdbc:<protocol>://<hostName>/<databaseName>>
-	private String DB_URL="jdbc:mysql://localhost/miniebay";
+	private String DB_URL="jdbc:mysql://localhost/MiniEbay";
 	
 	//Database authorized user information
 	private String USER="student";

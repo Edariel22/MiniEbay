@@ -101,7 +101,6 @@ public class applicationProductManager{
 
 	
 	
-	
 	// DOESNT WORK
 	// Tried to implement to function the same as getDepartmentName, but couldnt figure it out
 	public ResultSet listAllProductsWithDept()
@@ -122,7 +121,7 @@ public class applicationProductManager{
 		
 		
 	}
-	
+
 	/*********
 		close method
 			Close the connection to the database.

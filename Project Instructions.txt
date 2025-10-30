@@ -1,4 +1,4 @@
-Deadline:  October 26th, 2025
+Deadline:  November 2nd, 2025
 Description
 You are asked to implement a bid-based-online store
 Requirements
