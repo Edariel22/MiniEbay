@@ -18,29 +18,29 @@
 	<%
 	//Try to connect the database using the applicationProductManager class
 	try{
-			//Create the ProductsMnger object
-			applicationProductManager ProductsMnger = new applicationProductManager();
+			//Create the ProdMng object
+			applicationProductManager ProdMng = new applicationProductManager();
 			System.out.println("Connecting...");
 			//System.out.println(appDBMnger.toString());
 			
 			//Call the listAllProducts method. This method returns a ResultSet containing all the tuples in the table Products
-			ResultSet res=ProductsMnger.listAllProducts();
+			ResultSet resProd=ProdMng.listAllProducts();
 		
 		
 			int count=0;
 			//Iterate over the ResultSet
-			while (res.next())
+			while (resProd.next())
 			{
-				String deptName = ProductsMnger.getDepartmentName(res.getInt(4));
+				String deptName = ProdMng.getDepartmentName(resProd.getInt(4));
 				//Count each retrieved record from the query
 				count++;%>
 				<tr>
-				<td><%=res.getString("name")%></td> <!-- Product Name -->
-				<td><%=res.getString("description")%></td> <!-- Description -->
+				<td><%=resProd.getString("name")%></td> <!-- Product Name -->
+				<td><%=resProd.getString("description")%></td> <!-- Description -->
 				<td><%=deptName%></td> <!-- Department Name -->
-				<td><%=res.getString("start_bid")%></td> <!-- Start Bid -->
-				<td><%=res.getString("due_date")%></td> <!-- Due Date -->
-				<td><img src="/MiniEbay<%=res.getString(7)%>" width="100" height="100"></td> <!-- Picture -->
+				<td><%=resProd.getString("start_bid")%></td> <!-- Start Bid -->
+				<td><%=resProd.getString("due_date")%></td> <!-- Due Date -->
+				<td><img src="/MiniEbay<%=resProd.getString(7)%>" width="100" height="100"></td> <!-- Picture -->
 				</tr>
 
 				
@@ -52,9 +52,9 @@
 			
 			<%
 			//Close the ResultSet
-			res.close();
+			resProd.close();
 			//Close the connection to the database
-			ProductsMnger.close();
+			ProdMng.close();
 			
 		} catch(Exception e)
 		{%>

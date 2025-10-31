@@ -1,6 +1,6 @@
 
-//This class belongs to the ut.JAR.CPEN410 package
-package ut.JAR.CPEN410;
+//This class belongs to the ut.JAR.MiniEbay package
+package ut.JAR.MiniEbay;
 
 //Import the java.sql package for managing the ResulSet objects
 import java.sql.* ;
@@ -10,7 +10,7 @@ import java.sql.* ;
 	this class must contain all needed methods for manipulating data without showing how to access the database
 
 */
-public class applicationProductManager{
+public class applicationDBManager{
 
 	//myDBConn is an MySQLConnector object for accessing to the database
 	private MySQLConnector myDBConn;
@@ -21,7 +21,7 @@ public class applicationProductManager{
 		@parameters:
 		
 	*/
-	public applicationProductManager(){
+	public applicationDBManager(){
 		//Create the MySQLConnector object
 		myDBConn = new MySQLConnector();
 		
@@ -32,21 +32,21 @@ public class applicationProductManager{
 	
 	/*******
 		listAllDepartment method
-			List all products in the database
+			List all departments in the database
 			@parameters:
 			@returns:
 				A ResultSet containing all departments in the database
 	*/
-	public ResultSet listAllProducts()
+	public ResultSet listAllDepartment()
 	{
 		
 		//Declare function variables
 		String fields, tables;
 		
 		//Define the table where the selection is performed
-		tables="product";
+		tables="department";
 		//Define the list fields list to retrieve from the table department
-		fields ="*";
+		fields ="dept_name, building";
 		
 		
 		System.out.println("listing...");
@@ -70,6 +70,43 @@ public class applicationProductManager{
 		myDBConn.closeConnection();
 	}
 
-	
+	/***********
+		Debugging method
+			This method creates an applicationDBManager object, retrieves all departments in the database, and close the connection to the database
+			@parameters:
+				args[]: String array 
+			@returns:
+	*/
+	public static void main(String[] args)
+	{
+		
+		try{
+			//Create a applicationDBManager object
+			applicationDBManager appDBMnger = new applicationDBManager();
+			System.out.println("Connecting...");
+			System.out.println(appDBMnger.toString());
+			
+			//Call the listAllDepartment in order to retrieve all departments in the database
+			ResultSet res=appDBMnger.listAllDepartment();
+			
+			//Iterate over the ResulSet containing all departments in the database, and count how many tuples were retrieved
+			int count=0;
+			while (res.next()){
+				count++;	
+			}
+			//Print the results count
+			System.out.println("Count:"  + count);
+			
+			//Close the ResulSet
+			res.close();
+			//Close the database connection
+			appDBMnger.close();
+			
+		} catch(Exception e)
+		{
+			//Nothing to show!
+			e.printStackTrace();
+		}		
+	}
 
 }

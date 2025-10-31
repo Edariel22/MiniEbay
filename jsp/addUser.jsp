@@ -39,8 +39,8 @@
 
 			//Call the listAllDepartment method. This method returns a ResultSet containing all the tuples in the table Department
 			boolean resUser=appDBAuth.addUser(userName, completeName, userPass, telephone);
-//			boolean resUserRole=appDBAuth.setUserRole(userName);
-			%>;
+//			boolean resRoleUser = appDBAuth.setUserRole(userName);
+			%>
 		
 			
 			
@@ -71,9 +71,9 @@
 				//Close any session associated with the user and send them back
 				//to the adding user page html
 				session.setAttribute("userName", null);
-				response.sendRedirect("../html/addNewUser.html");
 				%>
-				Cannot be added...				
+				Cannot be added...	
+				response.sendRedirect("../html/addNewUser.html");				
 			<%}
 				
 				//Close the connection to the database

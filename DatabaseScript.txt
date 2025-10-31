@@ -1,12 +1,12 @@
 -- ===============================================
 -- MINI-EBAY DATABASE SCHEMA
 -- Fully aligned with CPEN410 Project Requirements
--- Last updated: 2025-10-21
+-- Last updated: 2025-10-31
 -- ===============================================
 
-DROP DATABASE IF EXISTS miniebay;
-CREATE DATABASE miniebay;
-USE miniebay;
+DROP DATABASE IF EXISTS MiniEbay;
+CREATE DATABASE MiniEbay;
+USE MiniEbay;
 
 -- ===========================================================
 -- 1️⃣ USERS TABLE
@@ -20,10 +20,10 @@ CREATE TABLE users (
   telephone VARCHAR(20)
 );
 
--- Sample user (replace hash as needed)
+-- Sample users (replace hash as needed)
 INSERT INTO users (userName, hashing, Name, telephone)
 VALUES ('Elias', 'a40e8afc6e736dfef35e809f3e8af1dfaf37a992436f88baeae45b2897419f9f', 'Elias Medina', '7876059637');
-
+VALUES ('Angel', 'a40e8afc6e736dfef35e809f3e8af1dfaf37a992436f88baeae45b2897419f9f', 'Angel Ortiz', '9392774596');
 
 -- ===========================================================
 -- 2️⃣ ROLE TABLE
@@ -37,8 +37,8 @@ CREATE TABLE role (
 );
 
 INSERT INTO role VALUES
-('rol1', 'Regular User', 'Standard registered user');
-
+('rol1', 'Admin', 'Administrative user');
+('rol2', 'Regular User', 'Standard registered user');
 
 -- ===========================================================
 -- 3️⃣ ROLEUSER TABLE
@@ -56,8 +56,8 @@ CREATE TABLE roleuser (
     ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-INSERT INTO roleuser VALUES ('Elias', 'rol1', CURDATE());
-
+INSERT INTO roleuser VALUES ('Angel', 'rol1', CURDATE());
+INSERT INTO roleuser VALUES ('Elias', 'rol2', CURDATE());
 
 -- ===========================================================
 -- 4️⃣ DEPARTMENTS TABLE
