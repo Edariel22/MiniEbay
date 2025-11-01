@@ -152,7 +152,8 @@ CREATE TABLE webpagegood (
 INSERT INTO webpagegood VALUES
 ('validationHashing.jsp', 'Login Validation', 'User authentication page', 'menu1'),
 ('welcomeMenu.jsp', 'Welcome Menu', 'Main dashboard after login', 'menu1'),
-('queryDatabaseGoodMiniEbay.jsp', 'Product List', 'Displays product listings', 'menu1');
+('queryDatabaseGoodMiniEbay.jsp', 'Product List', 'Displays product listings', 'menu1'),
+('addUser.jsp', 'Signing Up', 'Normal User Signup page', 'menu1');
 
 
 -- ===========================================================

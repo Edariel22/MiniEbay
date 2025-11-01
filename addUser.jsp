@@ -15,33 +15,26 @@
 	String completeName = request.getParameter("completeName");
 	String telephone = request.getParameter("telephone");	
 
+
 	//Try to connect to the database
 	try{
-
-		/*//Check the authentication process
-		if (session.getAttribute("userName")==null || session.getAttribute("currentPage")==null) {
-			session.setAttribute("currentPage", null);
-			session.setAttribute("userName", null);
-			response.sendRedirect("addNewUser.html");
-		}*/
-
 		//Create the appDBMnger object
 		applicationDBAuthenticationGoodComplete appDBAuth = new applicationDBAuthenticationGoodComplete();
 		System.out.println("Connecting...");
 		System.out.println(appDBAuth.toString());
 
-		//verify if user filled all information before trying to add them
+		//first, check if the user filled all information before trying to add them
 		if (userName ==  null || userName == "" || userPass=="" || completeName == "" || telephone == ""){
-			response.sendRedirect("addNewUser.html");
+			response.sendRedirect("addNewUser.html"); // Send user back
 			appDBAuth.close();
 		}
 			
 		//Call Add the user to the tables
-		boolean resUser=appDBAuth.addUser(userName, completeName, userPass, telephone);
+		boolean res=appDBAuth.addUser(userName, completeName, userPass, telephone);
 		boolean resRoleUser = appDBAuth.setUserRole(userName);%>
 
 		<%//Verify if the user has been authenticated
-		if (resUser){%>
+		if (res){%>
 			User succesfully added 
 			<%
 			//Create the current page attribute

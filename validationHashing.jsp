@@ -14,7 +14,7 @@
 	String userPass = request.getParameter("userPass");
 	
 	
-	//Try to connect the database using the applicationDBManager class
+	//Try to connect the database
 	try{
 			//Create the appDBMnger object
 			applicationDBAuthenticationGoodComplete appDBAuth = new applicationDBAuthenticationGoodComplete();

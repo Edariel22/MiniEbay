@@ -32,11 +32,11 @@
 			System.out.println(appDBMnger.toString());
 				
 			//Call the verifyUser method
-			ResultSet resUser=appDBAuth.verifyUser(userName, currentPage, previousPage);
+			ResultSet res=appDBAuth.verifyUser(userName, currentPage, previousPage);
 			
 			//Check if the user has been authenticated
-			if (resUser.next()){
-				String userActualName=resUser.getString(3);
+			if (res.next()){
+				String userActualName=res.getString(3);
 					
 				//Create the current page attribute
 				session.setAttribute("currentPage", currentPage);
@@ -116,7 +116,7 @@
 					//return to the login page
 					response.sendRedirect("loginHashing.html");
 				}
-				//resUser.close();
+				//res.close();
 
 				//Close the connection to the database
 				appDBAuth.close();
