@@ -1,7 +1,7 @@
 
-<%//Import the ut.JAR.MiniEbay package for accessing the database %>
+<%//Import the ut.JAR.miniebay package for accessing the database %>
 
-<%@ page import="ut.JAR.MiniEbay.applicationProductManager"%>
+<%@ page import="ut.JAR.miniebay.applicationProductManager"%>
 <%//Import the java.sql package to use the ResultSet class %>
 
 <%@ page import="java.sql.ResultSet"%>
@@ -9,7 +9,7 @@
 
 <html>
 	<head>
-		<title>MiniEbay - Product Listing</title>
+		<title>Mini Ebay - Product Listing</title>
 	</head>
 	<body>
 	<h1>Here are the listing of the products 2</h1>
@@ -40,7 +40,7 @@
 				<td><%=deptName%></td> <!-- Department Name -->
 				<td><%=resProd.getString("start_bid")%></td> <!-- Start Bid -->
 				<td><%=resProd.getString("due_date")%></td> <!-- Due Date -->
-				<td><img src="/MiniEbay<%=resProd.getString(7)%>" width="100" height="100"></td> <!-- Picture -->
+				<td><img src="/miniebay<%=resProd.getString(7)%>" width="100" height="100"></td> <!-- Picture -->
 				</tr>
 
 				

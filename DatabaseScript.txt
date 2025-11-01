@@ -4,9 +4,9 @@
 -- Last updated: 2025-10-31
 -- ===============================================
 
-DROP DATABASE IF EXISTS MiniEbay;
-CREATE DATABASE MiniEbay;
-USE MiniEbay;
+DROP DATABASE IF EXISTS miniebay;
+CREATE DATABASE miniebay;
+USE miniebay;
 
 -- ===========================================================
 -- 1️⃣ USERS TABLE
@@ -21,9 +21,9 @@ CREATE TABLE users (
 );
 
 -- Sample users (replace hash as needed)
-INSERT INTO users (userName, hashing, Name, telephone)
-VALUES ('Elias', 'a40e8afc6e736dfef35e809f3e8af1dfaf37a992436f88baeae45b2897419f9f', 'Elias Medina', '7876059637');
-VALUES ('Angel', 'a40e8afc6e736dfef35e809f3e8af1dfaf37a992436f88baeae45b2897419f9f', 'Angel Ortiz', '9392774596');
+INSERT INTO users (userName, hashing, Name, telephone) VALUES
+('Elias', 'a40e8afc6e736dfef35e809f3e8af1dfaf37a992436f88baeae45b2897419f9f', 'Elias Medina', '7876059637'),
+('Angel', '1b4f0e9851971998e732078544c96b36c3d01cedf7caa332359d6f1d83567014', 'Angel Ortiz', '9392774596');
 
 -- ===========================================================
 -- 2️⃣ ROLE TABLE
@@ -37,7 +37,7 @@ CREATE TABLE role (
 );
 
 INSERT INTO role VALUES
-('rol1', 'Admin', 'Administrative user');
+('rol1', 'Admin', 'Administrative user'),
 ('rol2', 'Regular User', 'Standard registered user');
 
 -- ===========================================================
@@ -48,7 +48,6 @@ INSERT INTO role VALUES
 CREATE TABLE roleuser (
   userName VARCHAR(50),
   roleId VARCHAR(20),
-  dateAssign DATE NOT NULL,
   PRIMARY KEY (userName, roleId),
   FOREIGN KEY (userName) REFERENCES users(userName)
     ON DELETE CASCADE ON UPDATE CASCADE,
@@ -56,8 +55,9 @@ CREATE TABLE roleuser (
     ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-INSERT INTO roleuser VALUES ('Angel', 'rol1', CURDATE());
-INSERT INTO roleuser VALUES ('Elias', 'rol2', CURDATE());
+INSERT INTO roleuser VALUES
+('Elias', 'rol1'),
+('Angel', 'rol2');
 
 -- ===========================================================
 -- 4️⃣ DEPARTMENTS TABLE

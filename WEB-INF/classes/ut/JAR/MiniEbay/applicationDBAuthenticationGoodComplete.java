@@ -1,6 +1,6 @@
 
-//This class belongs to the ut.JAR.MiniEbay package
-package ut.JAR.MiniEbay;
+//This class belongs to the ut.JAR.miniebay package
+package ut.JAR.miniebay;
 
 //Import the java.sql package for managing the ResulSet objects
 import java.sql.* ;
@@ -49,12 +49,12 @@ public class applicationDBAuthenticationGoodComplete{
 		tables="users, roleuser";
 		//Define the list fields list to retrieve assigned roles to the user
 		fields ="users.userName, roleuser.roleId, users.Name";
-		hashingVal = hashingSha256(userPass);
+		hashingVal = hashingSha256(userName + userPass);
 		whereClause="users.userName = roleuser.userName and users.userName='" +userName +"' and hashing='" + hashingVal + "'";
 		
 		
 		System.out.println("listing...");
-	
+		
 		//Return the ResultSet containing all roles assigned to the user
 		return myDBConn.doSelect(fields, tables, whereClause);
 	}
@@ -113,16 +113,25 @@ public class applicationDBAuthenticationGoodComplete{
 	
 	public boolean addUser(String userName, String completeName, String userPass, String userTelephone)
 	{
-		boolean resUser;
+		boolean res;
 		String table, values, hashingValue;
 		hashingValue=hashingSha256(userName + userPass);
-		//Changed table name from users to match database name users
 		table="users";
 		values="'"+userName+"', '" +hashingValue+"', '"+ completeName + "', '" + userTelephone + "'";
-		resUser=myDBConn.doInsert(table, values);
-		System.out.println("Insertion result" + resUser);
+		res=myDBConn.doInsert(table, values);
+		System.out.println("Insertion result" + res);
+		return res;
+	}
 
-		return resUser;
+	public boolean setUserRole(String userName)
+	{
+		boolean res;
+		String table, values;
+		table="roleuser";
+		values="'"+userName+"', 'rol2'";
+		res=myDBConn.doInsert(table, values);
+		System.out.println("Insertion result" + res);
+		return res;
 	}
 	
 	

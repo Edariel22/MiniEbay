@@ -1,9 +1,9 @@
 <%@ page import="java.lang.*"%>
-<%@ page import="ut.JAR.MiniEbay.*"%>
+<%@ page import="ut.JAR.miniebay.*"%>
 <%@ page import="java.sql.*"%>
 <html>
 <head>
-    <title>MiniEbay: Find Products</title>
+    <title>Mini Ebay: Find Products</title>
 </head>
     <body>
         <%
@@ -13,11 +13,11 @@
             if (session.getAttribute("userName") == null || session.getAttribute("currentPage") == null) {
     			session.setAttribute("currentPage", null);
     			session.setAttribute("userName", null);
-   	 			response.sendRedirect("../html/loginHashing.html");
+   	 			response.sendRedirect("loginHashing.html");
 				
 			}else{
 
-				String currentPage = "../jsp/findProduct.jsp";
+				String currentPage = "findProduct.jsp";
            		String userName = session.getAttribute("userName").toString();
             	String previousPage = session.getAttribute("currentPage").toString();
 				
@@ -87,7 +87,7 @@
                             DUE DATE: <%=resProd.getString(6)%> <br>
                             <!-- SELLER: <%=resProd.getString(7)%>, <br> -->
                             <img src="../images/<%=resProd.getString(8)%>" alt="<%=resProd.getString(2)%>" style="width: 200px; height: auto;">  <br> <br>
-                             <form action="../jsp/displayItem.jsp" method="GET">
+                             <form action="displayItem.jsp" method="GET">
                                 <!-- Include a hidden input field to store the ID -->
                                 <input type="hidden" name="productId" value="<%=resProd.getString(1)%>">
                                 <input type="hidden" name="productName" value="<%=productName %>">
@@ -100,7 +100,7 @@
                     %>
                     </table>
 
-					<form action="../jsp/welcomeMenu.jsp" method="POST">
+					<form action="welcomeMenu.jsp" method="POST">
                         <button type="submit" name="welcomeMenu" value="welcomeMenu">Back to main page</button>
                     </form>
                     <%
@@ -109,7 +109,7 @@
 					session.setAttribute("userName", null);
 
 					//return to the login page
-					response.sendRedirect("../html/loginHashing.html");
+					response.sendRedirect("loginHashing.html");
                 }
                 //Close the connection to the database
 				appDBAuth.close();
@@ -118,7 +118,7 @@
         }catch(Exception e){
             // Print error message if exception occurs
             e.printStackTrace();
-            response.sendRedirect("../html/loginHashing.html");
+            response.sendRedirect("loginHashing.html");
 
         }finally{
             System.out.println("Finally");

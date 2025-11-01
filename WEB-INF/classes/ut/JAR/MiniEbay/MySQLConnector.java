@@ -1,5 +1,5 @@
-//This class belongs to the ut.JAR.MiniEbay package
-package ut.JAR.MiniEbay;
+//This class belongs to the ut.JAR.miniebay package
+package ut.JAR.miniebay;
 
 //Import the java.sql package for managing the ResulSet objects
 import java.sql.* ;
@@ -10,11 +10,11 @@ import java.sql.* ;
 public class MySQLConnector{
 
 	//Database credential <jdbc:<protocol>://<hostName>/<databaseName>>
-	private String DB_URL="jdbc:mysql://localhost/MiniEbay";
+	private String DB_URL="jdbc:mysql://localhost/miniebay";
 	
 	//Database authorized user information
-	private String USER="miniebay_user";
-	private String PASS="miniebay_pass";
+	private String USER="student";
+	private String PASS="password";
    
    //Connection objects
    private Connection conn;
@@ -180,7 +180,7 @@ public class MySQLConnector{
 	*/
 	public static void main(String[] args)
 	{	
-		System.out.println("TEsting");
+		System.out.println("Testing");
 		//Create a MySQLConnector
 		MySQLConnector conn = new MySQLConnector();
 		//Declare tthe fiels, tables and whereClause string objects

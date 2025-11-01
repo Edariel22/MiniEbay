@@ -1,10 +1,10 @@
 <%@ page import="java.lang.*"%>
-<%@ page import="ut.JAR.MiniEbay.*"%>
+<%@ page import="ut.JAR.miniebay.*"%>
 <%//Import the java.sql package to use the ResultSet class %>
 <%@ page import="java.sql.*"%>
 <html>
 	<head>
-		<title>Your first web form!</title>
+		<title>Validate the login attempt.</title>
 	</head>
 	<body>
 
@@ -31,7 +31,7 @@
 				
 				
 				//Create the current page attribute
-				session.setAttribute("currentPage", "../jsp/validationHashing.jsp");
+				session.setAttribute("currentPage", "validationHashing.jsp");
 				
 				//Create a session variable
 				if (session.getAttribute("userName")==null ){
@@ -43,15 +43,15 @@
 				}
 				
 				//redirect to the welcome page
-				//response.sendRedirect("welcome.jsp");
-				response.sendRedirect("../jsp/welcomeMenu.jsp");
+				//response.sendRedirect("welcomeMenu.jsp");
+				response.sendRedirect("welcomeMenu.jsp");
 				
 			}else{
 				//Close any session associated with the user
 				session.setAttribute("userName", null);
 				
 				//return to the login page
-				response.sendRedirect("../html/loginHashing.html");
+				response.sendRedirect("loginHashing.html");
 				}
 				res.close();
 				//Close the connection to the database
@@ -61,7 +61,7 @@
 			{%>
 				Nothing to show!
 				<%e.printStackTrace();
-				response.sendRedirect("../html/loginHashing.html");
+				response.sendRedirect("loginHashing.html");
 			}finally{
 				System.out.println("Finally");
 			}

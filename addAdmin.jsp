@@ -1,5 +1,5 @@
 <%@ page import="java.lang.*"%>
-<%@ page import="ut.JAR.MiniEbay.*"%>
+<%@ page import="ut.JAR.miniebay.*"%>
 <%@ page import="java.sql.*"%>
 <html>
 	<head>
@@ -13,10 +13,10 @@ try {
     if (session.getAttribute("userName") == null || session.getAttribute("currentPage") == null) {
         session.setAttribute("currentPage", null);
         session.setAttribute("userName", null);
-        response.sendRedirect("../html/loginHashing.html");
+        response.sendRedirect("loginHashing.html");
     }else{
 
-        String currentPage = "../jsp/addAdmin.jsp";
+        String currentPage = "addAdmin.jsp";
         String userName = session.getAttribute("userName").toString();
         String previousPage = session.getAttribute("currentPage").toString();
 
@@ -57,22 +57,22 @@ try {
             if (resAddUser) {
                 %>
 				Admin has been successfully added!
-				<form action="../jsp/welcomeMenu.jsp" method="GET">
+				<form action="welcomeMenu.jsp" method="GET">
 					<button type="submit" name="welcomeMenu" value="welcomeMenu">Back to main page</button>
 				</form> 
 
-				<form action="../jsp/newAdmin.jsp" method="GET">
+				<form action="addNewAdmin.jsp" method="GET">
 					<button type="submit" name="newAdmin" value="newAdmin">New Admin</button>
 				</form>
                 <%
             } else {
                 %>
                 Admin cannot be added <br>
-				<form action="../jsp/welcomeMenu.jsp" method="GET">
+				<form action="welcomeMenu.jsp" method="GET">
 					<button type="submit" name="welcomeMenu" value="welcomeMenu">Back to main page</button>
 				</form>
 
-				<form action="../jsp/modifyUser.jsp" method="GET">
+				<form action="modifyUser.jsp" method="GET">
 					<button type="submit" name="modifyUser" value="modifyUser">Modify User</button>
 				</form>
                 <%
@@ -82,7 +82,7 @@ try {
             session.setAttribute("userName", null);
 
             // Return to the login page
-            response.sendRedirect("../html/loginHashing.html");
+            response.sendRedirect("loginHashing.html");
         }
         // Close the connection to the database
         appDBAuth.close();

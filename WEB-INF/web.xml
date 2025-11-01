@@ -26,5 +26,21 @@
   <description>
      Welcome to Tomcat
   </description>
+  
+  <servlet>
+
+    <servlet-name>HelloWorld</servlet-name>
+
+    <servlet-class>HelloWorld</servlet-class>
+
+  </servlet>
+
+  <servlet-mapping>
+
+    <servlet-name>HelloWorld</servlet-name>
+
+    <url-pattern>/holaClase</url-pattern>
+
+  </servlet-mapping>
 
 </web-app>

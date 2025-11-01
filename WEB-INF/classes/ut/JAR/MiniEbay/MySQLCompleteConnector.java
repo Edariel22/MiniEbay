@@ -1,5 +1,5 @@
-//This class belongs to the ut.JAR.MiniEbay package
-package ut.JAR.MiniEbay;
+//This class belongs to the ut.JAR.miniebay package
+package ut.JAR.miniebay;
 
 //Import the java.sql package for managing the ResulSet objects
 import java.sql.* ;
@@ -10,7 +10,7 @@ import java.sql.* ;
 public class MySQLCompleteConnector{
 
 	//Database credential <jdbc:<protocol>://<hostName>/<databaseName>>
-	private String DB_URL="jdbc:mysql://localhost/MiniEbay";
+	private String DB_URL="jdbc:mysql://localhost/miniebay";
 	
 	//Database authorized user information
 	private String USER="student";
@@ -188,10 +188,8 @@ public class MySQLCompleteConnector{
 		System.out.println(charString);
 		//try to insert a record to the selected table
 		try{
-			 stmt.execute(charString);
-			 //made sure the statement executes before returning true, because stmt.execute() doesn’t automatically assign the result to res 
-			res = true;
-			System.out.println("MySQLCompleteConnector insertion: " + res);
+			 res=stmt.execute(charString);
+			 System.out.println("MySQLCompleteConnector insertion: " + res);
 			 
 		}
 		catch(Exception e)
@@ -205,14 +203,13 @@ public class MySQLCompleteConnector{
 			
 	}
 	
-	/* Test code commented because it conflicts with mini ebay project 
 	/***********
 		Debugging method
 			This method creates an applicationDBManager object, retrieves all departments in the database, and close the connection to the database
 			@parameters:
 				args[]: String array 
 			@returns:
-	
+	*/
 	public static void main(String[] args)
 	{	
 		System.out.println("TEsting");
@@ -255,5 +252,5 @@ public class MySQLCompleteConnector{
 			e.printStackTrace();
 		}
 	}
-	*/
+
 }

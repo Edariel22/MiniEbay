@@ -1,10 +1,10 @@
 <%@ page import="java.lang.*"%>
-<%@ page import="ut.JAR.MiniEbay.*" %>
+<%@ page import="ut.JAR.miniebay.*" %>
 <%//Import the java.sql package to use the ResultSet class %>
 <%@ page import="java.sql.*"%>
 <html>
 	<head>
-		<title>Home page for MiniEbay!</title>
+		<title>Home page for Mini Ebay!</title>
 	</head>
 	<body>
 	<%
@@ -14,10 +14,10 @@
 			if (session.getAttribute("userName")==null || session.getAttribute("currentPage")==null) {
 				session.setAttribute("currentPage", null);
 				session.setAttribute("userName", null);
-				response.sendRedirect("../html/loginHashing.html"); // send the User back to the login page
+				response.sendRedirect("loginHashing.html"); // send the User back to the login page
 			}
 			else{
-			String currentPage="../jsp/welcomeMenu.jsp";
+			String currentPage="welcomeMenu.jsp";
 			String userName = session.getAttribute("userName").toString();
 			String previousPage = session.getAttribute("currentPage").toString();
 		
@@ -54,7 +54,7 @@
 				Welcome! <%=userActualName%>
 				
 				<!-- Search Form-->
-				<form action="../jsp/findProduct.jsp" method="GET">
+				<form action="findProduct.jsp" method="GET">
 					<label for="search">Search:</label>
 					<input type="text" id="productName" name="productName" placeholder="Enter product name">
 					<button type="submit">Search</button>
@@ -62,7 +62,7 @@
 
 					<%ResultSet resDept=appDBMnger.listAllDepartments();%>
 					<!-- Department Dropdown List -->
-					<form action="../jsp/findProduct.jsp" method="GET">
+					<form action="findProduct.jsp" method="GET">
 						<table border="0">
 							<tr>
 								<td> Department </td>
@@ -81,7 +81,7 @@
 							</tr>
 						</table>
 						<input type="reset" id="Submit" value="reset" />
-						<a href="../jsp/signout.jsp">
+						<a href="signout.jsp">
 								<button type="button">Sign Out</button>
 							</a>
 					</form>
@@ -114,7 +114,7 @@
 					session.setAttribute("userName", null);
 					
 					//return to the login page
-					response.sendRedirect("../html/loginHashing.html");
+					response.sendRedirect("loginHashing.html");
 				}
 				//resUser.close();
 
@@ -125,7 +125,7 @@
 		}catch(Exception e){
 			%>Nothing to show!<%
 			e.printStackTrace();
-			response.sendRedirect("../html/loginHashing.html");
+			response.sendRedirect("loginHashing.html");
 		}finally{
 			System.out.println("Finally");
 		}

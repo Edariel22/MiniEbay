@@ -3,6 +3,6 @@
 <%
 	session.setAttribute("userName",null);
 	session.setAttribute("currentPage",null);
-	response.sendRedirect("../html/loginHashing.html");
+	response.sendRedirect("loginHashing.html");
 
 %>
