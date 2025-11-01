@@ -188,13 +188,15 @@ public class MySQLCompleteConnector{
 		System.out.println(charString);
 		//try to insert a record to the selected table
 		try{
-			 res=stmt.execute(charString);
+			// use executeUpdate() because INSERT, UPDATE, DELETE return an update count, not a ResultSet
+			int rows =  stmt.executeUpdate(charString); //executeUpdate returns the number of rows affected, in this case 1 row was added
+			if (rows > 0) //if the stmt executed then more than 0 rows was affected. if is 0 then no insert operation was done; could also test  for rows = 1
+			res = true;
 			 System.out.println("MySQLCompleteConnector insertion: " + res);
 			 
 		}
 		catch(Exception e)
 		{
-			
 			e.printStackTrace();
 		}
 		finally{

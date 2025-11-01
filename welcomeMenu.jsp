@@ -60,7 +60,7 @@
 					<button type="submit">Search</button>
 					
 
-					<%ResultSet resDept=appDBMnger.listAllDepartments();%>
+					<%ResultSet resDept=appDBMnger.listAllDepartment();%>
 					<!-- Department Dropdown List -->
 					<form action="findProduct.jsp" method="GET">
 						<table border="0">

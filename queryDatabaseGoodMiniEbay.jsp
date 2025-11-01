@@ -40,7 +40,7 @@
 				<td><%=deptName%></td> <!-- Department Name -->
 				<td><%=resProd.getString("start_bid")%></td> <!-- Start Bid -->
 				<td><%=resProd.getString("due_date")%></td> <!-- Due Date -->
-				<td><img src="/miniebay<%=resProd.getString(7)%>" width="100" height="100"></td> <!-- Picture -->
+				<td><img src="/MiniEbay<%=resProd.getString(7)%>" width="100" height="100"></td> <!-- Picture -->
 				</tr>
 
 				
