@@ -61,6 +61,6 @@
 			Nothing to show!
 			<%e.printStackTrace();
 		}%>		
-		
+		<a href="welcomeMenu.jsp">Return to Main Menu</a>
 	</body>
 </html>

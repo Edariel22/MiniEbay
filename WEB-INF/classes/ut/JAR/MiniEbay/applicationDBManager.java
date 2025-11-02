@@ -13,7 +13,7 @@ import java.sql.* ;
 public class applicationDBManager{
 
 	//myDBConn is an MySQLConnector object for accessing to the database
-	private MySQLConnector myDBConn;
+	private MySQLCompleteConnector myDBConn;
 	
 	/********
 		Default constructor
@@ -23,7 +23,7 @@ public class applicationDBManager{
 	*/
 	public applicationDBManager(){
 		//Create the MySQLConnector object
-		myDBConn = new MySQLConnector();
+		myDBConn = new MySQLCompleteConnector();
 		
 		//Open the connection to the database
 		myDBConn.doConnection();
@@ -46,7 +46,7 @@ public class applicationDBManager{
 		//Define the table where the selection is performed
 		tables="departments";
 		//Define the list fields list to retrieve from the table department
-		fields ="name, building";
+		fields ="dept_id, name, building";
 		
 		
 		System.out.println("listing...");
@@ -56,7 +56,19 @@ public class applicationDBManager{
 		
 		
 	}
-	
+    //add department helper method for adminDepartments.jsp
+    public boolean addDepartment(String name, String building) {
+        String table = "departments";
+        String values = "NULL, '" + name + "', '" + building + "'";
+        return myDBConn.doInsert(table, values);
+    }
+    //remove department helper method for adminDepartments.jsp
+    public boolean removeDepartment(int deptId) {
+        String table = "departments";
+        String condition = "dept_id = " + deptId;
+        return myDBConn.doDelete(table, condition);
+    }
+        
 	/*********
 		close method
 			Close the connection to the database.
@@ -71,11 +83,35 @@ public class applicationDBManager{
 	}
     
     // Product query helpers for findProduct.jsp
- 
+    // Basic product listing with filters (for findProduct.jsp)
     public ResultSet listProducts(String name, String dept) {
         applicationProductManager pm = new applicationProductManager();
         return pm.listProducts(name, dept);
     }
+
+    // All products (for adminProducts.jsp)
+    public ResultSet listProducts() {
+        applicationProductManager pm = new applicationProductManager();
+        return pm.listAllProducts();
+    }
+
+
+    // Add product helper for adminProducts.jsp
+    public boolean addProduct(String name, String deptId, String startBid, String dueDate) {
+        applicationProductManager pm = new applicationProductManager();
+        return pm.addProduct(name, deptId, startBid, dueDate);
+    }
+
+    // Remove product helper for adminProducts.jsp
+    public boolean removeProduct(int productId) {
+        applicationProductManager pm = new applicationProductManager();
+        return pm.removeProduct(productId);
+    }
+    public ResultSet getProductById(int productId) {
+        applicationProductManager pm = new applicationProductManager();
+        return pm.getProductById(productId);
+    }
+
 
     // User management helpers for adminUsers.jsp
     
@@ -83,8 +119,25 @@ public class applicationDBManager{
     applicationUserManager um = new applicationUserManager();
     return um.listAllUsers();
 }
+    // Add user (applicationUserManager)
+    public boolean addUser(String userName, String hashing, String name, String telephone, String roleId) {
+        applicationUserManager um = new applicationUserManager();
+        boolean res = um.addUser(userName, hashing, name, telephone, roleId);
+        um.close();
+
+        return res;
+    }
+
+    // Remove user  (applicationUserManager)
+    public boolean removeUser(String userName) {
+        applicationUserManager um = new applicationUserManager();
+        boolean res = um.removeUser(userName);
+        um.close();
+        return res;
+    }
 
 
+    
 	/***********
 		Debugging method
 			This method creates an applicationDBManager object, retrieves all departments in the database, and close the connection to the database

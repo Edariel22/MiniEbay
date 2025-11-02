@@ -13,7 +13,7 @@ import java.sql.* ;
 public class applicationProductManager{
 
 	//myDBConn is an MySQLConnector object for accessing to the database
-	private MySQLConnector myDBConn;
+	private MySQLCompleteConnector myDBConn;
 	
 	/********
 		Default constructor
@@ -23,7 +23,7 @@ public class applicationProductManager{
 	*/
 	public applicationProductManager(){
 		//Create the MySQLConnector object
-		myDBConn = new MySQLConnector();
+		myDBConn = new MySQLCompleteConnector();
 		
 		//Open the connection to the database
 		myDBConn.doConnection();
@@ -85,6 +85,13 @@ public class applicationProductManager{
 		//Execute select query
 		return myDBConn.doSelect(fields, tables, condition);
 	}
+	public boolean addProduct(String name, String deptId, String startBid, String dueDate) {
+		return myDBConn.doInsert("products", "NULL,'" + name + "',NULL,'" + deptId + "','" + startBid + "','" + dueDate + "',NULL,NULL,NULL");
+	}
+
+	public boolean removeProduct(int productId) {
+		return myDBConn.doDelete("products", "product_id=" + productId);
+	}
 
 		
 	// Helper method to get the name of department given id
@@ -119,7 +126,13 @@ public class applicationProductManager{
 	}
 
 	
-	
+	public ResultSet getProductById(int productId) {
+		String fields = "*";
+		String tables = "products";
+		String condition = "product_id = " + productId;
+		return myDBConn.doSelect(fields, tables, condition);
+	}
+
 	
 	// DOESNT WORK
 	// Tried to implement to function the same as getDepartmentName, but couldnt figure it out
