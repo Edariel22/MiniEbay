@@ -66,8 +66,21 @@ public class applicationProductManager{
 	*/
 	
 	
-	
-	
+	// Simple search with optional filters
+	public ResultSet listProducts(String name, String dept) {
+		String fields = "*";
+		String tables = "products p JOIN departments d ON p.dept_id = d.dept_id";
+		String condition = "1=1"; // base condition
+
+		if (name != null && !name.isEmpty())
+			condition += " AND p.name LIKE '%" + name + "%'";
+		if (dept != null && !dept.isEmpty() && !dept.equals("All Departments"))
+			condition += " AND d.name = '" + dept + "'";
+
+		return myDBConn.doSelect(fields, tables, condition);
+	}
+
+		
 	// Helper method to get the name of department given id
 	// Used in products.jsp to get the name of the department a product belongs to given dept id.
 	

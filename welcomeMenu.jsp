@@ -7,8 +7,13 @@
 		<title>Home page for Mini Ebay!</title>
 	</head>
 	<body>
+	
 	<%
- 	//Try to connect the database using the classes applicationDBManager & applicationDBAuthenticationGoodComplete
+ 	
+	session.setAttribute("previousPage", "validationHashing.jsp");
+	session.setAttribute("currentPage", "welcomeMenu.jsp");
+
+	//Try to connect the database using the classes applicationDBManager & applicationDBAuthenticationGoodComplete
 	try{
 			//Check the authentication process
 			if (session.getAttribute("userName")==null || session.getAttribute("currentPage")==null) {
@@ -19,7 +24,7 @@
 			else{
 			String currentPage="welcomeMenu.jsp";
 			String userName = session.getAttribute("userName").toString();
-			String previousPage = session.getAttribute("currentPage").toString();
+			String previousPage = session.getAttribute("previousPage").toString();
 		
 			//Create the appDBAuth object
 			applicationDBAuthenticationGoodComplete appDBAuth = new applicationDBAuthenticationGoodComplete();

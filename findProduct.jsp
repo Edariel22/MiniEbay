@@ -57,20 +57,8 @@
                     // Get the ResultSet based on parameters
                     ResultSet resProd = null;
 
-                    if ((productName == null || productName.isEmpty()) && (deptName == null || deptName.equals("All Departments"))) {
-                        // If no product name is provided and no department is selected, list all products
-                        resProd = appDBMnger.listAllProduct();
-                    } else if (productName != null && !productName.isEmpty() && (deptName == null || deptName.isEmpty() || deptName.equals("All Departments"))) {
-                        // If a product name is provided but no department is selected, list products by name in all departments
-                        resProd = appDBMnger.listProducts(productName);
-                    } else if ((productName == null || productName.isEmpty()) && deptName != null && !deptName.isEmpty() && !deptName.equals("All Departments")) {
-                        // If no product name is provided but a department is selected, list all products in that department
-                        resProd = appDBMnger.listProductsInDepartment(deptName);
-                    } else if (productName != null && !productName.isEmpty() && deptName != null && !deptName.isEmpty() && !deptName.equals("All Departments")) {
-                        // If both product name and department are provided, list products by name in that department
-                        resProd = appDBMnger.listProducts(productName, deptName);
-                    }
-					
+                    resProd = appDBMnger.listProducts(productName, deptName);
+
                     // Iterate over the ResultSet
                     int count = 0;
 

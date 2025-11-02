@@ -69,6 +69,14 @@ public class applicationDBManager{
 		//Close the connection
 		myDBConn.closeConnection();
 	}
+    
+    // Product query helpers for findProduct.jsp
+ 
+    public ResultSet listProducts(String name, String dept) {
+        applicationProductManager pm = new applicationProductManager();
+        return pm.listProducts(name, dept);
+    }
+
 
 	/***********
 		Debugging method
