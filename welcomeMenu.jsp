@@ -108,8 +108,9 @@
 
 						//print the page title and establish a hyperlink
 					%><tr><td>-</td><td><a href="<%=resMenu.getString(1)%>?userName=<%=userName%>&roleId=<%=session.getAttribute("roleId")%>"><%=resMenu.getString(3)%></a><%
-
+					
 					} 
+
 					//Close the table 
 					%>
 					</table>

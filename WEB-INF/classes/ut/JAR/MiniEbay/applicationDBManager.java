@@ -151,6 +151,15 @@ public class applicationDBManager{
         String condition = "product_id = " + productId;
         return myDBConn.doSelect(fields, tables, condition);
     }
+
+
+	//Sell product
+	public boolean addProduct(String name, String desc, String deptId, String startBid, String dueDate, String picture, String userName) {
+		String table = "products";
+		String values = "NULL,'" + name + "','" + desc + "'," + deptId + "," + startBid + ",'" + dueDate + "','" + picture + "',NULL,'" + userName + "'";
+		return myDBConn.doInsert(table, values);
+	}
+
     
 	/***********
 		Debugging method
