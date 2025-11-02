@@ -77,6 +77,13 @@ public class applicationDBManager{
         return pm.listProducts(name, dept);
     }
 
+    // User management helpers for adminUsers.jsp
+    
+    public ResultSet listAllUsers() {
+    applicationUserManager um = new applicationUserManager();
+    return um.listAllUsers();
+}
+
 
 	/***********
 		Debugging method

@@ -66,17 +66,23 @@ public class applicationProductManager{
 	*/
 	
 	
-	// Simple search with optional filters
+	// search with filters
 	public ResultSet listProducts(String name, String dept) {
+		// Select all columns from the resulting query
 		String fields = "*";
+		
+    // access both product info and its department name
 		String tables = "products p JOIN departments d ON p.dept_id = d.dept_id";
 		String condition = "1=1"; // base condition
-
+ 	// If the user typed something in the search box, filter by name
+    // LIKE '%name%' means any product that contains that word
 		if (name != null && !name.isEmpty())
-			condition += " AND p.name LIKE '%" + name + "%'";
+			condition += " AND p.name LIKE '%" + name + "%'"; //concatonate the condition into the "1+1"
+	 // If a department is selected (and not "All Departments"), filter by that department
 		if (dept != null && !dept.isEmpty() && !dept.equals("All Departments"))
-			condition += " AND d.name = '" + dept + "'";
+			condition += " AND d.name = '" + dept + "'"; // Adds a WHERE clause to restrict results to the department the user selected
 
+		//Execute select query
 		return myDBConn.doSelect(fields, tables, condition);
 	}
 

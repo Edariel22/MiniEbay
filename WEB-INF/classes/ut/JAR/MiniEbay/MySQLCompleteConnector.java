@@ -204,6 +204,23 @@ public class MySQLCompleteConnector{
 		}
 			
 	}
+
+
+	//Added delete method
+	public boolean doDelete(String table, String where) {
+		boolean res = false;
+		String deleteStatement = "DELETE FROM " + table + " WHERE " + where + ";";
+		System.out.println(deleteStatement);
+		try {
+			int rows = stmt.executeUpdate(deleteStatement);
+			if (rows > 0)
+				res = true;
+			System.out.println("MySQLCompleteConnector deletion: " + res);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
 	
 	/***********
 		Debugging method

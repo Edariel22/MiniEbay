@@ -170,7 +170,21 @@ public class MySQLConnector{
 		}
 	}
 	
-	
+	//Added delete method
+	public boolean doDelete(String table, String where) {
+	boolean res = false;
+	String deleteStatement = "DELETE FROM " + table + " WHERE " + where + ";";
+	System.out.println(deleteStatement);
+	try {
+		int rows = stmt.executeUpdate(deleteStatement);
+		if (rows > 0)
+			res = true;
+		System.out.println("MySQLCompleteConnector deletion: " + res);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	return res;
+}
 	/***********
 		Debugging method
 			This method creates an applicationDBManager object, retrieves all departments in the database, and close the connection to the database
