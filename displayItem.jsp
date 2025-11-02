@@ -76,10 +76,12 @@ try {
 
 						<a href="bidProduct.jsp?productId=<%=productId%>">Place a Bid</a>
 
-						<img src="/MiniEbay<%=rs.getString("picture_path")%>" width="200" height="200">
+						<img src="/Mini Ebay/images/<%= rs.getString(8) %>" alt="<%= rs.getString(2) %>" style="width: 200px; height: auto;">
 						<%
 					} else {
-				out.println("<h3>Product not found.</h3>");
+                %>
+                <p>Product Not Found...</p>
+                <%
 					}
 					rs.close();
 				}
