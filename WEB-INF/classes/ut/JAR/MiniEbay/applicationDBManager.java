@@ -137,6 +137,20 @@ public class applicationDBManager{
     }
 
 
+    // Place a new bid
+    public boolean placeBid(int productId, String userName, String amount) {
+        String table = "bids";
+        String values = "NULL, '" + productId + "', '" + userName + "', '" + amount + "', NOW()";
+        return myDBConn.doInsert(table, values);
+    }
+
+    // Get the highest bid for a product
+    public ResultSet getHighestBid(int productId) {
+        String fields = "MAX(amount) AS highest_bid";
+        String tables = "bids";
+        String condition = "product_id = " + productId;
+        return myDBConn.doSelect(fields, tables, condition);
+    }
     
 	/***********
 		Debugging method

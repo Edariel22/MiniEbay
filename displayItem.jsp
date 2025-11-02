@@ -20,6 +20,18 @@ if (productId == null || productId.isEmpty()) {
         <p><b>Department:</b> <%=rs.getString("dept_id")%></p>
         <p><b>Start Bid:</b> $<%=rs.getString("start_bid")%></p>
         <p><b>Due Date:</b> <%=rs.getString("due_date")%></p>
+        <%
+        ResultSet highest = dbm.getHighestBid(Integer.parseInt(productId));
+        if (highest.next() && highest.getString("highest_bid") != null) {
+            out.println("<p><b>Current Highest Bid:</b> $" + highest.getString("highest_bid") + "</p>");
+        } else {
+            out.println("<p><b>No bids yet.</b></p>");
+        }
+        highest.close();
+        %>
+
+        <a href="bidProduct.jsp?productId=<%=productId%>">Place a Bid</a>
+
         <img src="/MiniEbay<%=rs.getString("picture_path")%>" width="200" height="200">
 <%
     } else {
