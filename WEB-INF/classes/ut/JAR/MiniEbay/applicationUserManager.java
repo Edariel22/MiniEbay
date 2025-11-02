@@ -72,6 +72,27 @@ public class applicationUserManager{
 		}
 	}
 
+
+	// Update an existing user
+	public boolean updateUser(String userName, String hashing, String name, String telephone, String roleId) {
+
+		System.out.println("Updating user: " + userName);
+
+		// Update the users table
+		String userFields = "hashing='" + hashing + "', name='" + name + "', telephone='" + telephone + "'";
+		String userCondition = "userName='" + userName + "'";
+		boolean okUser = myDBConn.doUpdate("users", userFields, userCondition);
+
+		// Update the roleuser table
+		String roleFields = "roleId='" + roleId + "'";
+		String roleCondition = "userName='" + userName + "'";
+		boolean okRole = myDBConn.doUpdate("roleuser", roleFields, roleCondition);
+
+		// Return true only if both updates succeeded
+		return okUser && okRole;
+	}
+
+
     // Delete user method
     public boolean removeUser(String userName) {
 

@@ -221,6 +221,23 @@ public class MySQLCompleteConnector{
 		}
 		return res;
 	}
+	// Update method for executing SQL UPDATE statements
+	public boolean doUpdate(String table, String fields, String condition) {
+		boolean res = false;
+		String query = "UPDATE " + table + " SET " + fields + " WHERE " + condition + ";";
+		System.out.println(query);
+		try {
+			int rows = stmt.executeUpdate(query);
+			if (rows > 0)
+				res = true;
+			System.out.println("MySQLCompleteConnector update: " + res);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+
 	
 	/***********
 		Debugging method

@@ -13,9 +13,7 @@
 try {
 
     //Authenticate if the user is logged in, if not redirect the user to login hashing
-    if (session.getAttribute("userName") == null || session.getAttribute("currentPage") == null) {
-    	session.setAttribute("currentPage", null);
-    	session.setAttribute("userName", null);
+    if (session.getAttribute("userName") == null) {
    	 	response.sendRedirect("loginHashing.html");
 	}else{
 		String currentPage = "adminUsers.jsp";
@@ -39,41 +37,30 @@ try {
 
         // Verify if the user has been authenticated
         if (rsUser.next()) {
-            String userActualName = rsUser.getString(3);
-
-            // Create the current page attribute
-            session.setAttribute("currentPage", currentPage);
-
-            // Create a session variable
-            if (session.getAttribute("userName") == null) {
-                // Create the session variable
-                session.setAttribute("userName", userName);
-            } else {
-                // Update the session variable
-                session.setAttribute("userName", userName);
-            }
-
-			//Add user
-				if(request.getParameter("userName")!=null){
+          
+			// Add user
+			if (request.getParameter("userName") != null && request.getParameter("addUser") != null) {
 				String u = request.getParameter("userName");
 				String h = request.getParameter("hashing");
 				String n = request.getParameter("name");
 				String t = request.getParameter("telephone");
 				String r = request.getParameter("roleId");
-				dbm.addUser(u,h,n,t,r);
+				dbm.addUser(u, h, n, t, r);
 				out.println("<p>User added.</p>");
 			}
 
-			//Modify user
-				if(request.getParameter("userName")!=null){
-				String u = request.getParameter("userName");
-				String h = request.getParameter("hashing");
-				String n = request.getParameter("name");
-				String t = request.getParameter("telephone");
-				String r = request.getParameter("roleId");
-				dbm.addUser(u,h,n,t,r);
-				out.println("<p>User added.</p>");
-			}
+			// Modify user
+				if (request.getParameter("modifyUser") != null) {
+					String u = request.getParameter("userName");
+					String h = request.getParameter("hashing");
+					String n = request.getParameter("name");
+					String t = request.getParameter("telephone");
+					String r = request.getParameter("roleId");
+					dbm.updateUser(u, h, n, t, r);
+					out.println("<p>User modified.</p>");
+					System.out.println("Modify requested for user: " + request.getParameter("userName"));
+
+				}
 
 			//Remove user
 				if(request.getParameter("removeUser")!=null){
@@ -102,7 +89,9 @@ try {
 		// Close the connection to the database
 		dba.close();
 		dbm.close();
-		} 
+		}	
+	}
+	 
 }catch(Exception e) {
     //If an exception occurs, print the stack trace
     e.printStackTrace();
@@ -124,12 +113,12 @@ try {
 		<option value="rol1">Admin</option>
 		<option value="rol2">User</option>
 		</select><br>
-		<input type="submit" value="Add">
+		<input type="submit" name="addUser" value="Add">
 		</form>
 
 		<h3>Modify User</h3>
 		<form method="POST" action="adminUsers.jsp">
-		User: <input type="text" name="changeName"><br>
+		User: <input type="text" name="userName"><br>
 		Hash: <input type="text" name="hashing"><br>
 		Name: <input type="text" name="name"><br>
 		Tel: <input type="text" name="telephone"><br>
@@ -138,7 +127,7 @@ try {
 		<option value="rol1">Admin</option>
 		<option value="rol2">User</option>
 		</select><br>
-		<input type="submit" value="Modify">
+		<input type="submit" name="modifyUser" value="Modify">
 		</form>
 
 		<h3>Remove User</h3>

@@ -81,6 +81,7 @@ try {
 					} else {
 				out.println("<h3>Product not found.</h3>");
 					}
+					rs.close();
 				}
 			}else{
             //Close any session associated with the user
@@ -90,7 +91,7 @@ try {
 		    response.sendRedirect("loginHashing.html");
 			}
 
-		rs.close();
+		
 		// Close the connection to the database
 		dba.close();
 		dbm.close();

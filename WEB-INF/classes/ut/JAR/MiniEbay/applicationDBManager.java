@@ -69,18 +69,9 @@ public class applicationDBManager{
         return myDBConn.doDelete(table, condition);
     }
         
-	/*********
-		close method
-			Close the connection to the database.
-			This method must be called at the end of each page/object that instatiates a applicationDBManager object
-			@parameters:
-			@returns:
-	*/
-	public void close()
-	{
-		//Close the connection
-		myDBConn.closeConnection();
-	}
+
+
+
     
     // Product query helpers for findProduct.jsp
     // Basic product listing with filters (for findProduct.jsp)
@@ -111,6 +102,19 @@ public class applicationDBManager{
         applicationProductManager pm = new applicationProductManager();
         return pm.getProductById(productId);
     }
+		//Sell product
+	public boolean addProduct(String name, String desc, String deptId, String startBid, String dueDate, String picture, String userName) {
+		String table = "products";
+		String values = "NULL,'" + name + "','" + desc + "'," + deptId + "," + startBid + ",'" + dueDate + "','" + picture + "',NULL,'" + userName + "'";
+		return myDBConn.doInsert(table, values);
+	}
+
+
+
+
+
+
+
 
 
     // User management helpers for adminUsers.jsp
@@ -135,6 +139,13 @@ public class applicationDBManager{
         um.close();
         return rs;
     }
+	// Modify user (applicationUserManager)
+	public boolean updateUser(String userName, String hashing, String name, String telephone, String roleId) {
+		applicationUserManager um = new applicationUserManager();
+		boolean result = um.updateUser(userName, hashing, name, telephone, roleId);
+		um.close();
+		return result;
+	}
 
 
     // Place a new bid
@@ -153,13 +164,36 @@ public class applicationDBManager{
     }
 
 
-	//Sell product
-	public boolean addProduct(String name, String desc, String deptId, String startBid, String dueDate, String picture, String userName) {
-		String table = "products";
-		String values = "NULL,'" + name + "','" + desc + "'," + deptId + "," + startBid + ",'" + dueDate + "','" + picture + "',NULL,'" + userName + "'";
-		return myDBConn.doInsert(table, values);
-	}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*********
+		close method
+			Close the connection to the database.
+			This method must be called at the end of each page/object that instatiates a applicationDBManager object
+			@parameters:
+			@returns:
+	*/
+	public void close()
+	{
+		//Close the connection
+		myDBConn.closeConnection();
+	}
     
 	/***********
 		Debugging method
