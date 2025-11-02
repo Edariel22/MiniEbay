@@ -57,7 +57,7 @@ CREATE TABLE `departments` (
   `name` varchar(50) NOT NULL,
   `building` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`dept_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +66,7 @@ CREATE TABLE `departments` (
 
 LOCK TABLES `departments` WRITE;
 /*!40000 ALTER TABLE `departments` DISABLE KEYS */;
-INSERT INTO `departments` VALUES (1,'Electronics',NULL),(2,'Books',NULL),(3,'Computers',NULL);
+INSERT INTO `departments` VALUES (1,'Electronics',NULL),(2,'Books',NULL),(3,'Computers',NULL),(7,'bob','');
 /*!40000 ALTER TABLE `departments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,7 +117,7 @@ CREATE TABLE `products` (
   KEY `userName` (`userName`),
   CONSTRAINT `products_ibfk_1` FOREIGN KEY (`dept_id`) REFERENCES `departments` (`dept_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `products_ibfk_2` FOREIGN KEY (`userName`) REFERENCES `users` (`userName`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -178,7 +178,7 @@ CREATE TABLE `roleuser` (
 
 LOCK TABLES `roleuser` WRITE;
 /*!40000 ALTER TABLE `roleuser` DISABLE KEYS */;
-INSERT INTO `roleuser` VALUES ('Elias','rol1'),('Angel','rol2'),('dwed','rol2'),('user1','rol2'),('userNew','rol2'),('userNew1','rol2'),('userNew56','rol2'),('userNew561','rol2'),('userNew5611','rol2');
+INSERT INTO `roleuser` VALUES ('Elias','rol1'),('Angel','rol2'),('dwed','rol2'),('user1','rol2'),('userNew','rol2'),('userNew1','rol2'),('userNew56','rol2'),('userNew561','rol2');
 /*!40000 ALTER TABLE `roleuser` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -206,7 +206,7 @@ CREATE TABLE `rolewebpagegood` (
 
 LOCK TABLES `rolewebpagegood` WRITE;
 /*!40000 ALTER TABLE `rolewebpagegood` DISABLE KEYS */;
-INSERT INTO `rolewebpagegood` VALUES ('rol1','findProduct.jsp','2025-11-01'),('rol1','queryDatabaseGoodMiniEbay.jsp','2025-11-01'),('rol1','welcomeMenu.jsp','2025-11-01'),('rol2','findProduct.jsp','2025-11-01'),('rol2','queryDatabaseGoodMiniEbay.jsp','2025-11-01'),('rol2','welcomeMenu.jsp','2025-11-01');
+INSERT INTO `rolewebpagegood` VALUES ('rol1','adminDepartments.jsp','2025-11-01'),('rol1','adminProducts.jsp','2025-11-01'),('rol1','adminUsers.jsp','2025-11-01'),('rol1','findProduct.jsp','2025-11-01'),('rol1','queryDatabaseGoodMiniEbay.jsp','2025-11-01'),('rol1','welcomeMenu.jsp','2025-11-01'),('rol2','findProduct.jsp','2025-11-01'),('rol2','queryDatabaseGoodMiniEbay.jsp','2025-11-01'),('rol2','welcomeMenu.jsp','2025-11-01');
 /*!40000 ALTER TABLE `rolewebpagegood` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -232,7 +232,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('Angel','1b4f0e9851971998e732078544c96b36c3d01cedf7caa332359d6f1d83567014','Angel Ortiz','9392774596'),('dwed','bf258eca3c20681522f71fbafb9bb50242c4cef50150e499c021d3d978f9440f','45565','568676657'),('Elias','a40e8afc6e736dfef35e809f3e8af1dfaf37a992436f88baeae45b2897419f9f','Elias Medina','7876059637'),('user1','f9777362314a88ba0d7df701ed6bebd0a3577be33befe72babc40c39de65ab1f','bob','7876059637'),('userNew','cd73dc267c0edb56f8a21d9cb1c3fc65bb4788772cb3b38e28715dd0464b3e0c','Bob','78574576898'),('userNew1','28e9b95264c64c79c32afb68bb51231e1f481cabb0ed2a8ab9c903dca7a7bcee','Bob','78574576898'),('userNew56','737ac7e1a6bd0ae1f2bdcebcda0730a8dc2ad4ee6f50238ca8f79ce75898917c','Bob','78574576898'),('userNew561','37738e92beefd57ad2eb137b9d97b5903f7fdd85d62bc233e603e32da315d903','Bob','78574576898'),('userNew5611','274e5a014888609e9a65decfd0ae1a2ab0f79f24e50403685d69e7733c02aa9b','Bob','78574576898');
+INSERT INTO `users` VALUES ('Angel','1b4f0e9851971998e732078544c96b36c3d01cedf7caa332359d6f1d83567014','Angel Ortiz','9392774596'),('dwed','bf258eca3c20681522f71fbafb9bb50242c4cef50150e499c021d3d978f9440f','45565','568676657'),('Elias','a40e8afc6e736dfef35e809f3e8af1dfaf37a992436f88baeae45b2897419f9f','Elias Medina','7876059637'),('user1','f9777362314a88ba0d7df701ed6bebd0a3577be33befe72babc40c39de65ab1f','bob','7876059637'),('userNew','cd73dc267c0edb56f8a21d9cb1c3fc65bb4788772cb3b38e28715dd0464b3e0c','Bob','78574576898'),('userNew1','28e9b95264c64c79c32afb68bb51231e1f481cabb0ed2a8ab9c903dca7a7bcee','Bob','78574576898'),('userNew56','737ac7e1a6bd0ae1f2bdcebcda0730a8dc2ad4ee6f50238ca8f79ce75898917c','Bob','78574576898'),('userNew561','37738e92beefd57ad2eb137b9d97b5903f7fdd85d62bc233e603e32da315d903','Bob','78574576898');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -260,7 +260,7 @@ CREATE TABLE `webpagegood` (
 
 LOCK TABLES `webpagegood` WRITE;
 /*!40000 ALTER TABLE `webpagegood` DISABLE KEYS */;
-INSERT INTO `webpagegood` VALUES ('addUser.jsp','Signing Up','Normal User Signup page','menu1'),('findProduct.jsp','Find Product',NULL,'menu1'),('queryDatabaseGoodMiniEbay.jsp','Product List','Displays product listings','menu1'),('validationHashing.jsp','Login Validation','User authentication page','menu1'),('welcomeMenu.jsp','Welcome Menu','Main dashboard after login','menu1');
+INSERT INTO `webpagegood` VALUES ('addUser.jsp','Signing Up','Normal User Signup page','menu1'),('adminDepartments.jsp','Manage Departments','View and edit departments','menu1'),('adminProducts.jsp','Manage Products','View and edit all products','menu1'),('adminUsers.jsp','Manage Users','View and edit registered users','menu1'),('findProduct.jsp','Find Product',NULL,'menu1'),('queryDatabaseGoodMiniEbay.jsp','Product List','Displays product listings','menu1'),('validationHashing.jsp','Login Validation','User authentication page','menu1'),('welcomeMenu.jsp','Welcome Menu','Main dashboard after login','menu1');
 /*!40000 ALTER TABLE `webpagegood` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -287,7 +287,7 @@ CREATE TABLE `webpageprevious` (
 
 LOCK TABLES `webpageprevious` WRITE;
 /*!40000 ALTER TABLE `webpageprevious` DISABLE KEYS */;
-INSERT INTO `webpageprevious` VALUES ('findProduct.jsp','findProduct.jsp'),('welcomeMenu.jsp','validationHashing.jsp'),('findProduct.jsp','welcomeMenu.jsp'),('queryDatabaseGoodMiniEbay.jsp','welcomeMenu.jsp');
+INSERT INTO `webpageprevious` VALUES ('findProduct.jsp','findProduct.jsp'),('welcomeMenu.jsp','validationHashing.jsp'),('adminDepartments.jsp','welcomeMenu.jsp'),('adminProducts.jsp','welcomeMenu.jsp'),('adminUsers.jsp','welcomeMenu.jsp'),('findProduct.jsp','welcomeMenu.jsp'),('queryDatabaseGoodMiniEbay.jsp','welcomeMenu.jsp');
 /*!40000 ALTER TABLE `webpageprevious` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -300,4 +300,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-11-01 20:07:35
+-- Dump completed on 2025-11-01 23:11:20
