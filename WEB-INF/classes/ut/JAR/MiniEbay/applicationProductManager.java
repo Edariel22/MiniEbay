@@ -80,7 +80,7 @@ public class applicationProductManager{
 			condition += " AND p.name LIKE '%" + name + "%'"; //concatonate the condition into the "1+1"
 	 // If a department is selected (and not "All Departments"), filter by that department
 		if (dept != null && !dept.isEmpty() && !dept.equals("All Departments"))
-			condition += " AND d.name = '" + dept + "'"; // Adds a WHERE clause to restrict results to the department the user selected
+			condition += " AND d.dept_id = " + dept ; // Adds a WHERE clause to restrict results to the department the user selected
 
 		//Execute select query
 		return myDBConn.doSelect(fields, tables, condition);
@@ -92,6 +92,14 @@ public class applicationProductManager{
 	public boolean removeProduct(int productId) {
 		return myDBConn.doDelete("products", "product_id=" + productId);
 	}
+	// 
+	public boolean updateUser(String userName, String hashing, String name, String telephone, String roleId) {
+		applicationUserManager um = new applicationUserManager();
+		boolean result = um.updateUser(userName, hashing, name, telephone, roleId);
+		um.close();
+		return result;
+	}
+
 
 		
 	// Helper method to get the name of department given id
