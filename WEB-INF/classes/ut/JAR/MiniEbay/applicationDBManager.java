@@ -122,18 +122,18 @@ public class applicationDBManager{
     // Add user (applicationUserManager)
     public boolean addUser(String userName, String hashing, String name, String telephone, String roleId) {
         applicationUserManager um = new applicationUserManager();
-        boolean res = um.addUser(userName, hashing, name, telephone, roleId);
+        boolean rs = um.addUser(userName, hashing, name, telephone, roleId);
         um.close();
 
-        return res;
+        return rs;
     }
 
     // Remove user  (applicationUserManager)
     public boolean removeUser(String userName) {
         applicationUserManager um = new applicationUserManager();
-        boolean res = um.removeUser(userName);
+        boolean rs = um.removeUser(userName);
         um.close();
-        return res;
+        return rs;
     }
 
 
@@ -178,18 +178,18 @@ public class applicationDBManager{
 			System.out.println(appDBMnger.toString());
 			
 			//Call the listAllDepartment in order to retrieve all departments in the database
-			ResultSet res=appDBMnger.listAllDepartment();
+			ResultSet rs=appDBMnger.listAllDepartment();
 			
 			//Iterate over the ResulSet containing all departments in the database, and count how many tuples were retrieved
 			int count=0;
-			while (res.next()){
+			while (rs.next()){
 				count++;	
 			}
 			//Print the results count
 			System.out.println("Count:"  + count);
 			
 			//Close the ResulSet
-			res.close();
+			rs.close();
 			//Close the database connection
 			appDBMnger.close();
 			

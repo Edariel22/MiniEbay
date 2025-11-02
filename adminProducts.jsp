@@ -1,5 +1,7 @@
-<%@ page import="java.sql.*" %>
-<%@ page import="ut.JAR.miniebay.*" %>
+<%@ page import="java.lang.*"%>
+<%@ page import="ut.JAR.miniebay.*"%>
+<%//Import the java.sql package to use the ResultSet class %>
+<%@ page import="java.sql.*"%>
 
 <%
 if (session.getAttribute("userName") == null && request.getParameter("userName") != null)
@@ -54,7 +56,7 @@ dbm.close();
 </table>
 
 <h3>Add Product</h3>
-<form method="post" action="adminProducts.jsp">
+<form method="POST" action="adminProducts.jsp">
 Name: <input type="text" name="name"><br>
 Dept ID: <input type="text" name="deptId"><br>
 Start Bid: <input type="text" name="startBid"><br>
@@ -63,7 +65,7 @@ Due Date (YYYY-MM-DD HH:MM:SS): <input type="text" name="dueDate"><br>
 </form>
 
 <h3>Remove Product</h3>
-<form method="post" action="adminProducts.jsp">
+<form method="POST" action="adminProducts.jsp">
 Product ID: <input type="text" name="removeProductId"><br>
 <input type="submit" name="removeProduct" value="Remove">
 </form>

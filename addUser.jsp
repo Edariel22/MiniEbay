@@ -18,20 +18,20 @@
 
 	//Try to connect to the database
 	try{
-		//Create the appDBMnger object
-		applicationDBAuthenticationGoodComplete appDBAuth = new applicationDBAuthenticationGoodComplete();
+		//Create the dba object
+		applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
 		System.out.println("Connecting...");
-		System.out.println(appDBAuth.toString());
+		System.out.println(dba.toString());
 
 		//first, check if the user filled all information before trying to add them
 		if (userName ==  null || userName == "" || userPass=="" || completeName == "" || telephone == ""){
 			response.sendRedirect("addNewUser.html"); // Send user back
-			appDBAuth.close();
+			dba.close();
 		}
 			
 		//Call Add the user to the tables
-		boolean res=appDBAuth.addUser(userName, completeName, userPass, telephone);
-		boolean resRoleUser = appDBAuth.setUserRole(userName);%>
+		boolean res=dba.addUser(userName, completeName, userPass, telephone);
+		boolean resRoleUser = dba.setUserRole(userName);%>
 
 		<%//Verify if the user has been authenticated
 		if (res){%>
@@ -60,7 +60,7 @@
 		<%}
 				
 			//Close the connection to the database
-			appDBAuth.close();
+			dba.close();
 			
 	} catch(Exception e){
 		%>Nothing to show!<%

@@ -1,4 +1,7 @@
-<%@ page import="ut.JAR.miniebay.*" %>
+<%@ page import="java.lang.*"%>
+<%@ page import="ut.JAR.miniebay.*"%>
+<%//Import the java.sql package to use the ResultSet class %>
+<%@ page import="java.sql.*"%>
 
 <%
 String productId = request.getParameter("productId");

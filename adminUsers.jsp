@@ -1,79 +1,151 @@
-<%@ page import="java.sql.*" %>
-<%@ page import="ut.JAR.miniebay.*" %>
-
-<%
-if (session.getAttribute("userName") == null && request.getParameter("userName") != null)
-    session.setAttribute("userName", request.getParameter("userName"));
-
-if (session.getAttribute("roleId") == null && request.getParameter("roleId") != null)
-    session.setAttribute("roleId", request.getParameter("roleId"));
-%>
+<%@ page import="java.lang.*"%>
+<%@ page import="ut.JAR.miniebay.*"%>
+<%//Import the java.sql package to use the ResultSet class %>
+<%@ page import="java.sql.*"%>
 
 <html>
-<head><title>Admin Users</title></head>
-<body>
+	<head>
+		<title>Admin Users</title>
+	</head>
+	<body>
 
 <%
-applicationDBManager dbm = new applicationDBManager();
+try {
 
-//Add user
-if(request.getParameter("userName")!=null){
-	String u = request.getParameter("userName");
-	String h = request.getParameter("hashing");
-	String n = request.getParameter("name");
-	String t = request.getParameter("telephone");
-	String r = request.getParameter("roleId");
-	dbm.addUser(u,h,n,t,r);
-	out.println("<p>User added.</p>");
+    //Authenticate if the user is logged in, if not redirect the user to login hashing
+    if (session.getAttribute("userName") == null || session.getAttribute("currentPage") == null) {
+    	session.setAttribute("currentPage", null);
+    	session.setAttribute("userName", null);
+   	 	response.sendRedirect("loginHashing.html");
+	}else{
+		String currentPage = "adminUsers.jsp";
+        String userName = session.getAttribute("userName").toString();
+        String previousPage = session.getAttribute("currentPage").toString();
+
+
+        //Create dba object
+        applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
+        System.out.println("Connecting...");
+        System.out.println(dba.toString());
+
+        //Create dbm object
+        applicationDBManager dbm = new applicationDBManager();
+        System.out.println("Connecting...");
+        System.out.println(dbm.toString());
+
+
+        //Call the verifyUser method to authenticate the user
+        ResultSet rsUser = dba.verifyUser(userName, currentPage, previousPage);
+
+        // Verify if the user has been authenticated
+        if (rsUser.next()) {
+            String userActualName = rsUser.getString(3);
+
+            // Create the current page attribute
+            session.setAttribute("currentPage", currentPage);
+
+            // Create a session variable
+            if (session.getAttribute("userName") == null) {
+                // Create the session variable
+                session.setAttribute("userName", userName);
+            } else {
+                // Update the session variable
+                session.setAttribute("userName", userName);
+            }
+
+			//Add user
+				if(request.getParameter("userName")!=null){
+				String u = request.getParameter("userName");
+				String h = request.getParameter("hashing");
+				String n = request.getParameter("name");
+				String t = request.getParameter("telephone");
+				String r = request.getParameter("roleId");
+				dbm.addUser(u,h,n,t,r);
+				out.println("<p>User added.</p>");
+			}
+
+			//Modify user
+				if(request.getParameter("userName")!=null){
+				String u = request.getParameter("userName");
+				String h = request.getParameter("hashing");
+				String n = request.getParameter("name");
+				String t = request.getParameter("telephone");
+				String r = request.getParameter("roleId");
+				dbm.addUser(u,h,n,t,r);
+				out.println("<p>User added.</p>");
+			}
+
+			//Remove user
+				if(request.getParameter("removeUser")!=null){
+				String ru = request.getParameter("removeName");
+				dbm.removeUser(ru);
+				out.println("<p>User removed.</p>");
+			}
+
+			//List users
+			ResultSet rs = dbm.listAllUsers();
+			%>
+
+		<h2>Admin - User List</h2>
+		<table border="1">
+		<tr><td>Username</td><td>Name</td><td>Telephone</td><td>Role</td></tr>
+		<%
+		while(rs.next()){
+			out.print("<tr>");
+			out.print("<td>"+rs.getString("userName")+"</td>");
+			out.print("<td>"+rs.getString("name")+"</td>");
+			out.print("<td>"+rs.getString("telephone")+"</td>");
+			out.print("<td>"+rs.getString("roleId")+"</td>");
+			out.print("</tr>");
+		}
+		rs.close();
+		// Close the connection to the database
+		dba.close();
+		dbm.close();
+		} 
+}catch(Exception e) {
+    //If an exception occurs, print the stack trace
+    e.printStackTrace();
+    response.sendRedirect("loginHashing.html");
+}finally{
+    System.out.println("Finallly");
 }
-
-//Remove user
-if(request.getParameter("removeUser")!=null){
-	String ru = request.getParameter("removeName");
-	dbm.removeUser(ru);
-	out.println("<p>User removed.</p>");
-}
-
-//List users
-ResultSet rs = dbm.listAllUsers();
 %>
+	</table>
 
-<h2>Admin - User List</h2>
-<table border="1">
-<tr><td>Username</td><td>Name</td><td>Telephone</td><td>Role</td></tr>
-<%
-while(rs.next()){
-	out.print("<tr>");
-	out.print("<td>"+rs.getString("userName")+"</td>");
-	out.print("<td>"+rs.getString("name")+"</td>");
-	out.print("<td>"+rs.getString("telephone")+"</td>");
-	out.print("<td>"+rs.getString("roleId")+"</td>");
-	out.print("</tr>");
-}
-rs.close();
-dbm.close();
-%>
-</table>
+		<h3>Add User</h3>
+		<form method="POST" action="adminUsers.jsp">
+		User: <input type="text" name="userName"><br>
+		Hash: <input type="text" name="hashing"><br>
+		Name: <input type="text" name="name"><br>
+		Tel: <input type="text" name="telephone"><br>
+		Role: 
+		<select name="roleId">
+		<option value="rol1">Admin</option>
+		<option value="rol2">User</option>
+		</select><br>
+		<input type="submit" value="Add">
+		</form>
 
-<h3>Add User</h3>
-<form method="post" action="adminUsers.jsp">
-User: <input type="text" name="userName"><br>
-Hash: <input type="text" name="hashing"><br>
-Name: <input type="text" name="name"><br>
-Tel: <input type="text" name="telephone"><br>
-Role: 
-<select name="roleId">
-<option value="rol1">Admin</option>
-<option value="rol2">User</option>
-</select><br>
-<input type="submit" value="Add">
-</form>
+		<h3>Modify User</h3>
+		<form method="POST" action="adminUsers.jsp">
+		User: <input type="text" name="changeName"><br>
+		Hash: <input type="text" name="hashing"><br>
+		Name: <input type="text" name="name"><br>
+		Tel: <input type="text" name="telephone"><br>
+		Role: 
+		<select name="roleId">
+		<option value="rol1">Admin</option>
+		<option value="rol2">User</option>
+		</select><br>
+		<input type="submit" value="Modify">
+		</form>
 
-<h3>Remove User</h3>
-<form method="post" action="adminUsers.jsp">
-User: <input type="text" name="removeName"><br>
-<input type="submit" name="removeUser" value="Remove">
-</form>
-<a href="welcomeMenu.jsp">Return to Main Menu</a>
+		<h3>Remove User</h3>
+		<form method="POST" action="adminUsers.jsp">
+		User: <input type="text" name="removeName"><br>
+		<input type="submit" name="removeUser" value="Remove">
+		</form>
+		<a href="welcomeMenu.jsp">Return to Main Menu</a>
 </body>
 </html>

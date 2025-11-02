@@ -113,25 +113,36 @@ public class applicationDBAuthenticationGoodComplete{
 	
 	public boolean addUser(String userName, String completeName, String userPass, String userTelephone)
 	{
-		boolean res;
+		boolean rs;
 		String table, values, hashingValue;
 		hashingValue=hashingSha256(userName + userPass);
 		table="users";
 		values="'"+userName+"', '" +hashingValue+"', '"+ completeName + "', '" + userTelephone + "'";
-		res=myDBConn.doInsert(table, values);
-		System.out.println("Insertion result" + res);
-		return res;
+		rs=myDBConn.doInsert(table, values);
+		System.out.println("Insertion result" + rs);
+		return rs;
 	}
 
 	public boolean setUserRole(String userName)
 	{
-		boolean res;
+		boolean rs;
 		String table, values;
 		table="roleuser";
 		values="'"+userName+"', 'rol2'";
-		res=myDBConn.doInsert(table, values);
-		System.out.println("Insertion result" + res);
-		return res;
+		rs=myDBConn.doInsert(table, values);
+		System.out.println("Insertion result" + rs);
+		return rs;
+	}
+	
+	public boolean setAdminRole(String userName)
+	{
+		boolean rs;
+		String table, values;
+		table="roleadmin";
+		values="'"+userName+"', 'rol1'";
+		rs=myDBConn.doInsert(table, values);
+		System.out.println("Insertion result" + rs);
+		return rs;
 	}
 	
 	

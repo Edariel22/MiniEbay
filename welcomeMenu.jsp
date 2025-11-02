@@ -8,7 +8,7 @@
 	</head>
 	<body>
 	
-	<%
+<%
  	
 	session.setAttribute("previousPage", "validationHashing.jsp");
 	session.setAttribute("currentPage", "welcomeMenu.jsp");
@@ -22,26 +22,26 @@
 				response.sendRedirect("loginHashing.html"); // send the User back to the login page
 			}
 			else{
-			String currentPage="welcomeMenu.jsp";
-			String userName = session.getAttribute("userName").toString();
-			String previousPage = session.getAttribute("previousPage").toString();
+				String currentPage="welcomeMenu.jsp";
+				String userName = session.getAttribute("userName").toString();
+				String previousPage = session.getAttribute("previousPage").toString();
 		
-			//Create the appDBAuth object
-			applicationDBAuthenticationGoodComplete appDBAuth = new applicationDBAuthenticationGoodComplete();
-			System.out.println("Connecting...");
-			System.out.println(appDBAuth.toString());
+			//Create the dba object
+				applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
+				System.out.println("Connecting...");
+				System.out.println(dba.toString());
 
-			//Create the appDBMnger object
-			applicationDBManager appDBMnger = new applicationDBManager();
-			System.out.println("Connecting...");
-			System.out.println(appDBMnger.toString());
+			//Create the dbm object
+				applicationDBManager dbm = new applicationDBManager();
+				System.out.println("Connecting...");
+				System.out.println(dbm.toString());
 				
 			//Call the verifyUser method
-			ResultSet res=appDBAuth.verifyUser(userName, currentPage, previousPage);
+				ResultSet rs=dba.verifyUser(userName, currentPage, previousPage);
 			
 			//Check if the user has been authenticated
-			if (res.next()){
-				String userActualName=res.getString(3);
+			if (rs.next()){
+				String userActualName=rs.getString(3);
 					
 				//Create the current page attribute
 				session.setAttribute("currentPage", currentPage);
@@ -58,26 +58,28 @@
 				%>
 				Welcome! <%=userActualName%>
 				
-				<!-- Search Form-->
+				<!-- Plz find me-->
 				<form action="findProduct.jsp" method="GET">
 					<label for="search">Search:</label>
 					<input type="text" id="productName" name="productName" placeholder="Enter product name">
 					<button type="submit">Search</button>
 					
 
-					<%ResultSet resDept=appDBMnger.listAllDepartment();%>
-					<!-- Department Dropdown List -->
+					<%
+					ResultSet rsDept=dbm.listAllDepartment();
+					%>
+					<!-- List the departments -->
 					<form action="findProduct.jsp" method="GET">
 						<table border="0">
 							<tr>
 								<td> Department </td>
 								<td>
-									<select id="dept_name" name="dept_name" style="width: 200px; font-size: 14px;">
+									<select id="dept_name" name="dept_name" style="width: 200px; font-size: 16px;">
 										<option value="All Departments"> All Departments</option>
 										<%
-											while (resDept.next()) {
+											while (rsDept.next()) {
 												%>
-												<option value="<%= resDept.getString(1) %>"><%= resDept.getString(1) %></option>
+												<option value="<%= rsDept.getString(1) %>"><%= rsDept.getString(1) %></option>
 												<%
 											}
 										%>
@@ -92,22 +94,21 @@
 					</form>
 					<table>
 					<%
-					//draw the menu
-					ResultSet resMenu = appDBAuth.menuElements(userName);
-					String currentMenu="";
+					//Menu moment
+					ResultSet rsMenu = dba.menuElements(userName);
+					String setMenu="";
 
-					while(resMenu.next()){
+					while(rsMenu.next()){
 
-						//Check to create a new menu element
-						if (currentMenu.compareTo(resMenu.getString(2))!=0){ 
-
-							//A new element
-						    currentMenu = resMenu.getString(2);
-							%><tr><td><%=currentMenu%> <td></tr><%
+						//Check to create (if not empty) a new menu element
+						if (setMenu.compareTo(rsMenu.getString(2))!=0){ 
+							//set the Menu to a new element
+						    setMenu = rsMenu.getString(2);
+							%><tr><td><%=setMenu%> <td></tr><%
 						}
 
-						//print the page title and establish a hyperlink
-					%><tr><td>-</td><td><a href="<%=resMenu.getString(1)%>?userName=<%=userName%>&roleId=<%=session.getAttribute("roleId")%>"><%=resMenu.getString(3)%></a><%
+						//show the page title and set a hyperlink
+					%><tr><td>-</td><td><a href="<%=rsMenu.getString(1)%>?userName=<%=userName%>&roleId=<%=session.getAttribute("roleId")%>"><%=rsMenu.getString(3)%></a><%
 					
 					} 
 
@@ -123,11 +124,11 @@
 					//return to the login page
 					response.sendRedirect("loginHashing.html");
 				}
-				//res.close();
+				//rs.close();
 
 				//Close the connection to the database
-				appDBAuth.close();
-				appDBMnger.close();
+				dba.close();
+				dbm.close();
 			}
 		}catch(Exception e){
 			%>Nothing to show!<%

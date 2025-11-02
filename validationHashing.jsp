@@ -16,7 +16,7 @@
 	
 	//Try to connect the database
 	try{
-			//Create the appDBMnger object
+			//Create the appDBAuth object
 			applicationDBAuthenticationGoodComplete appDBAuth = new applicationDBAuthenticationGoodComplete();
 			System.out.println("Connecting...");
 			System.out.println(appDBAuth.toString());

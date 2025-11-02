@@ -1,14 +1,16 @@
 <%@ page import="java.lang.*"%>
 <%@ page import="ut.JAR.miniebay.*"%>
+<%//Import the java.sql package to use the ResultSet class %>
 <%@ page import="java.sql.*"%>
 <html>
-<head>
-    <title>Mini Ebay: Find Products</title>
-</head>
+	<head>
+		<title>Mini Ebay: Find Products</title>
+	</head>
     <body>
-        <%
-		// Try to connect the database using the applicationDBManager class
-        try{
+		
+<%
+	// Try to connect the database using the applicationDBManager class
+    try{
             //Authenticate if the user is logged in, if not send the user back to the login page
             if (session.getAttribute("userName") == null || session.getAttribute("currentPage") == null) {
     			session.setAttribute("currentPage", null);
@@ -16,27 +18,26 @@
    	 			response.sendRedirect("loginHashing.html");
 				
 			}else{
-
-				String currentPage = "findProduct.jsp";
-           		String userName = session.getAttribute("userName").toString();
-            	String previousPage = session.getAttribute("currentPage").toString();
+					String currentPage = "findProduct.jsp";
+					String userName = session.getAttribute("userName").toString();
+					String previousPage = session.getAttribute("currentPage").toString();
 				
-				//Create the appDBAuth object
-                applicationDBAuthenticationGoodComplete appDBAuth = new applicationDBAuthenticationGoodComplete();
+				//Create the dba object (database authenticator)
+                applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
                 System.out.println("Connecting...");
-                System.out.println(appDBAuth.toString());
+                System.out.println(dba.toString());
                 
-				//Create the appDBMnger object
-				applicationDBManager appDBMnger = new applicationDBManager();
+				//Create the dbm object (database manager)
+				applicationDBManager dbm = new applicationDBManager();
                 System.out.println("Connecting...");
-				System.out.println(appDBMnger.toString());
+				System.out.println(dbm.toString());
 
                 //Call the verifyUser method to authenticate the user
-                ResultSet resUser = appDBAuth.verifyUser(userName, currentPage, previousPage);
+                ResultSet rsUser = dba.verifyUser(userName, currentPage, previousPage);
 
                 // Verify if the user has been authenticated
-                if (resUser.next()){
-                    String sessionName = resUser.getString(3);
+                if (rsUser.next()){
+                    String sessionName = rsUser.getString(3);
 
                     // Create the current page attribute
                     session.setAttribute("currentPage", currentPage);
@@ -55,29 +56,29 @@
                     String deptName = request.getParameter("dept_name");
 
                     // Get the ResultSet based on parameters
-                    ResultSet resProd = null;
+                    ResultSet rsProd = null;
 
-                    resProd = appDBMnger.listProducts(productName, deptName);
+                    rsProd = dbm.listProducts(productName, deptName);
 
                     // Iterate over the ResultSet
-                    int count = 0;
+                    int n = 0;
 
-                    while (resProd.next()) {
-                        // Count each retrieved record from the query
-                        count++;
+                    while (rsProd.next()) {
+                        // Count each of the retrieved items from the query
+                        n++;
                         %>
                         <tr>
-                            <!-- ID: <%=resProd.getString(1)%>, <br> -->
-                            NAME: <%=resProd.getString(2)%> <br>
-                            <!-- DESCRIPTION: <%=resProd.getString(3)%>, <br> -->
-                            DEPARTMENT: <%=resProd.getString(4)%> <br>
-                            BID $<%=resProd.getString(5)%> <br>
-                            DUE DATE: <%=resProd.getString(6)%> <br>
-                            <!-- SELLER: <%=resProd.getString(7)%>, <br> -->
-                            <img src="../images/<%=resProd.getString(8)%>" alt="<%=resProd.getString(2)%>" style="width: 200px; height: auto;">  <br> <br>
+								<%=rsProd.getString(1)%>, <!-- first, get the ID -->
+                            NAME:	<%=rsProd.getString(2)%> <br> <!-- then, get the name -->
+								<%=rsProd.getString(3)%>, <!-- finally, get the description to complete the product stuff -->
+                            DEPARTMENT: <%=rsProd.getString(4)%> <br> <!-- then, get the department it's from -->
+                            BID $<%=rsProd.getString(5)%> <br> <!-- then, get the BID value -->
+                            DUE DATE: <%=rsProd.getString(6)%> <br> <!-- then, get the Due date for the bid -->
+								<%=rsProd.getString(7)%>	<!-- then, get the seller's name -->
+                            <img src="../images/<%=rsProd.getString(8)%>" alt="<%=rsProd.getString(2)%>" style="width: 200px; height: auto;">  <br> <br>
                              <form action="displayItem.jsp" method="GET">
                                 <!-- Include a hidden input field to store the ID -->
-                                <input type="hidden" name="productId" value="<%=resProd.getString(1)%>">
+                                <input type="hidden" name="productId" value="<%=rsProd.getString(1)%>">
                                 <input type="hidden" name="productName" value="<%=productName %>">
                                 <input type="hidden" name="dept_name" value="<%=deptName %>">
                                 <input type="submit" value="View Item"> <br> <br>
@@ -89,19 +90,19 @@
                     </table>
 
 					<form action="welcomeMenu.jsp" method="POST">
-                        <button type="submit" name="welcomeMenu" value="welcomeMenu">Back to main page</button>
+                        <button type="submit" name="welcomeMenu" value="welcomeMenu">Return to the main page</button>
                     </form>
                     <%
                 }else{
-                    //Close any session associated with the user
+                    //Close any session that is associated with the user
 					session.setAttribute("userName", null);
 
-					//return to the login page
+					//send them back to the login page
 					response.sendRedirect("loginHashing.html");
                 }
                 //Close the connection to the database
-				appDBAuth.close();
-				appDBMnger.close();
+				dba.close();
+				dbm.close();
             }
         }catch(Exception e){
             // Print error message if exception occurs

@@ -106,17 +106,17 @@ public class applicationProductManager{
 			tempConn.doConnection();
 
 			// run a simple query
-			ResultSet res = tempConn.doSelect("name", "departments", "dept_id = " + deptID);
+			ResultSet rs = tempConn.doSelect("name", "departments", "dept_id = " + deptID);
 
-			//  Check if res is null (no record found for this dept id)
-			if (res != null && res.next()) {
-				name = res.getString(1);
+			//  Check if rs is null (no record found for this dept id)
+			if (rs != null && rs.next()) {
+				name = rs.getString(1);
 			} else {
 				name = "unknown";
 			}
 
 			// clean up
-			res.close();
+			rs.close();
 			tempConn.closeConnection();
 
 		} catch (Exception e) {

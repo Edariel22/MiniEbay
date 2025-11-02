@@ -1,10 +1,7 @@
-
-<%//Import the ut.JAR.miniebay package for accessing the database %>
-
-<%@ page import="ut.JAR.miniebay.applicationProductManager"%>
+<%@ page import="java.lang.*"%>
+<%@ page import="ut.JAR.miniebay.*"%>
 <%//Import the java.sql package to use the ResultSet class %>
-
-<%@ page import="java.sql.ResultSet"%>
+<%@ page import="java.sql.*"%>
 
 
 <html>
@@ -21,26 +18,26 @@
 			//Create the ProdMng object
 			applicationProductManager ProdMng = new applicationProductManager();
 			System.out.println("Connecting...");
-			//System.out.println(appDBMnger.toString());
+			//System.out.println(ProdMng.toString());
 			
 			//Call the listAllProducts method. This method returns a ResultSet containing all the tuples in the table Products
-			ResultSet resProd=ProdMng.listAllProducts();
+			ResultSet rsProd=ProdMng.listAllProducts();
 		
 		
 			int count=0;
 			//Iterate over the ResultSet
-			while (resProd.next())
+			while (rsProd.next())
 			{
-				String deptName = ProdMng.getDepartmentName(resProd.getInt(4));
+				String deptName = ProdMng.getDepartmentName(rsProd.getInt(4));
 				//Count each retrieved record from the query
 				count++;%>
 				<tr>
-				<td><%=resProd.getString("name")%></td> <!-- Product Name -->
-				<td><%=resProd.getString("description")%></td> <!-- Description -->
+				<td><%=rsProd.getString("name")%></td> <!-- Product Name -->
+				<td><%=rsProd.getString("description")%></td> <!-- Description -->
 				<td><%=deptName%></td> <!-- Department Name -->
-				<td><%=resProd.getString("start_bid")%></td> <!-- Start Bid -->
-				<td><%=resProd.getString("due_date")%></td> <!-- Due Date -->
-				<td><img src="/MiniEbay<%=resProd.getString(7)%>" width="100" height="100"></td> <!-- Picture -->
+				<td><%=rsProd.getString("start_bid")%></td> <!-- Start Bid -->
+				<td><%=rsProd.getString("due_date")%></td> <!-- Due Date -->
+				<td><img src="/MiniEbay<%=rsProd.getString(7)%>" width="100" height="100"></td> <!-- Picture -->
 				</tr>
 
 				
@@ -52,7 +49,7 @@
 			
 			<%
 			//Close the ResultSet
-			resProd.close();
+			rsProd.close();
 			//Close the connection to the database
 			ProdMng.close();
 			
