@@ -159,7 +159,9 @@ public class applicationDBAuthenticationGoodComplete{
 			return sha256hex;
 	}
 	
-	
+	public String getHashedValue(String userName, String userPass) {
+		return hashingSha256(userName + userPass);
+	}
 	
 	
 	/*********

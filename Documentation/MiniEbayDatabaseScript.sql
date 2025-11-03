@@ -33,7 +33,7 @@ CREATE TABLE `bids` (
   KEY `userName` (`userName`),
   CONSTRAINT `bids_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `bids_ibfk_2` FOREIGN KEY (`userName`) REFERENCES `users` (`userName`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `bids` (
 
 LOCK TABLES `bids` WRITE;
 /*!40000 ALTER TABLE `bids` DISABLE KEYS */;
-INSERT INTO `bids` VALUES (1,1,'Elias',2.00,'2025-11-02 03:25:49'),(2,1,'Elias',1.00,'2025-11-02 03:28:02'),(3,1,'Elias',3.00,'2025-11-02 03:28:08'),(4,1,'Elias',-12.00,'2025-11-02 03:28:23'),(5,2,'Bob1',1.00,'2025-11-02 14:22:25'),(6,1,'Elias',2.00,'2025-11-03 00:08:57');
+INSERT INTO `bids` VALUES (1,1,'Elias',2.00,'2025-11-02 03:25:49'),(2,1,'Elias',1.00,'2025-11-02 03:28:02'),(3,1,'Elias',3.00,'2025-11-02 03:28:08'),(4,1,'Elias',-12.00,'2025-11-02 03:28:23'),(5,2,'Bob1',1.00,'2025-11-02 14:22:25'),(6,1,'Elias',2.00,'2025-11-03 00:08:57'),(7,1,'Elias',46.00,'2025-11-03 00:38:01'),(8,1,'Elias',48.00,'2025-11-03 00:42:13'),(9,1,'user1',50.00,'2025-11-03 01:16:57');
 /*!40000 ALTER TABLE `bids` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,7 +118,7 @@ CREATE TABLE `products` (
   KEY `userName` (`userName`),
   CONSTRAINT `products_ibfk_1` FOREIGN KEY (`dept_id`) REFERENCES `departments` (`dept_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `products_ibfk_2` FOREIGN KEY (`userName`) REFERENCES `users` (`userName`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +127,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Wireless Keyboard','Compact mechanical keyboard',3,45.00,'2025-11-01 23:59:00','/images/keyboard.jpg','2025-11-01 15:17:08','Elias'),(2,'Programming Book','Intro to Java web development',2,15.00,'2025-11-30 23:59:00','/images/book.jpg','2025-11-01 15:17:08','Elias'),(3,'Laptop','Lightweight 14-inch laptop, 16GB RAM',3,650.00,'2025-12-15 23:59:00','/images/laptop.jpg','2025-11-01 15:17:08','Elias'),(5,'Book',NULL,2,45.00,'2025-12-15 23:59:00',NULL,NULL,NULL);
+INSERT INTO `products` VALUES (1,'Wireless Keyboard','Compact mechanical keyboard',3,45.00,'2025-11-01 23:59:00','/images/keyboard.jpg','2025-11-01 15:17:08','Elias'),(2,'Programming Book','Intro to Java web development',2,15.00,'2025-11-30 23:59:00','/images/book.jpg','2025-11-01 15:17:08','Elias'),(3,'Laptop','Lightweight 14-inch laptop, 16GB RAM',3,650.00,'2025-12-15 23:59:00','/images/laptop.jpg','2025-11-01 15:17:08','Elias'),(7,'Baby Oil','Oily',4,45.00,'2025-12-12 23:59:00','/images/Baby Oil.jpg',NULL,'Elias');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -179,7 +179,7 @@ CREATE TABLE `roleuser` (
 
 LOCK TABLES `roleuser` WRITE;
 /*!40000 ALTER TABLE `roleuser` DISABLE KEYS */;
-INSERT INTO `roleuser` VALUES ('Elias','rol1'),('Angel','rol2'),('Bob1','rol2'),('user1','rol2'),('userNew','rol2'),('userNew1','rol2'),('userNew56','rol2');
+INSERT INTO `roleuser` VALUES ('Elias','rol1'),('Test','rol1'),('Angel','rol2'),('Bob1','rol2'),('Bob2','rol2'),('Test','rol2'),('user1','rol2'),('user3','rol2');
 /*!40000 ALTER TABLE `roleuser` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -233,7 +233,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('Angel','1b4f0e9851971998e732078544c96b36c3d01cedf7caa332359d6f1d83567014','Angel Ortiz','9392774596'),('Bob1','63ed66548ebd6671d6e7a8abba2678282f8c0e0334da789e1cd4375637cfe854','Bob','00000000'),('Elias','a40e8afc6e736dfef35e809f3e8af1dfaf37a992436f88baeae45b2897419f9f','Elias Medina','7876059637'),('user1','f9777362314a88ba0d7df701ed6bebd0a3577be33befe72babc40c39de65ab1f','bob','7876059637'),('userNew','cd73dc267c0edb56f8a21d9cb1c3fc65bb4788772cb3b38e28715dd0464b3e0c','Bob','78574576898'),('userNew1','28e9b95264c64c79c32afb68bb51231e1f481cabb0ed2a8ab9c903dca7a7bcee','Bob','78574576898'),('userNew56','737ac7e1a6bd0ae1f2bdcebcda0730a8dc2ad4ee6f50238ca8f79ce75898917c','Bob','78574576898');
+INSERT INTO `users` VALUES ('Angel','1b4f0e9851971998e732078544c96b36c3d01cedf7caa332359d6f1d83567014','Angel Ortiz','9392774596'),('Bob1','63ed66548ebd6671d6e7a8abba2678282f8c0e0334da789e1cd4375637cfe854','Bob','00000000'),('Bob2','c3a420aa97e68d67f4aee44682224380096c0e8d968aa30131e91cb98dbd18e1','Bob','78574576898'),('Elias','a40e8afc6e736dfef35e809f3e8af1dfaf37a992436f88baeae45b2897419f9f','Elias Medina','7876059637'),('Test','67e42aed28aa3b17114c6b9c97482b90f54e567c8172bca869a0d64bcfe6efdb','bakery','78574576898'),('user1','19211d487cd5c1907f5892435e5a1a382960d4e7b335e65cdce5a2fa0598b19d','bbo','7876059637'),('user3','be4070dc921d22426ebc688f43c0f1ca841859266d603e58a4910e07f0ed6f59','45565','1234');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -288,7 +288,7 @@ CREATE TABLE `webpageprevious` (
 
 LOCK TABLES `webpageprevious` WRITE;
 /*!40000 ALTER TABLE `webpageprevious` DISABLE KEYS */;
-INSERT INTO `webpageprevious` VALUES ('bidProduct.jsp','displayItem.jsp'),('findProduct.jsp','displayItem.jsp'),('displayItem.jsp','findProduct.jsp'),('welcomeMenu.jsp','validationHashing.jsp'),('adminDepartments.jsp','welcomeMenu.jsp'),('adminProducts.jsp','welcomeMenu.jsp'),('adminUsers.jsp','welcomeMenu.jsp'),('findProduct.jsp','welcomeMenu.jsp'),('sellProduct.jsp','welcomeMenu.jsp'),('signout.jsp','welcomeMenu.jsp');
+INSERT INTO `webpageprevious` VALUES ('bidProduct.jsp','bidProduct.jsp'),('displayItem.jsp','bidProduct.jsp'),('bidProduct.jsp','displayItem.jsp'),('findProduct.jsp','displayItem.jsp'),('displayItem.jsp','findProduct.jsp'),('welcomeMenu.jsp','validationHashing.jsp'),('adminDepartments.jsp','welcomeMenu.jsp'),('adminProducts.jsp','welcomeMenu.jsp'),('adminUsers.jsp','welcomeMenu.jsp'),('findProduct.jsp','welcomeMenu.jsp'),('sellProduct.jsp','welcomeMenu.jsp'),('signout.jsp','welcomeMenu.jsp');
 /*!40000 ALTER TABLE `webpageprevious` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -301,4 +301,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-11-02 20:28:01
+-- Dump completed on 2025-11-02 22:59:29

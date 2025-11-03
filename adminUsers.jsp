@@ -41,26 +41,45 @@ try {
 			// Add user
 			if (request.getParameter("userName") != null && request.getParameter("addUser") != null) {
 				String u = request.getParameter("userName");
-				String h = request.getParameter("hashing");
+				String p = request.getParameter("hashing"); // treat as password input
 				String n = request.getParameter("name");
 				String t = request.getParameter("telephone");
 				String r = request.getParameter("roleId");
-				dbm.addUser(u, h, n, t, r);
-				out.println("<p>User added.</p>");
+				
+		
+				String hashed = dba.getHashedValue(u, p);
+
+				// Add user with hashed password
+				boolean res = dbm.addUser(u, hashed, n, t, r);
+				boolean resRole = dba.setUserRole(u);
+
+				if (res && resRole) {
+					out.println("<p>User added successfully.</p>");
+				} else {
+					out.println("<p>Failed to add user.</p>");
+				}
 			}
 
 			// Modify user
-				if (request.getParameter("modifyUser") != null) {
-					String u = request.getParameter("userName");
-					String h = request.getParameter("hashing");
-					String n = request.getParameter("name");
-					String t = request.getParameter("telephone");
-					String r = request.getParameter("roleId");
-					dbm.updateUser(u, h, n, t, r);
-					out.println("<p>User modified.</p>");
-					System.out.println("Modify requested for user: " + request.getParameter("userName"));
+			if (request.getParameter("modifyUser") != null) {
+				String u = request.getParameter("userName");
+				String p = request.getParameter("hashing");
+				String n = request.getParameter("name");
+				String t = request.getParameter("telephone");
+				String r = request.getParameter("roleId");
+				
+				String hashed = dba.getHashedValue(u, p);
 
+				// Update existing user record
+				boolean res = dbm.updateUser(u, hashed, n, t, r);
+
+				if (res) {
+					out.println("<p>User modified successfully.</p>");
+				} else {
+					out.println("<p>Failed to modify user.</p>");
 				}
+			}
+
 
 			//Remove user
 				if(request.getParameter("removeUser")!=null){
