@@ -75,7 +75,10 @@
                             BID $<%=rsProd.getString(5)%> <br> <!-- then, get the BID value -->
                             DUE DATE: <%=rsProd.getString(6)%> <br> <!-- then, get the Due date for the bid -->
 								<%=rsProd.getString(7)%>	<!-- then, get the seller's name -->
-                            <img src="../images/<%=rsProd.getString(8)%>" alt="<%=rsProd.getString(2)%>" style="width: 200px; height: auto;">  <br> <br>
+                          <img src="/MiniEbay<%= rsProd.getString("picture_path") %>"
+     alt="<%= rsProd.getString("name") %>"
+     style="width:200px; height:auto;">
+
                              <form action="displayItem.jsp" method="GET">
                                 <!-- Include a hidden input field to store the ID -->
                                 <input type="hidden" name="productId" value="<%=rsProd.getString(1)%>">

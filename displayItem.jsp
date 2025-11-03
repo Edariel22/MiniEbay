@@ -22,6 +22,7 @@ try {
         String currentPage = "displayItem.jsp";
         String userName = session.getAttribute("userName").toString();
         String previousPage = session.getAttribute("currentPage").toString();
+		session.setAttribute("currentPage", "displayItem.jsp");
 
 
         //Create dba object
@@ -34,6 +35,7 @@ try {
         System.out.println("Connecting...");
         System.out.println(dbm.toString());
 
+		session.setAttribute("currentPage", "displayItem.jsp");
 
         //Call the verifyUser method to authenticate the user
         ResultSet rsUser = dba.verifyUser(userName, currentPage, previousPage);
@@ -53,8 +55,7 @@ try {
                 // Update the session variable
                 session.setAttribute("userName", userName);
             }
-				if (productId == null || productId.isEmpty()) {
-					out.println("<h3>No product selected.</h3>");
+				if (productId != null && !productId.isEmpty()) {
 					ResultSet rs = dbm.getProductById(Integer.parseInt(productId));
 
 					if (rs.next()) {
@@ -76,7 +77,9 @@ try {
 
 						<a href="bidProduct.jsp?productId=<%=productId%>">Place a Bid</a>
 
-						<img src="/Mini Ebay/images/<%= rs.getString(8) %>" alt="<%= rs.getString(2) %>" style="width: 200px; height: auto;">
+						<img src="/MiniEbay<%= rs.getString("picture_path") %>"	alt="<%= rs.getString("name") %>"style="width:200px; height:auto;">
+
+
 						<%
 					} else {
                 %>

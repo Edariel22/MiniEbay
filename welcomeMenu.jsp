@@ -75,15 +75,18 @@
 								<td> Department </td>
 								<td>
 									<select id="dept_name" name="dept_name" style="width: 200px; font-size: 16px;">
-										<option value="All Departments"> All Departments</option>
-										<%
-											while (rsDept.next()) {
-												%>
-												<option value="<%= rsDept.getString(1) %>"><%= rsDept.getString(1) %></option>
-												<%
-											}
-										%>
-									</select>
+									<option value="All Departments">All Departments</option>
+									<%
+										while (rsDept.next()) {
+											String deptId = rsDept.getString("dept_id");
+											String deptName = rsDept.getString("name");
+									%>
+											<option value="<%= deptId %>"><%= deptName %></option>
+									<%
+										}
+									%>
+								</select>
+
 								</td>
 							</tr>
 						</table>
