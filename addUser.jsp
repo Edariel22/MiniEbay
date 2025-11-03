@@ -29,9 +29,9 @@
 			dba.close();
 		}
 			
-		//Call Add the user to the tables
+		//Call Add the user to the tables (as boolean so they can return false just in case they fail)
 		boolean res=dba.addUser(userName, completeName, userPass, telephone);
-		boolean resRoleUser = dba.setUserRole(userName);%>
+		boolean setUserRole = dba.setUserRole(userName);%>
 
 		<%//Verify if the user has been authenticated
 		if (res){%>
