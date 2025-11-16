@@ -207,7 +207,11 @@ CREATE TABLE `rolewebpagegood` (
 
 LOCK TABLES `rolewebpagegood` WRITE;
 /*!40000 ALTER TABLE `rolewebpagegood` DISABLE KEYS */;
-INSERT INTO `rolewebpagegood` VALUES ('rol1','adminDepartments.jsp','2025-11-02'),('rol1','adminProducts.jsp','2025-11-02'),('rol1','adminUsers.jsp','2025-11-02'),('rol1','bidProduct.jsp','2025-11-02'),('rol1','displayItem.jsp','2025-11-02'),('rol1','findProduct.jsp','2025-11-02'),('rol1','sellProduct.jsp','2025-11-02'),('rol1','signout.jsp','2025-11-02'),('rol1','validationHashing.jsp','2025-11-02'),('rol1','welcomeMenu.jsp','2025-11-02'),('rol2','bidProduct.jsp','2025-11-02'),('rol2','displayItem.jsp','2025-11-02'),('rol2','findProduct.jsp','2025-11-02'),('rol2','sellProduct.jsp','2025-11-02'),('rol2','signout.jsp','2025-11-02'),('rol2','validationHashing.jsp','2025-11-02'),('rol2','welcomeMenu.jsp','2025-11-02');
+INSERT INTO `rolewebpagegood` VALUES ('rol1','adminDepartments.jsp','2025-11-02'),('rol1','adminProducts.jsp','2025-11-02'),('rol1','adminUsers.jsp','2025-11-02'),
+('rol1','bidProduct.jsp','2025-11-02'),('rol1','displayItem.jsp','2025-11-02'),('rol1','findProduct.jsp','2025-11-02'),('rol1','sellProduct.jsp','2025-11-02'),
+('rol1','signout.jsp','2025-11-02'),('rol1','validationHashing.jsp','2025-11-02'),('rol1','welcomeMenu.jsp','2025-11-02'),('rol2','bidProduct.jsp','2025-11-02'),
+('rol2','displayItem.jsp','2025-11-02'),('rol2','findProduct.jsp','2025-11-02'),('rol2','sellProduct.jsp','2025-11-02'),('rol2','signout.jsp','2025-11-02'),
+('rol2','validationHashing.jsp','2025-11-02'),('rol2','welcomeMenu.jsp','2025-11-02'),('rol2','upload_action.jsp','2025-11-02');
 /*!40000 ALTER TABLE `rolewebpagegood` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -261,7 +265,11 @@ CREATE TABLE `webpagegood` (
 
 LOCK TABLES `webpagegood` WRITE;
 /*!40000 ALTER TABLE `webpagegood` DISABLE KEYS */;
-INSERT INTO `webpagegood` VALUES ('adminDepartments.jsp','Manage Departments','Admin only','menu1'),('adminProducts.jsp','Manage Products','Admin only','menu1'),('adminUsers.jsp','Manage Users','Admin only','menu1'),('bidProduct.jsp','Bid Product','Place a bid',NULL),('displayItem.jsp','Display Item','Show product details',NULL),('findProduct.jsp','Find Product','Search products','menu1'),('sellProduct.jsp','Sell Product','List a new product','menu1'),('signout.jsp','Sign Out','End session',NULL),('validationHashing.jsp','Login Validation','Internal login check',NULL),('welcomeMenu.jsp','Welcome Menu','Main dashboard','menu1');
+INSERT INTO `webpagegood` VALUES ('adminDepartments.jsp','Manage Departments','Admin only','menu1'),('adminProducts.jsp','Manage Products','Admin only','menu1'),
+('adminUsers.jsp','Manage Users','Admin only','menu1'),('bidProduct.jsp','Bid Product','Place a bid',NULL),('displayItem.jsp','Display Item','Show product details',NULL),
+('findProduct.jsp','Find Product','Search products','menu1'),('sellProduct.jsp','Sell Product','List a new product','menu1'),('signout.jsp','Sign Out','End session',NULL),
+('validationHashing.jsp','Login Validation','Internal login check',NULL),('welcomeMenu.jsp','Welcome Menu','Main dashboard','menu1'),
+('upload_action.jsp','Upload Files','Upload pictures',NULL);
 /*!40000 ALTER TABLE `webpagegood` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -288,7 +296,10 @@ CREATE TABLE `webpageprevious` (
 
 LOCK TABLES `webpageprevious` WRITE;
 /*!40000 ALTER TABLE `webpageprevious` DISABLE KEYS */;
-INSERT INTO `webpageprevious` VALUES ('bidProduct.jsp','bidProduct.jsp'),('displayItem.jsp','bidProduct.jsp'),('bidProduct.jsp','displayItem.jsp'),('findProduct.jsp','displayItem.jsp'),('displayItem.jsp','findProduct.jsp'),('welcomeMenu.jsp','validationHashing.jsp'),('adminDepartments.jsp','welcomeMenu.jsp'),('adminProducts.jsp','welcomeMenu.jsp'),('adminUsers.jsp','welcomeMenu.jsp'),('findProduct.jsp','welcomeMenu.jsp'),('sellProduct.jsp','welcomeMenu.jsp'),('signout.jsp','welcomeMenu.jsp');
+INSERT INTO `webpageprevious` VALUES ('bidProduct.jsp','bidProduct.jsp'),('displayItem.jsp','bidProduct.jsp'),('bidProduct.jsp','displayItem.jsp'),
+('findProduct.jsp','displayItem.jsp'),('displayItem.jsp','findProduct.jsp'),('welcomeMenu.jsp','validationHashing.jsp'),('adminDepartments.jsp','welcomeMenu.jsp'),
+('adminProducts.jsp','welcomeMenu.jsp'),('adminUsers.jsp','welcomeMenu.jsp'),('findProduct.jsp','welcomeMenu.jsp'),('sellProduct.jsp','welcomeMenu.jsp'),
+('signout.jsp','welcomeMenu.jsp'),('upload_action.jsp','sellProduct.jsp');
 /*!40000 ALTER TABLE `webpageprevious` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

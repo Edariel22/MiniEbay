@@ -13,8 +13,8 @@ public class MySQLCompleteConnector{
 	private String DB_URL="jdbc:mysql://localhost/miniebay";
 	
 	//Database authorized user information
-	private String USER="student";
-	private String PASS="password";
+	private String USER="MiniEbay_UR";
+	private String PASS="MiniEbay_Pswd";
    
    //Connection objects
    private Connection conn;

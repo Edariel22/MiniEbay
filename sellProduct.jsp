@@ -1,91 +1,114 @@
 <%@ page import="java.lang.*"%>
 <%@ page import="ut.JAR.miniebay.*" %>
-<%@ page import="java.sql.*" %>
+<%//Import the java.sql package to use the ResultSet class %>
+<%@ page import="java.sql.*"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 
 <html>
-<head>
-	<title>Sell a Product</title>
-</head>
-<body>
+	<head>
+		<title>Sell a Product</title>
+	</head>
+	<body>
 
 <%
-try {
-	// check login, redirect if user not logged in
-	String userName = (String) session.getAttribute("userName");
-	if (userName == null) {
-		response.sendRedirect("loginHashing.html");
-		return;
-	}
+	session.setAttribute("previousPage", "welcomeMenu.jsp");
+	session.setAttribute("currentPage", "sellProduct.jsp");
 
-	// connect to DB
-	applicationDBManager dbm = new applicationDBManager();
+	//Try to connect the database using the classes applicationDBManager & applicationDBAuthenticationGoodComplete
+	try{
+			//Check the authentication process
+			if (session.getAttribute("userName")==null || session.getAttribute("currentPage")==null) {
+				session.setAttribute("currentPage", null);
+				session.setAttribute("userName", null);
+				response.sendRedirect("loginHashing.html"); // send the User back to the login page
+			}
+			else{
+				String currentPage="sellProduct.jsp";
+				String userName = session.getAttribute("userName").toString();
+				String previousPage = session.getAttribute("previousPage").toString();
+		
+			//Create the dba object
+				applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
+				System.out.println("Connecting...");
+				System.out.println(dba.toString());
 
-	// if user pressed submit button
-	if (request.getParameter("addProduct") != null) {
+			//Create the dbm object
+				applicationDBManager dbm = new applicationDBManager();
+				System.out.println("Connecting...");
+				System.out.println(dbm.toString());
+				
+			//Call the verifyUser method
+				ResultSet rs=dba.verifyUser(userName, currentPage, previousPage);
+			
+			//Check if the user has been authenticated
+			if (rs.next()){
+				String userActualName=rs.getString(3);
+					
+				//Create the current page attribute
+				session.setAttribute("currentPage", currentPage);
+					
+				//Create a session variable
+				if (session.getAttribute("userName")==null ){
+					//create the session variable
+					session.setAttribute("userName", userName);
+				}else{
+					//Update the session variable
+					session.setAttribute("userName", userName);
+				}
+			// get departments for dropdown
+				ResultSet rsDept = dbm.listAllDepartment();
+				%>
 
-		// grab all input values
-		String name = request.getParameter("name");
-		String desc = request.getParameter("description");
-		String dept = request.getParameter("dept_name");
-		String startBid = request.getParameter("startBid");
-		String dueDate = request.getParameter("dueDate");
-		String picture = request.getParameter("picture_path");
+					<h2>Sell a Product</h2>
 
-		// prepend images folder
-		picture = "/images/" + picture;
+					<form action="upload_action.jsp" method="POST"
+                        enctype="multipart/form-data">
+						Name: <input type="text" name="name" required><br>
+						Description: <input type="text" name="description" required><br>
+						Starting Bid $: <input type="text" name="startBid" required><br>
+						Due Date (YYYY-MM-DD HH:MM:SS): <input type="text" name="dueDate" required><br>
+						Picture File: <input type="file" name="picture_name" size="50" required><br>
+						Department:
+						<select name="dept_name">
+							<%
+							while (rsDept.next()) {
+							%>
+								<option value="<%=rsDept.getString("dept_id")%>"><%=rsDept.getString("name")%></option>
+							<%
+							}
+							rsDept.close();
+							%>
+						</select><br><br>
+						<input type="submit" name="addProduct" value="Submit">
+						<input type="reset" value="Reset">
+					</form>
 
-		// basic validation to make sure nothing empty
-		if (name.isEmpty() || desc.isEmpty() || startBid.isEmpty() || dueDate.isEmpty() || picture.isEmpty()) {
-			out.println("<p>Please fill out all fields.</p>");
-		} else {
-			// call DB method to add product
-			dbm.addProduct(name, desc, dept, startBid, dueDate, picture, userName);
-			out.println("<p>Product listed successfully!</p>");
+					<form action="welcomeMenu.jsp" method="POST">
+						<button type="submit">Back to main page</button>
+					</form>
+
+					<%
+				}else{
+					//Close any session associated with the user
+					session.setAttribute("userName", null);
+					
+					//return to the login page
+					response.sendRedirect("loginHashing.html");
+				}
+				//rs.close();
+
+				//Close the connection to the database
+				dba.close();
+				dbm.close();
+			}
+		}catch(Exception e){
+			%>Nothing to show!<%
+			e.printStackTrace();
+			response.sendRedirect("loginHashing.html");
+		}finally{
+			System.out.println("Finally");
 		}
-	}
-
-	// get departments for dropdown
-	ResultSet rsDept = dbm.listAllDepartment();
-%>
-
-<h2>Sell a Product</h2>
-
-<form method="POST" action="sellProduct.jsp">
-	Name: <input type="text" name="name" required><br>
-	Description: <input type="text" name="description" required><br>
-	Starting Bid $: <input type="text" name="startBid" required><br>
-	Due Date (YYYY-MM-DD HH:MM:SS): <input type="text" name="dueDate" required><br>
-	Picture File Name: <input type="text" name="picture_path" placeholder="keyboard.jpg" required><br>
-
-	Department:
-	<select name="dept_name">
-		<%
-		while (rsDept.next()) {
-		%>
-			<option value="<%=rsDept.getString("dept_id")%>"><%=rsDept.getString("name")%></option>
-		<%
-		}
-		rsDept.close();
-		%>
-	</select><br><br>
-
-	<input type="submit" name="addProduct" value="Submit">
-	<input type="reset" value="Reset">
-</form>
-
-<form action="welcomeMenu.jsp" method="POST">
-	<button type="submit">Back to main page</button>
-</form>
-
-<%
-	dbm.close();
-} catch(Exception e) {
-	e.printStackTrace();
-	response.sendRedirect("loginHashing.html");
-} finally {
-	System.out.println("Finally");
-}
-%>
-
-</body>
+		%>			
+	</body>
 </html>

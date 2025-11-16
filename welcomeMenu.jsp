@@ -97,26 +97,15 @@
 					</form>
 					<table>
 					<%
-					//Menu moment
-					ResultSet rsMenu = dba.menuElements(userName);
-					String setMenu="";
-
-					while(rsMenu.next()){
-
-						//Check to create (if not empty) a new menu element
-						if (setMenu.compareTo(rsMenu.getString(2))!=0){ 
-							//set the Menu to a new element
-						    setMenu = rsMenu.getString(2);
-							%><tr><td><%=setMenu%> <td></tr><%
-						}
-
-						//show the page title and set a hyperlink
-					%><tr><td>-</td><td><a href="<%=rsMenu.getString(1)%>?userName=<%=userName%>&roleId=<%=session.getAttribute("roleId")%>"><%=rsMenu.getString(3)%></a><%
-					
-					} 
-
-					//Close the table 
+			//Menu moment
 					%>
+			<form action="findProduct.jsp" method="POST">
+			<button type="submit">Find Product</button>
+			<br>
+			</form>
+			<form action="sellProduct.jsp" method="POST">
+			<button type="submit">Sell Product</button>
+			</form>
 					</table>
 					<%
 					

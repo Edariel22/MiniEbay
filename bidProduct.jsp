@@ -1,6 +1,7 @@
 <%@ page import="java.lang.*"%>
 <%@ page import="ut.JAR.miniebay.*" %>
-<%@ page import="java.sql.*" %>
+<%//Import the java.sql package to use the ResultSet class %>
+<%@ page import="java.sql.*"%>
 <html>
 	<head>
 		<title>Place a Bid</title>

@@ -1,20 +1,19 @@
 <%@ page import="java.lang.*"%>
-<%@ page import="ut.JAR.miniebay.*"%>
+<%@ page import="ut.JAR.miniebay.*" %>
 <%//Import the java.sql package to use the ResultSet class %>
 <%@ page import="java.sql.*"%>
+<html>
+	<head>
+		<title>Modify Products as an Admin.</title>
+	</head>
+	<body>
 
 <%
 if (session.getAttribute("userName") == null && request.getParameter("userName") != null)
     session.setAttribute("userName", request.getParameter("userName"));
 if (session.getAttribute("roleId") == null && request.getParameter("roleId") != null)
     session.setAttribute("roleId", request.getParameter("roleId"));
-%>
 
-<html>
-<head><title>Admin Products</title></head>
-<body>
-
-<%
 applicationDBManager dbm = new applicationDBManager();
 
 // Add product

@@ -1,7 +1,7 @@
 <%@ page import="java.lang.*"%>
 <%@ page import="ut.JAR.miniebay.*" %>
 <%//Import the java.sql package to use the ResultSet class %>
-<%@ page import="java.sql.*" %>
+<%@ page import="java.sql.*"%>
 <html>
 	<head>
 		<title>Product Details</title>
@@ -109,6 +109,6 @@ try {
     System.out.println("Finallly");
 }
 %>
-<br><a href="findProduct.jsp">← Return to Product Search</a>
+<br><a href="findProduct.jsp">Return to Product Search</a>
 </body>
 </html>
