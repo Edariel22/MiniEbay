@@ -68,12 +68,12 @@
 				   int maxFileSize = 5000 * 1024;
 				   int maxMemSize = 5000 * 1024;
 				   String filePath = "C:\\Users\\Angel\\Downloads\\apache-tomcat-11.0.10\\webapps\\MiniEbay\\images\\";
-						String name = "";
-						String desc = "";
-						String dept = "";
-						String startBid = "";
-						String dueDate = "";
-						String picture_path = "";
+						String name = request.getParameter("name");
+						String desc = request.getParameter("description");
+						String dept = request.getParameter("dept_name");
+						String startBid = request.getParameter("startBid");
+						String dueDate = request.getParameter("dueDate");
+						String picture_path = "images\\"+ request.getParameter("picture_name");
 				 
 				   String contentType = request.getContentType();
 				   if ((contentType.indexOf("multipart/form-data") >= 0)) {
@@ -95,45 +95,33 @@
 							FileItem fi = (FileItem)i.next();
 							if ( !fi.isFormField () )  {
 								String fieldName = fi.getFieldName();
-									if (fieldName.equals("name"))
-										name = fi.getString();
-									else if (fieldName.equals("description"))
-										desc = fi.getString();
-									else if (fieldName.equals("startBid"))
-										startBid = fi.getString();
-									else if (fieldName.equals("dueDate"))
-										dueDate = fi.getString();
-									else if (fieldName.equals("dept_name"))
-										dept = fi.getString();
-									else { // "picture_path"
-								String fileName = fi.getName();
-								boolean isInMemory = fi.isInMemory();
-								long sizeInBytes = fi.getSize();
-								file = new File( filePath + fileName) ;
-								Path path = FileSystems.getDefault().getPath(filePath + fileName);
-								fi.write( path ) ;
+										String fileName = fi.getName();
+										boolean isInMemory = fi.isInMemory();
+										long sizeInBytes = fi.getSize();
+										file = new File( filePath + fileName) ;
+										Path path = FileSystems.getDefault().getPath(filePath + fileName);
+										fi.write( path ) ;
+										picture_path = "images\\" + fileName;
+									}
+								 
+								}
+								if (name.isEmpty() || desc.isEmpty() || startBid.isEmpty() || dueDate.isEmpty() || picture_path.isEmpty()) {
+									out.println("<p>Please fill out all fields.</p>");
+									
+								} else {
+										dbm.addProduct(name, desc, dept, startBid, dueDate, picture_path, userName);
+										out.println("<p>Product listed successfully!</p>");
+
+								}
+
+							} catch (Exception ex) {
+								ex.printStackTrace();
+								out.println("<p>Error occurred: " + ex.getMessage() + "</p>");
 							}
-							
-						  }
-						 
-						}
-            if (name.isEmpty() || desc.isEmpty() || startBid.isEmpty() || dueDate.isEmpty() || picture_path.isEmpty()) {
-                out.println("<p>Please fill out all fields.</p>");
-				
-            } else {
-                    dbm.addProduct(name, desc, dept, startBid, dueDate, picture_path, userName);
-                    out.println("<p>Product listed successfully!</p>");
 
-            }
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            out.println("<p>Error occurred: " + ex.getMessage() + "</p>");
-        }
-
-    } else {
-        out.println("<p>No file uploaded</p>");
-    }
+					} else {
+						out.println("<p>No file uploaded</p>");
+					}
 				}else{
 					//Close any session associated with the user
 					session.setAttribute("userName", null);
