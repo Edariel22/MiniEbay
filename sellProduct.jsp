@@ -56,18 +56,38 @@
 					//Update the session variable
 					session.setAttribute("userName", userName);
 				}
-			// get departments for dropdown
-				ResultSet rsDept = dbm.listAllDepartment();
+					// get departments for dropdown
+						ResultSet rsDept = dbm.listAllDepartment();
+			
+					// para poderlos subir al miniebay
+			if (request.getParameter("addProduct") != null) {
+					String name = request.getParameter("name");
+					String desc = request.getParameter("description");
+					String dept = request.getParameter("dept_name");
+					String startBid = request.getParameter("startBid");
+					String dueDate = request.getParameter("dueDate");
+					String picture = request.getParameter("picture_path");
+					
+				if (name.isEmpty() || desc.isEmpty() || startBid.isEmpty() || dueDate.isEmpty() || picture_path.isEmpty()) {
+				out.println("<p>Please fill out all fields.</p>");
+									
+				} else {
+				dbm.addProduct(name, desc, dept, startBid, dueDate, picture_path, userName);
+				out.println("<p>Product listed successfully!</p>");
+				response.sendRedirect("upload.jsp"); // para hacerme la vida mas facil, sube la foto 2 veces
+
+				}
+			}
 				%>
 
 					<h2>Sell a Product</h2>
 
-					<form action="upload_action.jsp" method="POST">
+					<form action="sellProduct.jsp" method="POST">
 						Name: <input type="text" name="name" required><br>
 						Description: <input type="text" name="description" required><br>
 						Starting Bid $: <input type="text" name="startBid" required><br>
 						Due Date (YYYY-MM-DD HH:MM:SS): <input type="text" name="dueDate" required><br>
-						Picture File: <input type="file" name="picture_name" size="50" required><br>
+						Picture: <input type="file" name="picture_name" size="50" required/> //use the picture for the name
 						Department:
 						<select name="dept_name">
 							<%

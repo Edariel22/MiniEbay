@@ -22,12 +22,12 @@
 					String userName = session.getAttribute("userName").toString();
 					String previousPage = session.getAttribute("currentPage").toString();
 				
-				//Create the dba object (database authenticator)
+				//Create the dba object (database authenticator) para poder verificar si esta logged in
                 applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
                 System.out.println("Connecting...");
                 System.out.println(dba.toString());
                 
-				//Create the dbm object (database manager)
+				//Create the dbm object (database manager) para poder modificar los datos en la base de datos
 				applicationDBManager dbm = new applicationDBManager();
                 System.out.println("Connecting...");
 				System.out.println(dbm.toString());
@@ -61,26 +61,26 @@
                     rsProd = dbm.listProducts(productName, deptName);
 
                     // Iterate over the ResultSet
-                    int n = 0;
+                    int i = 0;
 
                     while (rsProd.next()) {
-                        // Count each of the retrieved items from the query
-                        n++;
+                        // cuenta cada uno de los resultados del query
+                        i++;
                         %>
                         <tr>
-								<%=rsProd.getString(1)%>, <!-- first, get the ID -->
-                            NAME:	<%=rsProd.getString(2)%> <br> <!-- then, get the name -->
-								<%=rsProd.getString(3)%>, <!-- finally, get the description to complete the product stuff -->
-                            DEPARTMENT: <%=rsProd.getString(4)%> <br> <!-- then, get the department it's from -->
-                            BID $<%=rsProd.getString(5)%> <br> <!-- then, get the BID value -->
-                            DUE DATE: <%=rsProd.getString(6)%> <br> <!-- then, get the Due date for the bid -->
-								<%=rsProd.getString(7)%>	<!-- then, get the seller's name -->
-                          <img src="/MiniEbay<%= rsProd.getString("picture_path") %>"
+								<%=rsProd.getString(1)%>, <!-- primero coje el ID -->
+                            NAME:	<%=rsProd.getString(2)%> <br> <!-- luego, el nombre -->
+								<%=rsProd.getString(3)%>, <!-- luego, la descripcion -->
+                            DEPARTMENT: <%=rsProd.getString(4)%> <br> <!-- de que departamento es? -->
+                            BID $<%=rsProd.getString(5)%> <br> <!-- cuanto es que esta la paga? -->
+                            DUE DATE: <%=rsProd.getString(6)%> <br> <!-- hasta cuandooooo -->
+								<%=rsProd.getString(7)%>	<!-- pero quien lo subio? -->
+                          <img src="/MiniEbay<%= rsProd.getString("picture_path") %>" // <!-- debi tirar mas fotos -->
      alt="<%= rsProd.getString("name") %>"
      style="width:200px; height:auto;">
 
                              <form action="displayItem.jsp" method="GET">
-                                <!-- Include a hidden input field to store the ID -->
+                                <!-- guarda la identificacion de forma escondida -->
                                 <input type="hidden" name="productId" value="<%=rsProd.getString(1)%>">
                                 <input type="hidden" name="productName" value="<%=productName %>">
                                 <input type="hidden" name="dept_name" value="<%=deptName %>">

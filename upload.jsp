@@ -1,24 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-    <%@ page import="java.io.*,java.util.*, jakarta.servlet.*" %>
-<%@ page import="jakarta.servlet.http.*" %>
-<%@ page import="org.apache.commons.fileupload2.jakarta.servlet5.*" %>
-<%@ page import="org.apache.commons.fileupload2.core.*" %>
-<%@ page import="java.nio.file.*" %>
 <%@ page import="java.lang.*"%>
 <%@ page import="ut.JAR.miniebay.*" %>
 <%//Import the java.sql package to use the ResultSet class %>
 <%@ page import="java.sql.*"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Guru File Upload</title>
-</head>
-<body>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>Upload a Picture</title>
+	</head>
+	<body>
 <%
 	session.setAttribute("previousPage", "sellProduct.jsp");
 	session.setAttribute("currentPage", "upload_action.jsp");
@@ -64,51 +56,16 @@
 					//Update the session variable
 					session.setAttribute("userName", userName);
 				}
-				   File file ;
-				   int maxFileSize = 5000 * 1024;
-				   int maxMemSize = 5000 * 1024;
-				   String filePath = "C:\\Users\\Angel\\Downloads\\apache-tomcat-11.0.10\\webapps\\MiniEbay\\images\\";
-					String picture_path = "images\\"+ request.getParameter("picture_name");
-				 
-				   String contentType = request.getContentType();
-				   if ((contentType.indexOf("multipart/form-data") >= 0)) {
-				 
-					 
-					  DiskFileItemFactory factory = DiskFileItemFactory.builder()
-						.setPath(filePath)
-						.get();      
-					  
-					  
-					 
-					  JakartaServletFileUpload upload = new JakartaServletFileUpload(factory);
-					  upload.setSizeMax( maxFileSize );
-					  try{ 
-						 List fileItems = upload.parseRequest(request);
-						 Iterator i = fileItems.iterator();
-						 while ( i.hasNext () ) 
-						 {
-							FileItem fi = (FileItem)i.next();
-							if ( !fi.isFormField () )  {
-								String fieldName = fi.getFieldName();
-										String fileName = fi.getName();
-										boolean isInMemory = fi.isInMemory();
-										long sizeInBytes = fi.getSize();
-										file = new File( filePath + fileName) ;
-										Path path = FileSystems.getDefault().getPath(filePath + fileName);
-										fi.write( path ) ;
-										picture_path = "images\\" + fileName;
-									}
-								 
-								}
-
-							} catch (Exception ex) {
-								ex.printStackTrace();
-								out.println("<p>Error occurred: " + ex.getMessage() + "</p>");
-							}
-
-					} else {
-						out.println("<p>No file uploaded</p>");
-					}
+				%>
+				<a>Guru File Upload:</a>
+				Select file: <br />
+				<form action="upload_action.jsp" method="post"
+										enctype="multipart/form-data">
+				<input type="file" name="picture_name" size="50" />
+				<br />
+				<input type="submit" value="Upload the picture again" />
+				</form>		
+				<%
 				}else{
 					//Close any session associated with the user
 					session.setAttribute("userName", null);
