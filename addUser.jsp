@@ -1,6 +1,6 @@
 <%@ page import="java.lang.*"%>
 <%@ page import="ut.JAR.miniebay.*"%>
-<%//Import the java.sql package to use the ResultSet class %>
+<%// Importa el paquete java.sql para poder usar la clase de ResultSet %>
 <%@ page import="java.sql.*"%>
 <html>
 	<head>
@@ -9,65 +9,76 @@
 	<body>
 
 <%
-	//Retrieve variables
+	// Primero, recoje las variables sacadas del html de signup (addNewUser).
 	String userName = request.getParameter("userName");
 	String userPass = request.getParameter("userPass");
 	String completeName = request.getParameter("completeName");
 	String telephone = request.getParameter("telephone");	
 
 
-	//Try to connect to the database
+	// Intenta conectar con la base de datos.
 	try{
-		//Create the dba object
-		applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
-		System.out.println("Connecting...");
-		System.out.println(dba.toString());
+			// Crea el objeto dba, (database authentication) para poder autenticar al usuario.
+			applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
+			System.out.println("Connecting...");
+			System.out.println(dba.toString());
 
-		//first, check if the user filled all information before trying to add them
-		if (userName ==  null || userName == "" || userPass=="" || completeName == "" || telephone == ""){
-			response.sendRedirect("addNewUser.html"); // Send user back
-			dba.close();
-		}
-			
-		//Call Add the user to the tables (as boolean so they can return false just in case they fail)
-		boolean res=dba.addUser(userName, completeName, userPass, telephone);
-		boolean setUserRole = dba.setUserRole(userName);%>
-
-		<%//Verify if the user has been authenticated
-		if (res){%>
-			User succesfully added 
-			<%
-			//Create the current page attribute
-            session.setAttribute("currentPage", "addUser.jsp");
-
-            //Create a session variable
-            if (session.getAttribute("userName")==null ){
-                //create the session variable
-                session.setAttribute("userName", userName);
-            } else{
-                //Update the session variable
-                session.setAttribute("userName", userName);
-            }
-
-            //redirect to the welcome page
-            response.sendRedirect("welcomeMenu.jsp"); %>
-
-		<%}else{
-			//Close any session associated with the user
-			session.setAttribute("userName", null);
-			%>
-			Cannot be added <br>
-		<%}
+			// Primero, revisa si el usuario completo la informacion antes de añadirlo.
+			if (userName ==  null || userName == "" || userPass=="" || completeName == "" || telephone == ""){
+				response.sendRedirect("addNewUser.html"); // Send user back
+				dba.close();
+			}
 				
-			//Close the connection to the database
-			dba.close();
+			/* Llama el la funcion addUser, para poder llenar sus partes en la tabla de la base de datos,
+			 * y asignales el rol (en este caso, como es un usuario normal, rol2.
+			 * Si hay un error por algun caso, esta en booleano para que retorne falso si ese es el caso.
+			 */
+			boolean rs=dba.addUser(userName, completeName, userPass, telephone);
+			boolean setUserRole = dba.setUserRole(userName);%>
+
+			<%
+			// Revisa si el usuario fue autenticado bien.
+			if (rs){%>
+				User succesfully added 
+				<%
+				// "Setea" el attributo currentPage.
+				session.setAttribute("currentPage", "addUser.jsp");
+
+				// Crea una variable de sesion con el nombre del usuario.
+				if (session.getAttribute("userName")==null ){
+					session.setAttribute("userName", userName);
+
+				} else{
+					// O actualizala.
+					session.setAttribute("userName", userName);
+				}
+
+				// Redireciona al menu principal.
+				response.sendRedirect("welcomeMenu.jsp"); %>
+
+			<%}else{
+				// Si falla, cierra la sesion con el usuario poniendolo en null.
+				session.setAttribute("userName", null);
+				%>
+				Cannot be added <br>
+			<%}
+					
+				// Cierra el ResultSet y la conexion a la base de datos para mantener las cosas limpias.
+				rs.close();
+				dba.close();
+				
+		} catch(Exception e){
+			// En caso de que haya un error.
+			%>Nothing to show!<%
+			e.printStackTrace();
+			response.sendRedirect("loginHashing.html");
+
+		}finally{
+			System.out.println("Finally");
+		}
+				%>		
+		sessionName=<%=session.getAttribute("userName")%>
 			
-	} catch(Exception e){
-		%>Nothing to show!<%
-		e.printStackTrace();
-	}finally{
-		System.out.println("Finally");
-	}
-	%>//sessionName=<%=session.getAttribute("userName")%>
+
 	</body>
 </html>

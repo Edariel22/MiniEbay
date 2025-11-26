@@ -1,6 +1,6 @@
 <%@ page import="java.lang.*"%>
-// Set the User and session to null, and return to login page
 <%
+// Pone la sesion en null, y regresa al usuario a la pagina del login
 	session.setAttribute("userName",null);
 	session.setAttribute("currentPage",null);
 	response.sendRedirect("loginHashing.html");

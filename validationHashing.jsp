@@ -1,6 +1,6 @@
 <%@ page import="java.lang.*"%>
 <%@ page import="ut.JAR.miniebay.*" %>
-<%//Import the java.sql package to use the ResultSet class %>
+<%// Importa el paquete java.sql para poder usar la clase de ResultSet %>
 <%@ page import="java.sql.*"%>
 <html>
 	<head>
@@ -9,58 +9,57 @@
 	<body>
 
 <%
-	//Retrieve variables
+	// Recoje las variables del html de login.
 	String userName = request.getParameter("userName");
 	String userPass = request.getParameter("userPass");
 	
 	
-	//Try to connect the database
+	// Intenta conectar con la base de datos.
 	try{
-			//Create the appDBAuth object
-			applicationDBAuthenticationGoodComplete appDBAuth = new applicationDBAuthenticationGoodComplete();
+			// Crea el objeto dba, (database authentication) para poder autenticar al usuario.
+			applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
 			System.out.println("Connecting...");
-			System.out.println(appDBAuth.toString());
+			System.out.println(dba.toString());
 			
-			//Call the listAllDepartment method. This method returns a ResultSet containing all the tuples in the table Department
-			ResultSet res=appDBAuth.authenticate(userName, userPass);%>
+			// Llama el metodo de autenticacion, para ver si el set de resultados es valido
+			ResultSet rs=dba.authenticate(userName, userPass);%>
 		
 			
 			
-			<%//Verify if the user has been authenticated
-			if (res.next()){
+			<%// Revisa si el usuario fue autenticado bien.
+			if (rs.next()){
 				
 				
-				//Create the current page attribute
+				// "Setea" el attributo currentPage.
 				session.setAttribute("currentPage", "validationHashing.jsp");
 				
-				//Create a session variable
+				// Crea una variable de sesion con el nombre del usuario.	
 				if (session.getAttribute("userName")==null ){
-					//create the session variable
 					session.setAttribute("userName", userName);
 				} else{
-					//Update the session variable
+					// O actualizala.
 					session.setAttribute("userName", userName);
 				}
 				
-				//redirect to the welcome page
-				//response.sendRedirect("welcomeMenu.jsp");
+				// Ve a la pagina del menu principal
 				response.sendRedirect("welcomeMenu.jsp");
 				
 			}else{
-				//Close any session associated with the user
+				// Si falla, cierra la sesion con el usuario poniendolo en null.
 				session.setAttribute("userName", null);
 				
-				//return to the login page
+				// y regresa al usuario a la pagina de login
 				response.sendRedirect("loginHashing.html");
 				}
-				res.close();
-				//Close the connection to the database
-				appDBAuth.close();
+				// Cierra el ResultSet y la conexion a la base de datos para mantener las cosas limpias.
+				rs.close();
+				dba.close();
 			
 			} catch(Exception e)
 			{%>
 				Nothing to show!
-				<%e.printStackTrace();
+			<% 	// En caso de que haya un error.
+				e.printStackTrace();
 				response.sendRedirect("loginHashing.html");
 			}finally{
 				System.out.println("Finally");

@@ -1,6 +1,6 @@
 <%@ page import="java.lang.*"%>
 <%@ page import="ut.JAR.miniebay.*" %>
-<%//Import the java.sql package to use the ResultSet class %>
+<%// Importa el paquete java.sql para poder usar la clase de ResultSet %>
 <%@ page import="java.sql.*"%>
 <html>
 	<head>
@@ -13,7 +13,7 @@
 	session.setAttribute("previousPage", "validationHashing.jsp");
 	session.setAttribute("currentPage", "welcomeMenu.jsp");
 
-	//Try to connect the database using the classes applicationDBManager & applicationDBAuthenticationGoodComplete
+	// Intenta conectar con la base de datos.
 	try{
 			//Check the authentication process
 			if (session.getAttribute("userName")==null || session.getAttribute("currentPage")==null) {
@@ -26,39 +26,40 @@
 				String userName = session.getAttribute("userName").toString();
 				String previousPage = session.getAttribute("previousPage").toString();
 		
-			//Create the dba object
+			//Crea el objeto dba, (database authentication) para poder autenticar al usuario.
 				applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
 				System.out.println("Connecting...");
 				System.out.println(dba.toString());
 
-			//Create the dbm object
+			//Crea el objeto dbm, (database manager) para poder manejar la base de datos.
 				applicationDBManager dbm = new applicationDBManager();
 				System.out.println("Connecting...");
 				System.out.println(dbm.toString());
 				
-			//Call the verifyUser method
+			// Usando ResulSet, intenta verificar al usuario.
 				ResultSet rs=dba.verifyUser(userName, currentPage, previousPage);
 			
-			//Check if the user has been authenticated
+			// Revisa si el usuario fue autenticado bien.
 			if (rs.next()){
+				// Del Resulset, saca el string numero 3 que contiene el verdadero nombre del usuario.
 				String userActualName=rs.getString(3);
 					
-				//Create the current page attribute
+				// Crea el attributo currentPage.
 				session.setAttribute("currentPage", currentPage);
 					
-				//Create a session variable
+				// Crea una variable de sesion con el nombre del usuario.	
 				if (session.getAttribute("userName")==null ){
-					//create the session variable
 					session.setAttribute("userName", userName);
+
 				}else{
-					//Update the session variable
+					// O actualizala.
 					session.setAttribute("userName", userName);
 				}
 					
 				%>
 				Welcome! <%=userActualName%>
 				
-				<!-- Plz find me-->
+				<!-- Parte html para que me encuentren los productos plz.-->
 				<form action="findProduct.jsp" method="GET">
 					<label for="search">Search:</label>
 					<input type="text" id="productName" name="productName" placeholder="Enter product name">
@@ -68,7 +69,7 @@
 					<%
 					ResultSet rsDept=dbm.listAllDepartment();
 					%>
-					<!-- List the departments -->
+					<!-- Y parte para que me enseñen de que departamento esta cada cosa. -->
 					<form action="findProduct.jsp" method="GET">
 						<table border="0">
 							<tr>
@@ -97,7 +98,8 @@
 					</form>
 					<table>
 					<%
-			//Menu moment
+			/* Parte para escojer si quieres buscar un producto,
+			 * o si el usuario quiere vender algun objeto.
 					%>
 			<form action="findProduct.jsp" method="POST">
 			<button type="submit">Find Product</button>
@@ -107,25 +109,29 @@
 			<button type="submit">Sell Product</button>
 			</form>
 					</table>
+
 					<%
 					
 				}else{
-					//Close any session associated with the user
+					// Si falla, cierra la sesion con el usuario poniendolo en null.
 					session.setAttribute("userName", null);
 					
-					//return to the login page
+					// Retorna al usuario a la pagina de login.
 					response.sendRedirect("loginHashing.html");
 				}
-				//rs.close();
 
-				//Close the connection to the database
+				// Cierra el ResultSet y las conexiones a la base de datos para mantener las cosas limpias.
+				rs.close();
 				dba.close();
 				dbm.close();
 			}
+
 		}catch(Exception e){
 			%>Nothing to show!<%
+		// En caso de que haya un error.
 			e.printStackTrace();
 			response.sendRedirect("loginHashing.html");
+
 		}finally{
 			System.out.println("Finally");
 		}
