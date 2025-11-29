@@ -299,7 +299,7 @@ LOCK TABLES `webpageprevious` WRITE;
 INSERT INTO `webpageprevious` VALUES ('bidProduct.jsp','bidProduct.jsp'),('displayItem.jsp','bidProduct.jsp'),('bidProduct.jsp','displayItem.jsp'),
 ('findProduct.jsp','displayItem.jsp'),('displayItem.jsp','findProduct.jsp'),('welcomeMenu.jsp','validationHashing.jsp'),('adminDepartments.jsp','welcomeMenu.jsp'),
 ('adminProducts.jsp','welcomeMenu.jsp'),('adminUsers.jsp','welcomeMenu.jsp'),('findProduct.jsp','welcomeMenu.jsp'),('sellProduct.jsp','welcomeMenu.jsp'),
-('signout.jsp','welcomeMenu.jsp'),('upload_action.jsp','upload.jsp'),('upload.jsp','sellProduct.jsp');
+('signout.jsp','welcomeMenu.jsp'),('upload_action.jsp','upload.jsp'),('upload.jsp','sellProduct.jsp'),('findProduct.jsp','findProduct.jsp'),('findProduct.jsp','sellProduct.jsp');
 /*!40000 ALTER TABLE `webpageprevious` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

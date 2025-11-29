@@ -77,7 +77,7 @@ try {
 
 						<a href="bidProduct.jsp?productId=<%=productId%>">Place a Bid</a>
 
-						<img src="/MiniEbay<%= rs.getString("picture_path") %>"	alt="<%= rs.getString("name") %>"style="width:200px; height:auto;">
+						<img src="/MiniEbay<%= rs.getString("picture_path") %>" alt="<%= rs.getString("name") %>" width="200" style="max-width:200px; height:auto;">
 
 
 						<%
