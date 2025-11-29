@@ -128,18 +128,7 @@ public class applicationDBAuthenticationGoodComplete{
 		boolean rs;
 		String table, values;
 		table="roleuser";
-		values="'"+userName+"', 'rol2'";
-		rs=myDBConn.doInsert(table, values);
-		System.out.println("Insertion result" + rs);
-		return rs;
-	}
-	
-	public boolean setAdminRole(String userName)
-	{
-		boolean rs;
-		String table, values;
-		table="roleadmin";
-		values="'"+userName+"', 'rol1'";
+		values="'"+userName+"', 'rol2'"; // rol2 is the basic user role, rol1 is admin, but that can only be added by other admins
 		rs=myDBConn.doInsert(table, values);
 		System.out.println("Insertion result" + rs);
 		return rs;

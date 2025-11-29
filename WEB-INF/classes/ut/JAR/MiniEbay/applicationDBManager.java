@@ -73,28 +73,27 @@ public class applicationDBManager{
 
 
     
-    // Product query helpers for findProduct.jsp
-    // Basic product listing with filters (for findProduct.jsp)
+    //Para enlistar los productos de forma sencilla (para findProduct.jsp)
     public ResultSet listProducts(String name, String dept) {
         applicationProductManager pm = new applicationProductManager();
         return pm.listProducts(name, dept);
     }
 
-    // All products (for adminProducts.jsp)
-    public ResultSet listProducts() {
+    // Esto es para enseñarle los productos a los admins.
+    public ResultSet listProductsAdmin() {
         applicationProductManager pm = new applicationProductManager();
         return pm.listAllProducts();
     }
 
 
-    // Add product helper for adminProducts.jsp
-    public boolean addProduct(String name, String deptId, String startBid, String dueDate) {
+    // Esto es para cuando un admin añade un producto.
+    public boolean addProductAdmin(String name, String deptId, String startBid, String dueDate) {
         applicationProductManager pm = new applicationProductManager();
         return pm.addProduct(name, deptId, startBid, dueDate);
     }
 
-    // Remove product helper for adminProducts.jsp
-    public boolean removeProduct(int productId) {
+    // Esto es para cuando un quiere remover un producto.
+    public boolean removeProductAdmin(int productId) {
         applicationProductManager pm = new applicationProductManager();
         return pm.removeProduct(productId);
     }
@@ -102,7 +101,7 @@ public class applicationDBManager{
         applicationProductManager pm = new applicationProductManager();
         return pm.getProductById(productId);
     }
-		//Sell product
+		// Esto es para vender un producto.
 	public boolean addProduct(String name, String desc, String deptId, String startBid, String dueDate, String picture, String userName) {
 		String table = "products";
 		String values = "NULL,'" + name + "','" + desc + "'," + deptId + "," + startBid + ",'" + dueDate + "','" + picture + "',NULL,'" + userName + "'";
@@ -117,14 +116,14 @@ public class applicationDBManager{
 
 
 
-    // User management helpers for adminUsers.jsp
+    // Esto es para la asistencia de Admins.
     
     public ResultSet listAllUsers() {
     applicationUserManager um = new applicationUserManager();
     return um.listAllUsers();
 }
-    // Add user (applicationUserManager)
-    public boolean addUser(String userName, String hashing, String name, String telephone, String roleId) {
+    // Esto es para cuando un admin añade un usuario.
+    public boolean addUserAdmin(String userName, String hashing, String name, String telephone, String roleId) {
         applicationUserManager um = new applicationUserManager();
         boolean rs = um.addUser(userName, hashing, name, telephone, roleId);
         um.close();
@@ -132,15 +131,15 @@ public class applicationDBManager{
         return rs;
     }
 
-    // Remove user  (applicationUserManager)
-    public boolean removeUser(String userName) {
+    // Esto es para cuando un admin remueve un usuario.
+    public boolean removeUserAdmin(String userName) {
         applicationUserManager um = new applicationUserManager();
         boolean rs = um.removeUser(userName);
         um.close();
         return rs;
     }
-	// Modify user (applicationUserManager)
-	public boolean updateUser(String userName, String hashing, String name, String telephone, String roleId) {
+	// Esto es para cuando un admin modifica a un usuario.
+	public boolean updateUserAdmin(String userName, String hashing, String name, String telephone, String roleId) {
 		applicationUserManager um = new applicationUserManager();
 		boolean result = um.updateUser(userName, hashing, name, telephone, roleId);
 		um.close();
@@ -148,14 +147,14 @@ public class applicationDBManager{
 	}
 
 
-    // Place a new bid
+    // Esto es para cuando se quiere poner una nueva oferta.
     public boolean placeBid(int productId, String userName, String amount) {
         String table = "bids";
         String values = "NULL, '" + productId + "', '" + userName + "', '" + amount + "', NOW()";
         return myDBConn.doInsert(table, values);
     }
 
-    // Get the highest bid for a product
+    // Esto es para cuando se quiere sacar la oferta mas alta del objeto.
     public ResultSet getHighestBid(int productId) {
         String fields = "MAX(amount) AS highest_bid";
         String tables = "bids";

@@ -68,11 +68,11 @@
 					String dueDate = request.getParameter("dueDate");
 					String picture = request.getParameter("picture_path");
 					
-				if (name.isEmpty() || desc.isEmpty() || startBid.isEmpty() || dueDate.isEmpty() || picture_path.isEmpty()) {
+				if (name.isEmpty() || desc.isEmpty() || startBid.isEmpty() || dueDate.isEmpty() || picture.isEmpty()) {
 				out.println("<p>Please fill out all fields.</p>");
 									
 				} else {
-				dbm.addProduct(name, desc, dept, startBid, dueDate, picture_path, userName);
+				dbm.addProduct(name, desc, dept, startBid, dueDate, picture, userName);
 				out.println("<p>Product listed successfully!</p>");
 				response.sendRedirect("upload.jsp"); // para hacerme la vida mas facil, sube la foto 2 veces
 
@@ -87,7 +87,8 @@
 						Description: <input type="text" name="description" required><br>
 						Starting Bid $: <input type="text" name="startBid" required><br>
 						Due Date (YYYY-MM-DD HH:MM:SS): <input type="text" name="dueDate" required><br>
-						Picture: <input type="file" name="picture_name" size="50" required/> //use the picture for the name
+					<!--use the picture for the name-->
+						Picture: <input type="file" name="picture_name" size="50" required/><br>
 						Department:
 						<select name="dept_name">
 							<%

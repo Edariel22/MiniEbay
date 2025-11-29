@@ -91,16 +91,14 @@
 								</td>
 							</tr>
 						</table>
+			<!-- Por si el usuario quiere cerrar la sesion.-->
 						<input type="reset" id="Submit" value="reset" />
 						<a href="signout.jsp">
 								<button type="button">Sign Out</button>
 							</a>
 					</form>
 					<table>
-					<%
-			/* Parte para escojer si quieres buscar un producto,
-			 * o si el usuario quiere vender algun objeto.
-					%>
+			<!-- Parte para escojer si quieres buscar un producto, o si el usuario quiere vender algun objeto.-->
 			<form action="findProduct.jsp" method="POST">
 			<button type="submit">Find Product</button>
 			<br>
