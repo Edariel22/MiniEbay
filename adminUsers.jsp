@@ -48,11 +48,10 @@ try {
 		
 				String hashed = dba.getHashedValue(u, p);
 
-				// Add user with hashed password
-				boolean res = dbm.addUser(u, hashed, n, t, r);
-				boolean resRole = dba.setUserRole(u);
+				// Add user with hashed password using admin helper
+				boolean res = dbm.addUserAdmin(u, hashed, n, t, r);
 
-				if (res && resRole) {
+				if (res) {
 					out.println("<p>User added successfully.</p>");
 				} else {
 					out.println("<p>Failed to add user.</p>");
@@ -69,8 +68,8 @@ try {
 				
 				String hashed = dba.getHashedValue(u, p);
 
-				// Update existing user record
-				boolean res = dbm.updateUser(u, hashed, n, t, r);
+				// Update existing user record using admin helper
+				boolean res = dbm.updateUserAdmin(u, hashed, n, t, r);
 
 				if (res) {
 					out.println("<p>User modified successfully.</p>");
@@ -83,7 +82,7 @@ try {
 			//Remove user
 				if(request.getParameter("removeUser")!=null){
 				String ru = request.getParameter("removeName");
-				dbm.removeUser(ru);
+				dbm.removeUserAdmin(ru);
 				out.println("<p>User removed.</p>");
 			}
 

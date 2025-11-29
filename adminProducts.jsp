@@ -22,17 +22,19 @@ if (request.getParameter("addProduct") != null) {
     String deptId = request.getParameter("deptId");
     String startBid = request.getParameter("startBid");
     String dueDate = request.getParameter("dueDate");
-    dbm.addProduct(name, deptId, startBid, dueDate);
+    // Use admin helper for adding products
+    dbm.addProductAdmin(name, deptId, startBid, dueDate);
 }
 
 // Remove product
 if (request.getParameter("removeProduct") != null) {
     int productId = Integer.parseInt(request.getParameter("removeProductId"));
-    dbm.removeProduct(productId);
+    // Use admin helper for removing products
+    dbm.removeProductAdmin(productId);
 }
 
-// List products
-ResultSet rs = dbm.listProducts();
+// List products using admin helper
+ResultSet rs = dbm.listProductsAdmin();
 %>
 
 <h2>Admin - Product Management</h2>

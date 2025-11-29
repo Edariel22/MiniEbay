@@ -65,13 +65,11 @@
 					<input type="text" id="productName" name="productName" placeholder="Enter product name">
 					<button type="submit">Search</button>
 					
-
 					<%
 					ResultSet rsDept=dbm.listAllDepartment();
 					%>
 					<!-- Y parte para que me enseñen de que departamento esta cada cosa. -->
-					<form action="findProduct.jsp" method="GET">
-						<table border="0">
+					<table border="0">
 							<tr>
 								<td> Department </td>
 								<td>
@@ -85,6 +83,7 @@
 											<option value="<%= deptId %>"><%= deptName %></option>
 									<%
 										}
+										rsDept.close();
 									%>
 								</select>
 
@@ -97,15 +96,30 @@
 								<button type="button">Sign Out</button>
 							</a>
 					</form>
+					
+					<%
+					// Dibujar el menú basado en los roles, como en la versión de coworkers
+					ResultSet menuRes = dba.menuElements(userName);
+					String currentMenuTitle = "";
+					%>
 					<table>
-			<!-- Parte para escojer si quieres buscar un producto, o si el usuario quiere vender algun objeto.-->
-			<form action="findProduct.jsp" method="POST">
-			<button type="submit">Find Product</button>
-			<br>
-			</form>
-			<form action="sellProduct.jsp" method="POST">
-			<button type="submit">Sell Product</button>
-			</form>
+					<%
+					while (menuRes.next()) {
+						if (currentMenuTitle.compareTo(menuRes.getString(2)) != 0) {
+							currentMenuTitle = menuRes.getString(2);
+					%>
+							<tr><td><%=currentMenuTitle%></td><td></td></tr>
+					<%
+						}
+					%>
+						<tr>
+							<td>-</td>
+							<td><a href="<%=menuRes.getString(1)%>"><%=menuRes.getString(3)%></a></td>
+						</tr>
+					<%
+					}
+					menuRes.close();
+					%>
 					</table>
 
 					<%
