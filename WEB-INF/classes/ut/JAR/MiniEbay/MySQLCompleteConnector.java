@@ -246,11 +246,12 @@ public class MySQLCompleteConnector{
 				args[]: String array 
 			@returns:
 	*/
+/*
 	public static void main(String[] args)
 	{	
 		System.out.println("TEsting");
-		//Create a MySQLConnector
-		MySQLConnector conn = new MySQLConnector();
+		//Create a MySQLCompleteConnector
+		MySQLConnector conn = new MySQLCompleteConnector();
 		//Declare tthe fiels, tables and whereClause string objects
 		String fields, tables, whereClause;
 		//Define the projected fields
@@ -288,5 +289,5 @@ public class MySQLCompleteConnector{
 			e.printStackTrace();
 		}
 	}
-
+*/
 }

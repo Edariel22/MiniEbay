@@ -14,17 +14,17 @@ import org.apache.commons.codec.*;
 */
 public class applicationDBAuthenticationGoodComplete{
 
-	//myDBConn is an MySQLConnector object for accessing to the database
+	//myDBConn is an MySQLCompleteConnector object for accessing to the database
 	private MySQLCompleteConnector myDBConn;
 	
 	/********
 		Default constructor
-		It creates a new MySQLConnector object and open a connection to the database
+		It creates a new MySQLCompleteConnector object and open a connection to the database
 		@parameters:
 		
 	*/
 	public applicationDBAuthenticationGoodComplete(){
-		//Create the MySQLConnector object
+		//Create the MySQLCompleteConnector object
 		myDBConn = new MySQLCompleteConnector();
 		
 		//Open the connection to the database

@@ -10,6 +10,8 @@
 	<body>
 
 <%
+	session.setAttribute("previousPage", "welcomeMenu.jsp");
+	session.setAttribute("currentPage", "sellProduct.jsp");
 
 	//Try to connect the database using the classes applicationDBManager & applicationDBAuthenticationGoodComplete
 	try{
@@ -22,7 +24,7 @@
 			else{
 				String currentPage="sellProduct.jsp";
 				String userName = session.getAttribute("userName").toString();
-				String previousPage = session.getAttribute("currentPage").toString();
+				String previousPage = session.getAttribute("previousPage").toString();
 		
 			//Create the dba object
 				applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
@@ -71,7 +73,7 @@
 						Description: <input type="text" name="description" required><br>
 						Starting Bid $: <input type="text" name="startBid" required><br>
 						Due Date (YYYY-MM-DD HH:MM:SS): <input type="text" name="dueDate" required><br>
-						Picture path: <input type="text" name="picture_path" required><br>  (please use the same name as the picture you will upload, including the type)<br>
+						Picture Name: <input type="text" name="picture_path" required><br>  (please use the same name as the picture you will upload, including the type)<br>
 						Department:
 						<select name="dept_name">
 							<%

@@ -49,7 +49,7 @@ public class applicationDBManager{
 		String table="products";
 
 		//Busca el producto que se va a añadir.
-		String values="NULL, '"+ productName +"', '" + description + "', '"+ dept_id +"', '" + bid +"', '" + dueDate +"', '"+ userName +"', '"+ picture_path +"'";
+		String values="NULL, '"+ productName +"', '" + description + "', '"+ dept_id +"', '" + bid +"', '" + dueDate +"', '"+ picture_path+ "', NULL , '"+ userName +"'";
 
 		//Crea un boolean que es falso al principio, por si falla su parte.
 		boolean rs;
