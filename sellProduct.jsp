@@ -1,9 +1,7 @@
 <%@ page import="java.lang.*"%>
 <%@ page import="ut.JAR.miniebay.*" %>
-<%//Import the java.sql package to use the ResultSet class %>
+<%// Importa el paquete java.sql para poder usar la clase de ResultSet %>
 <%@ page import="java.sql.*"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
 
 <html>
 	<head>
@@ -60,35 +58,20 @@
 						ResultSet rsDept = dbm.listAllDepartment();
 			
 					// para poderlos subir al miniebay
-			if (request.getParameter("addProduct") != null) {
-					String name = request.getParameter("name");
-					String desc = request.getParameter("description");
-					String dept = request.getParameter("dept_name");
-					String startBid = request.getParameter("startBid");
-					String dueDate = request.getParameter("dueDate");
-					String picture = request.getParameter("picture_path");
-					
-				if (name.isEmpty() || desc.isEmpty() || startBid.isEmpty() || dueDate.isEmpty() || picture.isEmpty()) {
-				out.println("<p>Please fill out all fields.</p>");
-									
-				} else {
-				dbm.addProduct(name, desc, dept, startBid, dueDate, picture, userName);
-				out.println("<p>Product listed successfully!</p>");
-				response.sendRedirect("upload.jsp"); // para hacerme la vida mas facil, sube la foto 2 veces
-
-				}
-			}
+					String name = "";
+					String desc = "";
+					String dept = "";
+					String startBid = "";
+					String dueDate = "";
 				%>
 
 					<h2>Sell a Product</h2>
-
-					<form action="sellProduct.jsp" method="POST">
+					<!--Forma para los datos del objeto nuevo (no foto ya que ese es lo que va luego).-->
+					<form action="upload.jsp" method="POST">
 						Name: <input type="text" name="name" required><br>
 						Description: <input type="text" name="description" required><br>
 						Starting Bid $: <input type="text" name="startBid" required><br>
 						Due Date (YYYY-MM-DD HH:MM:SS): <input type="text" name="dueDate" required><br>
-					<!--use the picture for the name-->
-						Picture: <input type="file" name="picture_name" size="50" required/><br>
 						Department:
 						<select name="dept_name">
 							<%
@@ -118,12 +101,13 @@
 					//return to the login page
 					response.sendRedirect("loginHashing.html");
 				}
-				//rs.close();
 
 				//Close the connection to the database
+				rs.close();
 				dba.close();
 				dbm.close();
 			}
+
 		}catch(Exception e){
 			%>Nothing to show!<%
 			e.printStackTrace();

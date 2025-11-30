@@ -7,20 +7,20 @@
 <%@ page import="java.nio.file.*" %>
 <%@ page import="java.lang.*"%>
 <%@ page import="ut.JAR.miniebay.*" %>
-<%//Import the java.sql package to use the ResultSet class %>
+<%// Importa el paquete java.sql para poder usar la clase de ResultSet %>
 <%@ page import="java.sql.*"%>
 
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Guru File Upload</title>
-</head>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>Upload the image</title>
+	</head>
 <body>
 <%
-	session.setAttribute("previousPage", "sellProduct.jsp");
+	session.setAttribute("previousPage", "upload.jsp");
 	session.setAttribute("currentPage", "upload_action.jsp");
 
 	//Try to connect the database using the classes applicationDBManager & applicationDBAuthenticationGoodComplete
@@ -100,7 +100,7 @@
 									}
 								 
 								}
-
+						response.sendRedirect("welcomeMenu.jsp");
 							} catch (Exception ex) {
 								ex.printStackTrace();
 								out.println("<p>Error occurred: " + ex.getMessage() + "</p>");

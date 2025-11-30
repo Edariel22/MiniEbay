@@ -12,17 +12,17 @@ import java.sql.* ;
 */
 public class applicationDBManager{
 
-	//myDBConn is an MySQLConnector object for accessing to the database
+	//myDBConn is an MySQLCompleteConnector object for accessing to the database
 	private MySQLCompleteConnector myDBConn;
 	
 	/********
 		Default constructor
-		It creates a new MySQLConnector object and open a connection to the database
+		It creates a new MySQLCompleteConnector object and open a connection to the database
 		@parameters:
 		
 	*/
 	public applicationDBManager(){
-		//Create the MySQLConnector object
+		//Create the MySQLCompleteConnector object
 		myDBConn = new MySQLCompleteConnector();
 		
 		//Open the connection to the database
@@ -73,80 +73,41 @@ public class applicationDBManager{
 
 
     
-    //Para enlistar los productos de forma sencilla (para findProduct.jsp)
-    public ResultSet listProducts(String name, String dept) {
-        applicationProductManager pm = new applicationProductManager();
-        return pm.listProducts(name, dept);
-    }
+    //Para enlistar los productos de forma sencilla (para findProduct.jsp).
+	public ResultSet listProducts(String deptName)
+	{
+		
+		//Declara las variables de funcion.
+		String fields, tables, department_check;
+		
+		//Define la tabla en la que va a correr la funcion.
+		tables="products";
+		//Define los datos que se van a sacar de la tabla de productos.
+		fields ="product_id, name, description, dept_id, start_bid, due_date, picture_path, created_at, UserName";
+		
+			// Si el dept_id esta vacio, significa que esta buscando entre todos los productos, si no, se esta buscando en un departamento especifico.
+			if (deptName != null && !deptName.isEmpty()) {
+				department_check = "dept_id = '" + deptName + "'";
+				System.out.println("listing...");
+				//Regresa un Resulset conteniendo o los productos de un departamento especifico.
+				return myDBConn.doSelect(fields, tables, department_check);
 
-    // Esto es para enseñarle los productos a los admins.
-    public ResultSet listProductsAdmin() {
-        applicationProductManager pm = new applicationProductManager();
-        return pm.listAllProducts();
-    }
+			} else {
+				System.out.println("listing...");
+				//Regresa un Resulset conteniendo o los productos de todos los departamentos.
+				return myDBConn.doSelect(fields, tables);
+			}
+		
+		
 
-
-    // Esto es para cuando un admin añade un producto.
-    public boolean addProductAdmin(String name, String deptId, String startBid, String dueDate) {
-        applicationProductManager pm = new applicationProductManager();
-        return pm.addProduct(name, deptId, startBid, dueDate);
-    }
-
-    // Esto es para cuando un quiere remover un producto.
-    public boolean removeProductAdmin(int productId) {
-        applicationProductManager pm = new applicationProductManager();
-        return pm.removeProduct(productId);
-    }
-    public ResultSet getProductById(int productId) {
-        applicationProductManager pm = new applicationProductManager();
-        return pm.getProductById(productId);
-    }
+	}
+	
 		// Esto es para vender un producto.
-	public boolean addProduct(String name, String desc, String deptId, String startBid, String dueDate, String picture, String userName) {
+	public boolean addProduct(String name, String desc, String deptId, String startBid, String dueDate, String picture_path, String userName) {
 		String table = "products";
-		String values = "NULL,'" + name + "','" + desc + "'," + deptId + "," + startBid + ",'" + dueDate + "','" + picture + "',NULL,'" + userName + "'";
+		String values = "NULL,'" + name + "','" + desc + "'," + deptId + "," + startBid + ",'" + dueDate + "','" + picture_path + "',NULL,'" + userName + "'";
 		return myDBConn.doInsert(table, values);
 	}
-
-
-
-
-
-
-
-
-
-    // Esto es para la asistencia de Admins.
-    
-    public ResultSet listAllUsers() {
-    applicationUserManager um = new applicationUserManager();
-    return um.listAllUsers();
-}
-    // Esto es para cuando un admin añade un usuario.
-    public boolean addUserAdmin(String userName, String hashing, String name, String telephone, String roleId) {
-        applicationUserManager um = new applicationUserManager();
-        boolean rs = um.addUser(userName, hashing, name, telephone, roleId);
-        um.close();
-
-        return rs;
-    }
-
-    // Esto es para cuando un admin remueve un usuario.
-    public boolean removeUserAdmin(String userName) {
-        applicationUserManager um = new applicationUserManager();
-        boolean rs = um.removeUser(userName);
-        um.close();
-        return rs;
-    }
-	// Esto es para cuando un admin modifica a un usuario.
-	public boolean updateUserAdmin(String userName, String hashing, String name, String telephone, String roleId) {
-		applicationUserManager um = new applicationUserManager();
-		boolean result = um.updateUser(userName, hashing, name, telephone, roleId);
-		um.close();
-		return result;
-	}
-
-
     // Esto es para cuando se quiere poner una nueva oferta.
     public boolean placeBid(int productId, String userName, String amount) {
         String table = "bids";

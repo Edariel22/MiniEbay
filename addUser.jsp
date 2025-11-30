@@ -25,11 +25,11 @@
 
 			// Primero, revisa si el usuario completo la informacion antes de añadirlo.
 			if (userName ==  null || userName == "" || userPass=="" || completeName == "" || telephone == ""){
-				response.sendRedirect("addNewUser.html"); // Send user back
+				response.sendRedirect("addNewUser.html"); // Manda al usuario de vuelta
 				dba.close();
 			}
 				
-			/* Llama el la funcion addUser, para poder llenar sus partes en la tabla de la base de datos,
+			/* Llama la funcion addUser, para poder llenar sus partes en la tabla de la base de datos,
 			 * y asignales el rol (en este caso, como es un usuario normal, rol2.
 			 * Si hay un error por algun caso, esta en booleano para que retorne falso si ese es el caso.
 			 */
@@ -63,8 +63,7 @@
 				Cannot be added <br>
 			<%}
 					
-				// Cierra el ResultSet y la conexion a la base de datos para mantener las cosas limpias.
-				rs.close();
+				// Cierra la conexion a la base de datos para mantener las cosas limpias.
 				dba.close();
 				
 		} catch(Exception e){

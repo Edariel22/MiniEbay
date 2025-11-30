@@ -1,6 +1,6 @@
 <%@ page import="java.lang.*"%>
 <%@ page import="ut.JAR.miniebay.*" %>
-<%//Import the java.sql package to use the ResultSet class %>
+<%// Importa el paquete java.sql para poder usar la clase de ResultSet %>
 <%@ page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -12,80 +12,91 @@
 	</head>
 	<body>
 <%
-	session.setAttribute("previousPage", "sellProduct.jsp");
-	session.setAttribute("currentPage", "upload_action.jsp");
+	// Primero, recoje las variables sacadas del submit de sellProduct.
+		String name = request.getParameter("name");
+		String desc = request.getParameter("description");
+		String dept = request.getParameter("dept_name"); // en realidad es el dept_id para facilidad de guardarlo
+		String startBid = request.getParameter("startBid");
+		String dueDate = request.getParameter("dueDate");
+		String picture_path = ""; // comienza vacio, pero se le hace update cuando se sube la foto
+			session.setAttribute("previousPage", "sellProduct.jsp");
+			// "Setea" el attributo currentPage.
+			session.setAttribute("currentPage", "upload.jsp");
 
-	//Try to connect the database using the classes applicationDBManager & applicationDBAuthenticationGoodComplete
+	// Intenta conectar con la base de datos.
 	try{
-			//Check the authentication process
+			//Revisa el proceso de autenticacion.
 			if (session.getAttribute("userName")==null || session.getAttribute("currentPage")==null) {
 				session.setAttribute("currentPage", null);
 				session.setAttribute("userName", null);
-				response.sendRedirect("loginHashing.html"); // send the User back to the login page
+				response.sendRedirect("loginHashing.html"); //Manda al usuario de vuelta al login.
 			}
 			else{
-				String currentPage="upload_action.jsp";
 				String userName = session.getAttribute("userName").toString();
-				String previousPage = session.getAttribute("previousPage").toString();
-		
-			//Create the dba object
-				applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
-				System.out.println("Connecting...");
-				System.out.println(dba.toString());
+			// Crea el objeto dbm, (database manager)
+			applicationDBManager dbm = new applicationDBManager();
+			System.out.println("Connecting...");
+			System.out.println(dbm.toString());
 
-			//Create the dbm object
-				applicationDBManager dbm = new applicationDBManager();
-				System.out.println("Connecting...");
-				System.out.println(dbm.toString());
-				
-			//Call the verifyUser method
-				ResultSet rs=dba.verifyUser(userName, currentPage, previousPage);
-			
-			//Check if the user has been authenticated
-			if (rs.next()){
-				String userActualName=rs.getString(3);
-					
-				//Create the current page attribute
-				session.setAttribute("currentPage", currentPage);
-					
-				//Create a session variable
-				if (session.getAttribute("userName")==null ){
-					//create the session variable
-					session.setAttribute("userName", userName);
-				}else{
-					//Update the session variable
-					session.setAttribute("userName", userName);
-				}
-				%>
-				<a>Guru File Upload:</a>
-				Select file: <br />
-				<form action="upload_action.jsp" method="post"
-										enctype="multipart/form-data">
-				<input type="file" name="picture_name" size="50" />
-				<br />
-				<input type="submit" value="Upload the picture again" />
-				</form>		
-				<%
-				}else{
-					//Close any session associated with the user
-					session.setAttribute("userName", null);
-					
-					//return to the login page
-					response.sendRedirect("loginHashing.html");
-				}
-				//rs.close();
-
-				//Close the connection to the database
-				dba.close();
+			// Primero, revisa si el usuario completo la informacion antes de añadirlo.
+			if (name ==  null || desc == "" || dept=="" || startBid == "" || dueDate == ""){
+				response.sendRedirect("sellProduct.jsp"); // Manda al usuario de vuelta
 				dbm.close();
 			}
-		}catch(Exception e){
+				
+			/* Llama la funcion addProduct, para poder llenar sus partes en la tabla de la base de datos,
+			 * Si hay un error por algun caso, esta en booleano para que retorne falso si ese es el caso.
+			 */
+			boolean rsProd=	dbm.addProduct(name, desc, dept, startBid, dueDate, picture_path, userName);
+
+			// Revisa si el producto fue añadido bien.
+			if (rsProd){
+				out.println("<p>Product listed successfully!</p>");
+
+				// Crea una variable de sesion con el nombre del usuario.
+				if (session.getAttribute("userName")==null ){
+					session.setAttribute("userName", userName);
+
+				} else{
+					// O actualizala.
+					session.setAttribute("userName", userName);
+				}
+
+						%>
+					<!-- Tuve que hacer lo de la foto de forma separada, ya que lo de multipart hace que las otras partes del upload sean null-->
+						<a>Taken from Guru File Upload:<br/></a>
+						Select file: <br />
+						<form action="upload_action.jsp" method="post"
+												enctype="multipart/form-data">
+						<input type="file" name="picture_name" size="50" />
+						<br />
+						<input type="submit" value="Upload the picture" />
+						</form>		
+						<%
+
+				} else{
+				// Si falla, cierra la sesion con el usuario poniendolo en null.
+				session.setAttribute("userName", null);
+				%>
+				Cannot be added <br>
+			<%}
+					
+				// Cierra la conexion a la base de datos para mantener las cosas limpias.
+				dbm.close();
+			}
+
+		} catch(Exception e){
+			// En caso de que haya un error.
 			%>Nothing to show!<%
 			e.printStackTrace();
 			response.sendRedirect("loginHashing.html");
+
 		}finally{
 			System.out.println("Finally");
 		}
-		%>			
+				%>		
+		sessionName=<%=session.getAttribute("userName")%>
+			
+
 	</body>
 </html>

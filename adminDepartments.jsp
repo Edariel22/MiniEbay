@@ -1,6 +1,6 @@
 <%@ page import="java.lang.*"%>
 <%@ page import="ut.JAR.miniebay.*" %>
-<%//Import the java.sql package to use the ResultSet class %>
+<%// Importa el paquete java.sql para poder usar la clase de ResultSet %>
 <%@ page import="java.sql.*"%>
 <html>
 	<head>

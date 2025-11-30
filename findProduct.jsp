@@ -58,7 +58,7 @@
                     // Get the ResultSet based on parameters
                     ResultSet rsProd = null;
 
-                    rsProd = dbm.listProducts(productName, deptName);
+                    rsProd = dbm.listProducts(deptName);
 
                     // Iterate over the ResultSet
                     int i = 0;
@@ -75,7 +75,8 @@
                             BID $<%=rsProd.getString(5)%> <br> <!-- cuanto es que esta la paga? -->
                             DUE DATE: <%=rsProd.getString(6)%> <br> <!-- hasta cuandooooo -->
 								<%=rsProd.getString(7)%>	<!-- pero quien lo subio? -->
-                          <img src="/MiniEbay<%= rsProd.getString("picture_path") %>" alt="<%= rsProd.getString("name") %>" width="200" style="max-width:200px; height:auto;"><!-- debi tirar mas fotos -->
+						<!-- debi tirar mas fotos -->
+                          <img src="/MiniEbay<%= rsProd.getString("picture_path") %>" alt="<%= rsProd.getString("name") %>" width="200" style="max-width:200px; height:auto;">
 
                              <form action="displayItem.jsp" method="GET">
                                 <!-- guarda la identificacion de forma escondida -->

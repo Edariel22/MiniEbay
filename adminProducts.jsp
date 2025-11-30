@@ -1,6 +1,6 @@
 <%@ page import="java.lang.*"%>
 <%@ page import="ut.JAR.miniebay.*" %>
-<%//Import the java.sql package to use the ResultSet class %>
+<%// Importa el paquete java.sql para poder usar la clase de ResultSet %>
 <%@ page import="java.sql.*"%>
 <html>
 	<head>
@@ -56,20 +56,35 @@ dbm.close();
 %>
 </table>
 
-<h3>Add Product</h3>
-<form method="POST" action="adminProducts.jsp">
-Name: <input type="text" name="name"><br>
-Dept ID: <input type="text" name="deptId"><br>
-Start Bid: <input type="text" name="startBid"><br>
-Due Date (YYYY-MM-DD HH:MM:SS): <input type="text" name="dueDate"><br>
-<input type="submit" name="addProduct" value="Add">
-</form>
+			<h3>Add Product</h3>
+			<form method="POST" action="adminProducts.jsp">
+					Name: <input type="text" name="name"><br>
+					Description: <input type="text" name="description"><br>
+					Starting Bid $: <input type="text" name="startBid"><br>
+					Due Date (YYYY-MM-DD HH:MM:SS): <input type="text" name="dueDate"><br>
+					<!--use the picture for the name-->
+					Picture: <input type="file" name="picture_name" size="50"/><br>
+			<input type="submit" name="addProduct" value="Add">
+			</form>
 
-<h3>Remove Product</h3>
-<form method="POST" action="adminProducts.jsp">
-Product ID: <input type="text" name="removeProductId"><br>
-<input type="submit" name="removeProduct" value="Remove">
-</form>
-<a href="welcomeMenu.jsp">Return to Main Menu</a>
+			<h3>Modify Product</h3>
+			<form method="POST" action="adminProducts.jsp">
+					Name: <input type="text" name="name"><br>
+					Description: <input type="text" name="description"><br>
+					Starting Bid $: <input type="text" name="startBid"><br>
+					Due Date (YYYY-MM-DD HH:MM:SS): <input type="text" name="dueDate"><br>
+					<!--use the picture for the name-->
+					Picture: <input type="file" name="picture_name" size="50"/><br>
+
+			<input type="submit" name="modifyUser" value="Modify">
+			</form>
+
+			<h3>Remove Product</h3>
+			<form method="POST" action="adminProducts.jsp">
+					Product ID: <input type="text" name="removeProductId"><br>
+			<input type="submit" name="removeProduct" value="Remove">
+			</form>
+			<a href="welcomeMenu.jsp">Return to Main Menu</a>
+
 </body>
 </html>

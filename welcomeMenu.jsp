@@ -15,11 +15,11 @@
 
 	// Intenta conectar con la base de datos.
 	try{
-			//Check the authentication process
+			//Revisa el proceso de autenticacion.
 			if (session.getAttribute("userName")==null || session.getAttribute("currentPage")==null) {
 				session.setAttribute("currentPage", null);
 				session.setAttribute("userName", null);
-				response.sendRedirect("loginHashing.html"); // send the User back to the login page
+				response.sendRedirect("loginHashing.html"); //Manda al usuario de vuelta al login.
 			}
 			else{
 				String currentPage="welcomeMenu.jsp";
