@@ -48,7 +48,7 @@ public class applicationDBManager{
 		//Busca la tabla que se va a modificar.
 		String table="products";
 
-		//Busca el producto que se va a añadir.
+		//Busca el producto que se va a añadir (primer NULL es ID, y penultimo NULL es fecha de añadido).
 		String values="NULL, '"+ productName +"', '" + description + "', '"+ dept_id +"', '" + bid +"', '" + dueDate +"', '"+ picture_path+ "', NULL , '"+ userName +"'";
 
 		//Crea un boolean que es falso al principio, por si falla su parte.
@@ -117,7 +117,7 @@ public class applicationDBManager{
 		//Crea un boolean que es falso al principio, por si falla su parte, y fuera del try para que java no llore.
 		boolean rs = false;
 		try {
-			// Declara y define las tablas que se van a modificar.
+			// Declara y define las tablas que se van a modificar (Primer NULL es el ID).
 			String table = "products";
 			String fields = "NULL, '" + newProductName + "', " + newDescription + "', " + newDeptID + "', " + newDueDate + "', " + newPicturePath +"', '"+ newAddDate +"', '"+ newUserName +"'";
 			
@@ -361,15 +361,15 @@ public class applicationDBManager{
  *		@returns:
  *			Regresa ResultSet en cierto o falso si se logro añadir la oferta.
  */
-public boolean placeBid(String productId, String userName, String Bid) {
+public boolean placeBid(int productId, String userName, String Bid) {
 	// Crea un boolean que es falso al principio, por si falla su parte, fuera del try para que java no llore.
 	boolean rs = false;
     try {
 		// Busca la tabla que se va a modificar.
         String table = "bids";
         
-		// Busca la oferta que se va a añadir.
-        String values = "NULL, '" + productId + "', '" + userName + "', '" + Bid + "'";
+		// Busca la oferta que se va a añadir(primer NULL es el ID y ultimo NULL es fecha de añadido).
+        String values = "NULL, '" + productId + "', '" + userName + "', '" + Bid +"', NULL";
 
         // Añade usando el doInsert.
         rs = myDBConn.doInsert(table, values);
@@ -393,7 +393,7 @@ public boolean placeBid(String productId, String userName, String Bid) {
  *		@returns:
  *			Regresa ResultSet en cierto o falso si se logro actualizar la oferta.
  */
-	public boolean updateBid(String productId, String newBid) {
+	public boolean updateBid(int productId, String newBid) {
 		// Crea un boolean que es falso al principio, por si falla su parte, fuera del try para que java no llore.
 		boolean rs = false;
 		// Intenta modificar la oferta.

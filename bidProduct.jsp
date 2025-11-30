@@ -10,7 +10,7 @@
 
 <%
  	
-	session.setAttribute("previousPage", "welcomeMenu.jsp");
+	session.setAttribute("previousPage", "displayItem.jsp");
 	session.setAttribute("currentPage", "bidProduct.jsp");
 
 	// Intenta conectar con la base de datos.
