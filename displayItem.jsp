@@ -9,6 +9,9 @@
 	<body>
 
 <%
+			session.setAttribute("previousPage", "findProduct.jsp");
+		// "Setea" el attributo currentPage.
+			session.setAttribute("currentPage", "displayItem.jsp");
 
 		// Intenta conectar con la base de datos.
 		try{
@@ -23,7 +26,7 @@
 					
 					String currentPage = "displayItem.jsp";
 					String userName = session.getAttribute("userName").toString();
-					String previousPage = session.getAttribute("currentPage").toString();
+					String previousPage = session.getAttribute("previousPage").toString();
 					
 					//Crea el objeto dba, (database authentication) para poder autenticar al usuario.
 					applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
@@ -54,7 +57,7 @@
 						}
 
 						//Recoje los detalles del objeto por el ID
-						ResultSet rs = dbm.getProductById(productId);
+						ResultSet rs = dbm.getProductById(Integer.parseInt(productId));
 
 						if (rs.next()) {
 						// Enseña los detalles de cada producto.

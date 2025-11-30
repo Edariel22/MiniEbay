@@ -43,7 +43,7 @@ public class applicationDBManager{
  *		@returns:
  *			Regresa ResultSet con en cierto o falso si se logro añadir.
  */
-	public boolean addProduct(String productName, String description, String dept_id, String bid, String dueDate, String userName, String picture_path)
+	public boolean addProduct(String productName, String description, String dept_id, String bid, String dueDate, String picture_path, String userName)
 	{
 		//Busca la tabla que se va a modificar.
 		String table="products";
@@ -112,20 +112,17 @@ public class applicationDBManager{
  *		@returns:
  *			Regresa ResultSet con en cierto o falso si se logro modificar.
  */
-	public boolean updateProduct(int productId, String newProductName, String newDescription, String newDeptName, String newBid, String newDueDate, String newPicturePath) {
+	public boolean updateProduct(int productId, String newProductName, String newDescription, String newDeptID, String newBid, String newDueDate, String newPicturePath,
+	String newAddDate, String newUserName) {
 		//Crea un boolean que es falso al principio, por si falla su parte, y fuera del try para que java no llore.
 		boolean rs = false;
 		try {
 			// Declara y define las tablas que se van a modificar.
 			String table = "products";
-			String fields = "productName = '" + newProductName + "', " +
-							   "description = '" + newDescription + "', " +
-							   "dept_id = '" + newDeptName + "', " +
-							   "dueDate = '" + newDueDate + "', " +
-							   "picture_path = '" + newPicturePath + "'";
+			String fields = "NULL, '" + newProductName + "', " + newDescription + "', " + newDeptID + "', " + newDueDate + "', " + newPicturePath +"', '"+ newAddDate +"', '"+ newUserName +"'";
 			
 			//Condicion para que solo se modifique el producto especificado por su ID
-			String condition = "productID = " + productId ;
+			String condition = "product_id = " + productId ;
 			//Actualiza el objeto usando doUpdate.
 			rs = myDBConn.doUpdate(table, fields, condition);
 			
@@ -203,7 +200,7 @@ public class applicationDBManager{
 		String table = "products";
 
 		// Busca especificamente usando nombre el producto escrito.
-		String condition = "productName = '" + productName + "'";
+		String condition = "name = '" + productName + "'";
 		if (productName != null && !productName.isEmpty() || productName == "") {
 		/* Busca especificamente usando nombre el producto escrito.
 		 * Regresa un ResultSet con los productos con ese nombre en la base de datos.
@@ -238,7 +235,7 @@ public class applicationDBManager{
 		/* Busca especificamente usando nombre el producto escrito
 		 * y cambia la condicion para que sea el nombre del producto y el id del departamento.
 		 */
-		condition = "productName = '" + productName + "' AND dept_id = '" + dept_id + "'";
+		condition = "name = '" + productName + "' AND dept_id = '" + dept_id + "'";
 		} else {
 		/* Si el producto esta vacio, enseña todos los objetos en la base de datos (en este caso que el dept_id no esta especificado)
 		 * Cambia la condicion a que enseñe todos los productos en un departamento.
@@ -257,7 +254,7 @@ public class applicationDBManager{
  *		@returns:
  *			Regresa ResultSet con el id del producto especificado.
  */
-	public ResultSet getProductById(String productId) {
+	public ResultSet getProductById(int productId) {
 
 		// Busca en toda la tabla que se va a utilizar (por eso el *).
 		String fields = "*";
@@ -266,7 +263,7 @@ public class applicationDBManager{
 		String table = "products";
 
 		// Busca especificamente usando el id el producto escrito.
-		String condition = "productId = '" + productId + "'";
+		String condition = "product_id = '" + productId + "'";
 
 		// Regresa un ResultSet con el ID del producto especificado.
 		return myDBConn.doSelect(fields, table, condition);
@@ -292,20 +289,20 @@ public class applicationDBManager{
 	}
 
 
-/* 	Metodo removeProduct, enseña los productos dependiendo de su productID para borrarlos.
+/* 	Metodo removeProduct, enseña los productos dependiendo de su productId para borrarlos.
  *	Solo lo pueden usar los admins.
  *		@parameters:
  *			productId:	el ID del producto para encontrarlo facilmente.
  *		@returns:
  *			Regresa ResultSet en cierto o falso si se logro borrar el producto.
  */
-	public boolean removeProduct(String productID) {
+	public boolean removeProduct(String productId) {
 
 		// Busca la tabla que se va a modificar.
 		String table = "products";
 
 		// Busca el producto que se va a borrar.
-		String condition = "productID = '" + productID + "'";
+		String condition = "product_id = '" + productId + "'";
 		
 		// Crea un boolean que es falso al principio, por si falla su parte.
 		boolean rs = false;
@@ -314,9 +311,9 @@ public class applicationDBManager{
 		rs = myDBConn.doDelete(table, condition);
 		
 		if (rs) {
-			System.out.println("Product Successfully deleted: " + productID);
+			System.out.println("Product Successfully deleted: " + productId);
 		} else {
-			System.out.println("Couldn't delete Product: " + productID);
+			System.out.println("Couldn't delete Product: " + productId);
 		}
 		
 		//Retorna el valor cierto o falso dependiendo si se borro o no.
@@ -360,7 +357,7 @@ public class applicationDBManager{
  *		@parameters:
  *			bid:		Añade un valor de oferta a un producto.
  *			userName:	El nombre del usuario que quiere poner dicha oferta.
- *			ProductID:	Identifica el producto de forma sencilla en la base de datos.
+ *			productId:	Identifica el producto de forma sencilla en la base de datos.
  *		@returns:
  *			Regresa ResultSet en cierto o falso si se logro añadir la oferta.
  */
@@ -391,7 +388,7 @@ public boolean placeBid(String productId, String userName, String Bid) {
 
 /* Metodo modifyBid, para actualizar las ofertas en un producto en caso de que fue mas alta que la que ya estaba.
  *		@parameters:
- *			ProductID:	Identifica el producto de forma sencilla en la base de datos.
+ *			productId:	Identifica el producto de forma sencilla en la base de datos.
  *			newBid:		Nueva oferta al producto.
  *		@returns:
  *			Regresa ResultSet en cierto o falso si se logro actualizar la oferta.
@@ -407,7 +404,7 @@ public boolean placeBid(String productId, String userName, String Bid) {
 			String fields = "bids = " + newBid;
 			
 			// Busca el producto que se va a modificar.
-			String condition = "ProductID= '" + productId + "'";
+			String condition = "product_id= '" + productId + "'";
 			// Actualiza la oferta usando doUpdate.
 			rs = myDBConn.doUpdate(table, fields, condition);
 			
@@ -426,7 +423,7 @@ public boolean placeBid(String productId, String userName, String Bid) {
 
 /* Metodo getHighestBid, para cuando se quiere sacar la oferta mas alta del objeto.
  *		@parameters:
- *			ProductID:	Identifica el producto de forma sencilla en la base de datos.
+ *			productId:	Identifica el producto de forma sencilla en la base de datos.
  *		@returns:
 			Retorna la oferta mas alta del objeto especificado.
  */
@@ -437,7 +434,7 @@ public boolean placeBid(String productId, String userName, String Bid) {
 			String tables = "bids";
 
 			// Busca el producto que se va a modificar.
-			String condition = "productId = " + productId;
+			String condition = "product_id = " + productId;
 			
 		// Regresa un ResultSet con el bid mas alto del producto especificado.
         return myDBConn.doSelect(fields, tables, condition);
@@ -457,42 +454,4 @@ public boolean placeBid(String productId, String userName, String Bid) {
 		myDBConn.closeConnection();
 	}
     
-	/* Comentado ya que no es necesario ahora mismo.
-		Debugging method
-			This method creates an applicationDBManager object, retrieves all departments in the database, and close the connection to the database
-			@parameters:
-				args[]: String array 
-			@returns:
-	public static void main(String[] args)
-	{
-		
-		try{
-			//Create a applicationDBManager object
-			applicationDBManager appDBMnger = new applicationDBManager();
-			System.out.println("Connecting...");
-			System.out.println(appDBMnger.toString());
-			
-			//Call the listAllDepartments in order to retrieve all departments in the database
-			ResultSet rs=appDBMnger.listAllDepartments();
-			
-			//Iterate over the rsulSet containing all departments in the database, and count how many tuples were retrieved
-			int count=0;
-			while (rs.next()){
-				count++;	
-			}
-			//Print the rsults count
-			System.out.println("Count:"  + count);
-			
-			//Close the rsulSet
-			rs.close();
-			//Close the database connection
-			appDBMnger.close();
-			
-		} catch(Exception e)
-		{
-			//Nothing to show!
-			e.printStackTrace();
-		}		
-	}
-	*/
 }
