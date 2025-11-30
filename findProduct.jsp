@@ -75,7 +75,8 @@
                             BID $<%=rsProd.getString(5)%> <br> <!-- cuanto es que esta la paga? -->
                             DUE DATE: <%=rsProd.getString(6)%> <br> <!-- hasta cuandooooo -->
 								<%=rsProd.getString(7)%>	<!-- pero quien lo subio? -->
-                          <img src="/MiniEbay<%= rsProd.getString("picture_path") %>" alt="<%= rsProd.getString("name") %>" width="200" style="max-width:200px; height:auto;"><!-- debi tirar mas fotos -->
+                          <!-- Muestra la imagen del producto. Las fotos se guardan en /MiniEbay/images/ -->
+                          <img src="/MiniEbay/images/<%= rsProd.getString("picture_path") %>" alt="<%= rsProd.getString("name") %>" width="200" style="max-width:200px; height:auto;"><!-- debi tirar mas fotos -->
 
                              <form action="displayItem.jsp" method="GET">
                                 <!-- guarda la identificacion de forma escondida -->

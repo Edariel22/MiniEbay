@@ -58,48 +58,19 @@
 				}
 					// get departments for dropdown
 						ResultSet rsDept = dbm.listAllDepartment();
-			
-					// para poderlos subir al miniebay
-			if (request.getParameter("addProduct") != null) {
-					String name = request.getParameter("name");
-					String desc = request.getParameter("description");
-					String dept = request.getParameter("dept_name");
-					String startBid = request.getParameter("startBid");
-					String dueDate = request.getParameter("dueDate");
-
-					// The browser may not send a usable file path here; keep it optional and avoid NullPointerExceptions.
-					String picture = request.getParameter("picture_name");
-					if (picture == null) {
-						picture = "";
-					}
-					
-					if (name == null || name.isEmpty() ||
-						desc == null || desc.isEmpty() ||
-						startBid == null || startBid.isEmpty() ||
-						dueDate == null || dueDate.isEmpty()) {
-						out.println("<p>Please fill out all required fields.</p>");
-									
-					} else {
-						boolean ok = dbm.addProduct(name, desc, dept, startBid, dueDate, picture, userName);
-						if (ok) {
-							out.println("<p>Product listed successfully!</p>");
-							response.sendRedirect("upload.jsp"); // para hacerme la vida mas facil, sube la foto 2 veces
-						} else {
-							out.println("<p>Failed to list product. Please check your inputs (especially date/price format).</p>");
-						}
-					}
-			}
 				%>
 
 					<h2>Sell a Product</h2>
 
-					<form action="sellProduct.jsp" method="POST">
+					<!-- Step 1: create the product (no file upload yet) -->
+					<form action="upload.jsp" method="POST">
 						Name: <input type="text" name="name" required><br>
 						Description: <input type="text" name="description" required><br>
 						Starting Bid $: <input type="text" name="startBid" required><br>
 						Due Date (YYYY-MM-DD HH:MM:SS): <input type="text" name="dueDate" required><br>
-					<!--use the picture for the name-->
-						Picture: <input type="file" name="picture_name" size="50" required/><br>
+						<!-- Picture name is just a text field here; the real file is uploaded on the next page -->
+						Picture Name: <input type="text" name="picture_path" required><br>
+						(please use the same name as the picture you will upload, including the type)<br>
 						Department:
 						<select name="dept_name">
 							<%
@@ -134,13 +105,6 @@
 				//Close the connection to the database
 				dba.close();
 				dbm.close();
-
-				// After authentication and DB cleanup, perform any pending redirect
-				if ("true".equals(session.getAttribute("redirectToUpload"))) {
-					session.removeAttribute("redirectToUpload");
-					response.sendRedirect("upload.jsp");
-					return;
-				}
 			}
 		}catch(Exception e){
 			%>Nothing to show!<%

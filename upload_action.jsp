@@ -1,133 +1,130 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ page import="java.io.*,java.util.*, jakarta.servlet.*" %>
+<%@ page import="java.io.*,java.util.*,jakarta.servlet.*" %>
 <%@ page import="jakarta.servlet.http.*" %>
-<%@ page import="org.apache.commons.fileupload2.jakarta.servlet5.*" %>
-<%@ page import="org.apache.commons.fileupload2.core.*" %>
 <%@ page import="java.nio.file.*" %>
 <%@ page import="java.lang.*"%>
 <%@ page import="ut.JAR.miniebay.*" %>
-<%//Import the java.sql package to use the ResultSet class %>
+<%// Importa el paquete java.sql para poder usar la clase de ResultSet %>
 <%@ page import="java.sql.*"%>
 
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Guru File Upload</title>
-</head>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>Upload the image</title>
+	</head>
 <body>
 <%
-	// Ensure navigation chain is stable... upload_action.jsp must always consider upload.jsp as previous page
-	Object prev = session.getAttribute("previousPage");
-	if (prev == null || !"upload.jsp".equals(prev.toString())) {
-		session.setAttribute("previousPage", "upload.jsp");
-	}
+	session.setAttribute("previousPage", "upload.jsp");
 	session.setAttribute("currentPage", "upload_action.jsp");
 
-	//Try to connect the database using the classes applicationDBManager & applicationDBAuthenticationGoodComplete
+		// Intenta conectar con la base de datos.
 	try{
-			//Check the authentication process
+			//Revisa el proceso de autenticacion.
 			if (session.getAttribute("userName")==null || session.getAttribute("currentPage")==null) {
 				session.setAttribute("currentPage", null);
 				session.setAttribute("userName", null);
-				response.sendRedirect("loginHashing.html"); // send the User back to the login page
+				response.sendRedirect("loginHashing.html"); // Manda al usuario de vuelta al login.
 			}
 			else{
 				String currentPage="upload_action.jsp";
 				String userName = session.getAttribute("userName").toString();
 				String previousPage = session.getAttribute("previousPage").toString();
 		
-			//Create the dba object
+			//Crea el objeto dba, (database authentication) para poder autenticar al usuario.
 				applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
 				System.out.println("Connecting...");
 				System.out.println(dba.toString());
 
-			//Create the dbm object
+			//Crea el objeto dbm, (database manager) para poder manejar la base de datos.
 				applicationDBManager dbm = new applicationDBManager();
 				System.out.println("Connecting...");
 				System.out.println(dbm.toString());
 				
-			//Call the verifyUser method
+			// Usando ResulSet, intenta verificar al usuario.
 				ResultSet rs=dba.verifyUser(userName, currentPage, previousPage);
 			
-			//Check if the user has been authenticated
+			// Revisa si el usuario fue autenticado bien.
 			if (rs.next()){
 				String userActualName=rs.getString(3);
 					
-				//Create the current page attribute
+			// Crea el attributo currentPage.
 				session.setAttribute("currentPage", currentPage);
 					
-				//Create a session variable
+				// Crea una variable de sesion con el nombre del usuario.	
 				if (session.getAttribute("userName")==null ){
 					//create the session variable
 					session.setAttribute("userName", userName);
 				}else{
-					//Update the session variable
+					// O actualizala.
 					session.setAttribute("userName", userName);
 				}
-				   File file ;
-				   int maxFileSize = 5000 * 1024;
-				   int maxMemSize = 5000 * 1024;
-				   String filePath = "C:\\Users\\edari\\Downloads\\apache-tomcat-11.0.10-windows-x64\\apache-tomcat-11.0.10\\webapps\\MiniEbay\\images\\";
-					String picture_path = "images\\"+ request.getParameter("picture_name");
-				 
-				   String contentType = request.getContentType();
-				   if ((contentType.indexOf("multipart/form-data") >= 0)) {
-				 
-					 
-					  DiskFileItemFactory factory = DiskFileItemFactory.builder()
-						.setPath(filePath)
-						.get();      
-					  
-					  
-					 
-					  JakartaServletFileUpload upload = new JakartaServletFileUpload(factory);
-					  upload.setSizeMax( maxFileSize );
-					  try{ 
-						 List fileItems = upload.parseRequest(request);
-						 Iterator i = fileItems.iterator();
-						 while ( i.hasNext () ) 
-						 {
-							FileItem fi = (FileItem)i.next();
-							if ( !fi.isFormField () )  {
-								String fieldName = fi.getFieldName();
-										String fileName = fi.getName();
-										boolean isInMemory = fi.isInMemory();
-										long sizeInBytes = fi.getSize();
-										file = new File( filePath + fileName) ;
-										Path path = FileSystems.getDefault().getPath(filePath + fileName);
-										fi.write( path ) ;
-										picture_path = "images\\" + fileName;
-									}
-								 
-								}
 
-							} catch (Exception ex) {
-								ex.printStackTrace();
-								out.println("<p>Error occurred: " + ex.getMessage() + "</p>");
+					// Ruta donde se guardarán las imágenes dentro de la aplicación
+					String uploadDir = application.getRealPath("/") + "images" + File.separator;
+					File imagesDir = new File(uploadDir);
+					if (!imagesDir.exists()) {
+						imagesDir.mkdirs();
+					}
+
+					// Asegúrate de que la petición sea multipart/form-data
+					String contentType = request.getContentType();
+					if (contentType != null && contentType.indexOf("multipart/form-data") >= 0) {
+						try {
+							// Usa la API estándar de Servlet para obtener el archivo
+							Part filePart = request.getPart("picture_name");
+							if (filePart != null && filePart.getSize() > 0) {
+								String submittedFileName = filePart.getSubmittedFileName();
+								if (submittedFileName != null && !submittedFileName.isEmpty()) {
+									// Elimina cualquier ruta que envíe el navegador y quédate solo con el nombre
+									Path fileNamePath = Paths.get(submittedFileName).getFileName();
+									String fileName = fileNamePath.toString();
+
+									File targetFile = new File(imagesDir, fileName);
+									try (InputStream in = filePart.getInputStream()) {
+										Files.copy(in, targetFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+									}
+
+									String picture_path = "images\\" + fileName;
+									// En este JSP solo guardamos el archivo físico; el path ya está en la BD desde upload.jsp
+								} else {
+									out.println("<p>No file uploaded (empty filename).</p>");
+								}
+							} else {
+								out.println("<p>No file uploaded.</p>");
 							}
 
+							// Si todo va bien, regresa al menú principal
+							response.sendRedirect("welcomeMenu.jsp");
+
+						} catch (Exception ex) {
+							ex.printStackTrace();
+							out.println("<p>Error occurred: " + ex.getMessage() + "</p>");
+						}
 					} else {
-						out.println("<p>No file uploaded</p>");
+						out.println("<p>No file uploaded (request is not multipart/form-data).</p>");
 					}
+
 				}else{
-					//Close any session associated with the user
+
+					// Si falla, cierra la sesion con el usuario poniendolo en null.
 					session.setAttribute("userName", null);
 					
-					//return to the login page
+					// Retorna al usuario a la pagina de login.
 					response.sendRedirect("loginHashing.html");
 				}
 				//rs.close();
 
-				//Close the connection to the database
+				// Cierra las conexiones a la base de datos para mantener las cosas limpias.
 				dba.close();
 				dbm.close();
 			}
 		}catch(Exception e){
 			%>Nothing to show!<%
+		// En caso de que haya un error.
 			e.printStackTrace();
 			response.sendRedirect("loginHashing.html");
 		}finally{
