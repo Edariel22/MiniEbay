@@ -1,5 +1,5 @@
 
-// Clase para el MiniEbay.
+// Clase para el paquete MiniEbay.
 package ut.JAR.miniebay;
 
 // Importa el paquete java.sql para poder usar la clase de ResultSet.
@@ -78,14 +78,14 @@ public class applicationDBManager{
  *		@returns:
  *			Regresa ResultSet con en cierto o falso si se logro añadir.
  */
-	public boolean addDepartment(String dept_id, String name, String building)
+	public boolean addDepartment(String name, String building)
 	{
 
 		//Busca la tabla que se va a modificar.
 		String table="departments";
 		
 		//Busca el departamento que se va a añadir.
-		String values="'"+ dept_id + "', '" + name + "', '" + building + "'";
+		String values="NULL, " + name + "', '" + building + "'";
 
 		//Crea un boolean que es falso al principio, por si falla su parte.
 		boolean rs;
@@ -112,7 +112,7 @@ public class applicationDBManager{
  *		@returns:
  *			Regresa ResultSet con en cierto o falso si se logro modificar.
  */
-	public boolean modifyProduct(int productId, String newProductName, String newDescription, String newDeptName, String newBid, String newDueDate, String newPicturePath) {
+	public boolean updateProduct(int productId, String newProductName, String newDescription, String newDeptName, String newBid, String newDueDate, String newPicturePath) {
 		//Crea un boolean que es falso al principio, por si falla su parte, y fuera del try para que java no llore.
 		boolean rs = false;
 		try {
@@ -144,7 +144,7 @@ public class applicationDBManager{
 	}
 
 /*
- *	Metodo modifyDepartment modifica un departamento, usa el id original para buscarlo y se cambia su nombre, id y su edificio.
+ *	Metodo updateDepartment modifica un departamento, usa el id original para buscarlo y se cambia su nombre, id y su edificio.
  *	Solo lo pueden usar los admins.
  *		@parameters:
  *			dept_id:			El ID del departamento para encontrarlo facilmente.
@@ -154,7 +154,7 @@ public class applicationDBManager{
  *		@returns:
  *			Regresa ResultSet con en cierto o falso si se logro modificar.
  */
-	public boolean modifyDepartment(String dept_id, String newDepartmentId, String newName, String newBuildingName) {
+	public boolean updateDepartment(int dept_id, String newDepartmentId, String newName, String newBuildingName) {
 		// Crea un boolean que es falso al principio, por si falla su parte, fuera del try para que java no llore.
 		boolean rs = false;
 		//Intenta modificar un departamento seleccionado.
@@ -251,13 +251,13 @@ public class applicationDBManager{
 	}
 
 
-/*	metodo getProductId, para buscar el ID de un producto (para facilitar busquedas especificas) y retorna ese ID.
+/*	metodo getProductById, para buscar el ID de un producto (para facilitar busquedas especificas) y retorna ese ID.
  *		@parameters:
  *			productId:	el ID del producto para encontrarlo facilmente.
  *		@returns:
  *			Regresa ResultSet con el id del producto especificado.
  */
-	public ResultSet getProductId(String productId) {
+	public ResultSet getProductById(String productId) {
 
 		// Busca en toda la tabla que se va a utilizar (por eso el *).
 		String fields = "*";
@@ -292,14 +292,14 @@ public class applicationDBManager{
 	}
 
 
-/* 	Metodo deleteProduct, enseña los productos dependiendo de su productID para borrarlos.
+/* 	Metodo removeProduct, enseña los productos dependiendo de su productID para borrarlos.
  *	Solo lo pueden usar los admins.
  *		@parameters:
  *			productId:	el ID del producto para encontrarlo facilmente.
  *		@returns:
  *			Regresa ResultSet en cierto o falso si se logro borrar el producto.
  */
-	public boolean deleteProduct(String productID) {
+	public boolean removeProduct(String productID) {
 
 		// Busca la tabla que se va a modificar.
 		String table = "products";
@@ -324,14 +324,14 @@ public class applicationDBManager{
 	}
 
 
-/*	Metodo deleteDepartment, enseña los productos dependiendo de su dept_id para borrarlos, igual a arriba, pero por departamento.
+/*	Metodo removeDepartment, enseña los productos dependiendo de su dept_id para borrarlos, igual a arriba, pero por departamento.
  *	Solo lo pueden usar los admins.
  *		@parameters:
  *			dept_id:	El ID del departamento para encontrarlo facilmente.
  *		@returns:
  *			Regresa ResultSet en cierto o falso si se logro borrar el departamento.
  */
-	public boolean deleteDepartment(String dept_id) {
+	public boolean removeDepartment(int dept_id) {
 
 		// Busca la tabla que se va a modificar.
 		String table = "departments";
@@ -356,7 +356,7 @@ public class applicationDBManager{
 	}
 
 
-/*	Metodo bidProduct, para modificat la oferta en un producto (cuanto ofrece un usuario para un objeto).
+/*	Metodo placeBid, para modificat la oferta en un producto (cuanto ofrece un usuario para un objeto).
  *		@parameters:
  *			bid:		Añade un valor de oferta a un producto.
  *			userName:	El nombre del usuario que quiere poner dicha oferta.
@@ -364,15 +364,15 @@ public class applicationDBManager{
  *		@returns:
  *			Regresa ResultSet en cierto o falso si se logro añadir la oferta.
  */
-public boolean bidProduct(String bid, String userName, String productId) {
+public boolean placeBid(String productId, String userName, String Bid) {
 	// Crea un boolean que es falso al principio, por si falla su parte, fuera del try para que java no llore.
 	boolean rs = false;
     try {
 		// Busca la tabla que se va a modificar.
-        String table = "bid";
+        String table = "bids";
         
 		// Busca la oferta que se va a añadir.
-        String values = "'" + bid + "', '" + userName + "', '" + productId + "', " + "NULL";
+        String values = "NULL, '" + productId + "', '" + userName + "', '" + Bid + "'";
 
         // Añade usando el doInsert.
         rs = myDBConn.doInsert(table, values);
@@ -396,7 +396,7 @@ public boolean bidProduct(String bid, String userName, String productId) {
  *		@returns:
  *			Regresa ResultSet en cierto o falso si se logro actualizar la oferta.
  */
-	public boolean modifyBid(String productId, String newBid) {
+	public boolean updateBid(String productId, String newBid) {
 		// Crea un boolean que es falso al principio, por si falla su parte, fuera del try para que java no llore.
 		boolean rs = false;
 		// Intenta modificar la oferta.
@@ -404,11 +404,11 @@ public boolean bidProduct(String bid, String userName, String productId) {
 
 			// Declara y define las tablas que se van a modificar.
 			String table = "products";
-			String fields = "bid = " + newBid;
+			String fields = "bids = " + newBid;
 			
 			// Busca el producto que se va a modificar.
 			String condition = "ProductID= '" + productId + "'";
-			// Actualiza el bid usando doUpdate.
+			// Actualiza la oferta usando doUpdate.
 			rs = myDBConn.doUpdate(table, fields, condition);
 			
 			if (rs) {
@@ -424,7 +424,24 @@ public boolean bidProduct(String bid, String userName, String productId) {
 		return rs;
 	}
 
+/* Metodo getHighestBid, para cuando se quiere sacar la oferta mas alta del objeto.
+ *		@parameters:
+ *			ProductID:	Identifica el producto de forma sencilla en la base de datos.
+ *		@returns:
+			Retorna la oferta mas alta del objeto especificado.
+ */
+    public ResultSet getHighestBid(int productId) {
 
+			// Declara y define las tablas que se van a modificar.
+			String fields = "MAX(amount) AS highest_bid"; // en este caso, el valor mas alto.
+			String tables = "bids";
+
+			// Busca el producto que se va a modificar.
+			String condition = "productId = " + productId;
+			
+		// Regresa un ResultSet con el bid mas alto del producto especificado.
+        return myDBConn.doSelect(fields, tables, condition);
+    }
 
 
 
@@ -455,8 +472,8 @@ public boolean bidProduct(String bid, String userName, String productId) {
 			System.out.println("Connecting...");
 			System.out.println(appDBMnger.toString());
 			
-			//Call the listAllDepartment in order to retrieve all departments in the database
-			ResultSet rs=appDBMnger.listAllDepartment();
+			//Call the listAllDepartments in order to retrieve all departments in the database
+			ResultSet rs=appDBMnger.listAllDepartments();
 			
 			//Iterate over the rsulSet containing all departments in the database, and count how many tuples were retrieved
 			int count=0;

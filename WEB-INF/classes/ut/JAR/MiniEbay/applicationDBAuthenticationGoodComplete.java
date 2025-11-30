@@ -128,13 +128,47 @@ public class applicationDBAuthenticationGoodComplete{
 		boolean rs;
 		String table, values;
 		table="roleuser";
-		values="'"+userName+"', 'rol2'"; // rol2 es el rol de usuario basico, rol1 es el de admin, pero ese rol solo lo pueden añadir otros admins
+		values="'"+userName+"', 'rol2'";
 		rs=myDBConn.doInsert(table, values);
 		System.out.println("Insertion result" + rs);
 		return rs;
 	}
-	
-	
+
+	// Update an existing user
+	public boolean updateUser(String userName, String newPass, String newName, String newTelephone, String newRoleId)
+	{
+		boolean rsUser, rsRole;
+		String table, values, hashingValue;
+		hashingValue=hashingSha256(userName + newPass);
+		System.out.println("Updating user: " + userName);
+		// Modifica al usuario existente.
+		table="users";
+		String userFields = "hashing='" + hashingValue + "', name='" + newName + "', telephone='" + newTelephone + "'";
+		String userCondition = "userName= '" + userName + "'";
+		rsUser = myDBConn.doUpdate(table, userFields, userCondition);
+
+		// Cambia el rol del usuario (Solo los admins lo pueden hacer).
+		table="roleuser";
+		String roleFields = "roleId='" + newRoleId + "'";
+		String roleCondition = "userName= '" + userName + "'";
+		rsRole = myDBConn.doUpdate(table, roleFields, roleCondition);
+
+		// Regresa cierto solamente si ambos son ciertos.
+		return rsUser && rsRole;
+	}
+
+    // Metodo removeUser, para remover un usuario.
+    public boolean removeUser(String userName) {
+
+		//Define the table and condition for deletion
+		String table = "users";
+		String condition = "userName = '" + userName + "'";
+		
+		System.out.println("Removing user: " + userName);
+		
+		//Return true if deleted successfully
+		return myDBConn.doDelete(table, condition);
+	}
 	
 	/*********
 		hashingSha256 method

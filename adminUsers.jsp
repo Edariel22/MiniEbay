@@ -53,7 +53,7 @@
 				String hashed = dba.getHashedValue(u, p);
 
 				// Add user with hashed password using admin helper
-				boolean res = dbm.addUserAdmin(u, hashed, n, t, r);
+				boolean res = dbm.addUser(u, hashed, n, t, r);
 
 				if (res) {
 					out.println("<p>User added successfully.</p>");
@@ -73,7 +73,7 @@
 				String hashed = dba.getHashedValue(u, p);
 
 				// Modifica el usuario con un ayudante de administrador.
-				boolean res = dbm.updateUserAdmin(u, hashed, n, t, r);
+				boolean res = dbm.updateUser(u, hashed, n, t, r);
 
 				if (res) {
 					out.println("<p>User modified successfully.</p>");

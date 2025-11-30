@@ -9,106 +9,115 @@
 	<body>
 
 <%
-	// Try to connect the database using the applicationDBManager class
-    try{
-            //Authenticate if the user is logged in, if not send the user back to the login page
-            if (session.getAttribute("userName") == null || session.getAttribute("currentPage") == null) {
-    			session.setAttribute("currentPage", null);
-    			session.setAttribute("userName", null);
-   	 			response.sendRedirect("loginHashing.html");
-				
-			}else{
-				String productId = request.getParameter("productId");
 
-				String currentPage = "displayItem.jsp";
-				String userName = session.getAttribute("userName").toString();
-				String previousPage = session.getAttribute("currentPage").toString();
-				session.setAttribute("currentPage", "displayItem.jsp");
+		// Intenta conectar con la base de datos.
+		try{
+					//Revisa el proceso de autenticacion.
+				if (session.getAttribute("userName") == null || session.getAttribute("currentPage") == null) {
+					session.setAttribute("currentPage", null);
+					session.setAttribute("userName", null);
+					response.sendRedirect("loginHashing.html");
+					
+				}else{
+					String productId = request.getParameter("productId");
+					
+					String currentPage = "displayItem.jsp";
+					String userName = session.getAttribute("userName").toString();
+					String previousPage = session.getAttribute("currentPage").toString();
+					
+					//Crea el objeto dba, (database authentication) para poder autenticar al usuario.
+					applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
+					System.out.println("Connecting...");
+					System.out.println(dba.toString());
+					
+					//Crea el objeto dbm, (database manager) para poder manejar la base de datos.
+					applicationDBManager dbm = new applicationDBManager();
+					System.out.println("Connecting...");
+					System.out.println(dbm.toString());
 
-				//Create dba object
-				applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
-				System.out.println("Connecting...");
-				System.out.println(dba.toString());
+					// Usando ResulSet, intenta verificar al usuario.
+					ResultSet rsUser = dba.verifyUser(userName, currentPage, previousPage);
 
-				//Create dbm object
-				applicationDBManager dbm = new applicationDBManager();
-				System.out.println("Connecting...");
-				System.out.println(dbm.toString());
+					// Revisa si el usuario fue autenticado bien.
+					if (rsUser.next()){
+						String sessionName = rsUser.getString(3);
 
-				session.setAttribute("currentPage", "displayItem.jsp");
+						// Crea el attributo currentPage.
+						session.setAttribute("currentPage", currentPage);
 
-        //Call the verifyUser method to authenticate the user
-        ResultSet rsUser = dba.verifyUser(userName, currentPage, previousPage);
+						// Crea una variable de sesion con el nombre del usuario.
+						if (session.getAttribute("userName") == null) {
+							session.setAttribute("userName", userName);
+						}else{
+								// O actualizala.
+							session.setAttribute("userName", userName);
+						}
 
-        // Verify if the user has been authenticated
-        if (rsUser.next()) {
-            String userActualName = rsUser.getString(3);
+						//Recoje los detalles del objeto por el ID
+						ResultSet rs = dbm.getProductById(productId);
 
-            // Create the current page attribute
-            session.setAttribute("currentPage", currentPage);
-
-            // Create a session variable
-            if (session.getAttribute("userName") == null) {
-                // Create the session variable
-                session.setAttribute("userName", userName);
-            } else {
-                // Update the session variable
-                session.setAttribute("userName", userName);
-            }
-				if (productId != null && !productId.isEmpty()) {
-					ResultSet rs = dbm.getProductByID(Integer.parseInt(productId));
-
-					if (rs.next()) {
-						%>
-							<h2><%=rs.getString("name")%></h2>
-							<p><b>Description:</b> <%=rs.getString("description")%></p>
-							<p><b>Department:</b> <%=rs.getString("dept_id")%></p>
-							<p><b>Start Bid:</b> $<%=rs.getString("start_bid")%></p>
-							<p><b>Due Date:</b> <%=rs.getString("due_date")%></p>
-						<%
-							ResultSet highest = dbm.getHighestBid(Integer.parseInt(productId));
-								if (highest.next() && highest.getString("highest_bid") != null) {
-									out.println("<p><b>Current Highest Bid:</b> $" + highest.getString("highest_bid") + "</p>");
-								} else {
-									out.println("<p><b>No bids yet.</b></p>");
-								}
-							highest.close();
+						if (rs.next()) {
+						// Enseña los detalles de cada producto.
 						%>
 
-						<a href="bidProduct.jsp?productId=<%=productId%>">Place a Bid</a>
+						<form action="findProduct.jsp" method="GET">
+							<input type="hidden" name="productId" value="<%= request.getParameter("productId") %>">
+							<input type="hidden" name="productName" value="<%= request.getParameter("productName") %>">
+							<input type="hidden" name="dept_name" value="<%= request.getParameter("dept_name") %>">
+							<button type="submit" name="findProduct" value="findProduct">Return to the list of products</button>
+						</form> <br>
+								<br> 
 
-						<img src="/MiniEbay<%= rs.getString("picture_path") %>" alt="<%= rs.getString("name") %>" width="200" style="max-width:200px; height:auto;">
+						<form action="welcomeMenu.jsp" method="GET">
+							<button type="submit" name="welcomeMenu" value="welcomeMenu">Back to main page</button>
+						</form> <br> <br>
 
+						<h2>Product Details</h2>
+						<!-- Enseña el ID, la descripcion, y la foto de forma mas grande. -->
+						<p>ID: <%= rs.getString(1) %></p> <!--Lo primero en la tabla es el ID -->
+						<p>Name: <%= rs.getString(2) %></p> <!--Luego el nombre -->
+						<p>Description: <%= rs.getString(3) %></p> <!--Luego la descripcion -->
+						<p>Department: <%= rs.getString(4) %></p> <!--Luego el departamento donde esta -->
+						<p>Original Bid $<%= rs.getString(5) %></p> <!--Luego, cuanto es la oferta puesta al principio -->
+						<p>Due Date: <%= rs.getString(6) %></p> <!--Pero... pa cuando? -->
+						<img src="/MiniEbay/images/<%= rs.getString("picture_path") %>" alt="<%= rs.getString("name")%>"
+						style="width: 400px; height: auto;">
+						<p>Date Added: <%=rs.getString(8)%></p> <!--Luego, cuando fue añadido -->
+						<p>Seller: <%=rs.getString(9)%></p> <!--Al final, quien lo esta vendiendo -->
 
+						<form action="bidProduct.jsp" method="POST">
+							<input type="hidden" name="productId" value="<%= request.getParameter("productId") %>">
+							<input type="hidden" name="productName" value="<%= request.getParameter("productName") %>">
+							<input type="hidden" name="dept_name" value="<%= request.getParameter("dept_name") %>">
+							<!-- Necesario para poder añadir una mejor oferta :) -->
+							<button type="submit">Place Bid</button>
+						</form>
 						<%
-					} else {
-                %>
-                <p>Product Not Found...</p>
-                <%
+					}else{
+						// Si no encuentra un producto con ese ID
+						%>
+						<p>Unfortunately, no product was found with ID: <%= productId %></p>
+						<%
 					}
-					rs.close();
+				}else{
+					//Close any session associated with the user
+					session.setAttribute("userName", null);
+
+					//return to the login page
+					response.sendRedirect("loginHashing.html");
 				}
-			}else{
-            //Close any session associated with the user
-		    session.setAttribute("userName", null);
 
-            //return to the login page
-		    response.sendRedirect("loginHashing.html");
-			}
-
-		
-		// Close the connection to the database
-		dba.close();
-		dbm.close();
-		} 
-}catch(Exception e) {
-    //If an exception occurs, print the stack trace
-    e.printStackTrace();
-    response.sendRedirect("loginHashing.html");
-}finally{
-    System.out.println("Finallly");
-}
-%>
-<br><a href="findProduct.jsp">Return to Product Search</a>
-</body>
+				// Close the connection to the database
+				dba.close();
+				dbm.close();
+			} 
+		}catch(Exception e) {
+		//If an exception occurs, print the stack trace
+		e.printStackTrace();
+		response.sendRedirect("loginHashing.html");
+	}finally{
+		System.out.println("Finallly");
+	}
+	%>
+	</body>
 </html>

@@ -66,7 +66,7 @@
 					<button type="submit">Search</button>
 					
 					<%
-					ResultSet rsDept=dbm.listAllDepartment();
+					ResultSet rsDept=dbm.listAllDepartments();
 					%>
 					<!-- Y parte para que me enseñen de que departamento esta cada cosa. -->
 					<table border="0">
@@ -74,7 +74,7 @@
 								<td> Department </td>
 								<td>
 									<select id="dept_name" name="dept_name" style="width: 200px; font-size: 16px;">
-									<option value="All Departments">All Departments</option>
+									<option value="SearchAllDepartments">Search All Departments</option>
 									<%
 										while (rsDept.next()) {
 											String deptId = rsDept.getString("dept_id");
@@ -90,7 +90,7 @@
 								</td>
 							</tr>
 						</table>
-			<!-- Por si el usuario quiere cerrar la sesion.-->
+					<!-- Por si el usuario quiere cerrar la sesion.-->
 						<input type="reset" id="Submit" value="reset" />
 						<a href="signout.jsp">
 								<button type="button">Sign Out</button>

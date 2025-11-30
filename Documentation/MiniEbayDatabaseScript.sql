@@ -127,7 +127,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Wireless Keyboard','Compact mechanical keyboard',3,45.00,'2025-11-01 23:59:00','/images/keyboard.jpg','2025-11-01 15:17:08','Elias'),(2,'Programming Book','Intro to Java web development',2,15.00,'2025-11-30 23:59:00','/images/book.jpg','2025-11-01 15:17:08','Elias'),(3,'Laptop','Lightweight 14-inch laptop, 16GB RAM',3,650.00,'2025-12-15 23:59:00','/images/laptop.jpg','2025-11-01 15:17:08','Elias'),(7,'Baby Oil','Oily',4,45.00,'2025-12-12 23:59:00','/images/Baby Oil.jpg',NULL,'Elias');
+INSERT INTO `products` VALUES (1,'Wireless Keyboard','Compact mechanical keyboard',3,45.00,'2025-11-01 23:59:00','keyboard.jpg','2025-11-01 15:17:08','Elias'),(2,'Programming Book','Intro to Java web development',2,15.00,'2025-11-30 23:59:00','book.jpg','2025-11-01 15:17:08','Elias'),(3,'Laptop','Lightweight 14-inch laptop, 16GB RAM',3,650.00,'2025-12-15 23:59:00','laptop.jpg','2025-11-01 15:17:08','Elias'),(7,'Baby Oil','Oily',4,45.00,'2025-12-12 23:59:00','Baby Oil.jpg',NULL,'Elias');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 

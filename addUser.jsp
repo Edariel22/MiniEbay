@@ -34,11 +34,10 @@
 			 * Si hay un error por algun caso, esta en booleano para que retorne falso si ese es el caso.
 			 */
 			boolean rs=dba.addUser(userName, completeName, userPass, telephone);
-			boolean setUserRole = dba.setUserRole(userName);%>
+			boolean rsRole=dba.setUserRole(userName);
 
-			<%
 			// Revisa si el usuario fue autenticado bien.
-			if (rs){%>
+			if (rs && rsRole){%>
 				User succesfully added 
 				<%
 				// "Setea" el attributo currentPage.

@@ -10,8 +10,6 @@
 	<body>
 
 <%
-	session.setAttribute("previousPage", "welcomeMenu.jsp");
-	session.setAttribute("currentPage", "sellProduct.jsp");
 
 	//Try to connect the database using the classes applicationDBManager & applicationDBAuthenticationGoodComplete
 	try{
@@ -24,7 +22,7 @@
 			else{
 				String currentPage="sellProduct.jsp";
 				String userName = session.getAttribute("userName").toString();
-				String previousPage = session.getAttribute("previousPage").toString();
+				String previousPage = session.getAttribute("currentPage").toString();
 		
 			//Create the dba object
 				applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
@@ -55,7 +53,7 @@
 					session.setAttribute("userName", userName);
 				}
 					// get departments for dropdown
-						ResultSet rsDept = dbm.listAllDepartment();
+						ResultSet rsDept = dbm.listAllDepartments();
 			
 					// para poderlos subir al miniebay
 					String name = "";
@@ -63,6 +61,7 @@
 					String dept = "";
 					String startBid = "";
 					String dueDate = "";
+					String picture_path = "";
 				%>
 
 					<h2>Sell a Product</h2>
@@ -72,6 +71,7 @@
 						Description: <input type="text" name="description" required><br>
 						Starting Bid $: <input type="text" name="startBid" required><br>
 						Due Date (YYYY-MM-DD HH:MM:SS): <input type="text" name="dueDate" required><br>
+						Picture path: <input type="text" name="picture_path" required><br>  (please use the same name as the picture you will upload, including the type)<br>
 						Department:
 						<select name="dept_name">
 							<%

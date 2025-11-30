@@ -9,58 +9,69 @@
     <body>
 		
 <%
-	// Try to connect the database using the applicationDBManager class
-    try{
-            //Authenticate if the user is logged in, if not send the user back to the login page
-            if (session.getAttribute("userName") == null || session.getAttribute("currentPage") == null) {
-    			session.setAttribute("currentPage", null);
-    			session.setAttribute("userName", null);
-   	 			response.sendRedirect("loginHashing.html");
-				
-			}else{
+		// Intenta conectar con la base de datos.
+		try{
+					//Revisa el proceso de autenticacion.
+				if (session.getAttribute("userName") == null || session.getAttribute("currentPage") == null) {
+					session.setAttribute("currentPage", null);
+					session.setAttribute("userName", null);
+					response.sendRedirect("loginHashing.html");
+					
+				}else{
 					String currentPage = "findProduct.jsp";
 					String userName = session.getAttribute("userName").toString();
 					String previousPage = session.getAttribute("currentPage").toString();
-				
-				//Create the dba object (database authenticator) para poder verificar si esta logged in
-                applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
-                System.out.println("Connecting...");
-                System.out.println(dba.toString());
-                
-				//Create the dbm object (database manager) para poder modificar los datos en la base de datos
-				applicationDBManager dbm = new applicationDBManager();
-                System.out.println("Connecting...");
-				System.out.println(dbm.toString());
+					
+					//Crea el objeto dba, (database authentication) para poder autenticar al usuario.
+					applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
+					System.out.println("Connecting...");
+					System.out.println(dba.toString());
+					
+					//Crea el objeto dbm, (database manager) para poder manejar la base de datos.
+					applicationDBManager dbm = new applicationDBManager();
+					System.out.println("Connecting...");
+					System.out.println(dbm.toString());
 
-                //Call the verifyUser method to authenticate the user
-                ResultSet rsUser = dba.verifyUser(userName, currentPage, previousPage);
+					// Usando ResulSet, intenta verificar al usuario.
+					ResultSet rsUser = dba.verifyUser(userName, currentPage, previousPage);
 
-                // Verify if the user has been authenticated
-                if (rsUser.next()){
-                    String sessionName = rsUser.getString(3);
+					// Revisa si el usuario fue autenticado bien.
+					if (rsUser.next()){
+						String sessionName = rsUser.getString(3);
 
-                    // Create the current page attribute
-                    session.setAttribute("currentPage", currentPage);
+						// Crea el attributo currentPage.
+						session.setAttribute("currentPage", currentPage);
 
-                    // Create a session variable
-                    if (session.getAttribute("userName") == null) {
-                        // Create the session variable
-                        session.setAttribute("userName", userName);
-                    }else{
-                        //Update the session variable
-                        session.setAttribute("userName", userName);
-                    }
+						// Crea una variable de sesion con el nombre del usuario.
+						if (session.getAttribute("userName") == null) {
+							session.setAttribute("userName", userName);
+						}else{
+								// O actualizala.
+							session.setAttribute("userName", userName);
+						}
 
-                    // Retrieve parameters
-                    String productName = request.getParameter("productName");
-                    String deptName = request.getParameter("dept_name");
+						// Recoge el Id del departamento y el nombre del producto.
+						String deptName = request.getParameter("dept_name");
+						String productName = request.getParameter("productName");
 
-                    // Get the ResultSet based on parameters
-                    ResultSet rsProd = null;
+						// Crea un Resulset vacio para poder buscar los productos.
+						ResultSet rsProd = null;
 
-                    rsProd = dbm.listProducts(deptName);
+							// Primero busca si el objeto fue buscado, sin escoger un departamento especifico
+					   if  (productName != null && !productName.isEmpty() && (deptName == null || deptName.isEmpty() || deptName.equals("SearchAllDepartments"))) {
+							rsProd = dbm.listProducts(productName);
+							// Luego, busca si se escogio un nombre y un departamento
+						} else if (productName != null && !productName.isEmpty() && deptName != null && !deptName.isEmpty() && !deptName.equals("SearchAllDepartments")) {
+							rsProd = dbm.listProducts(productName, deptName);
+							// Si no se escogio un nombre, pero si un departamento
+						} else if ((productName == null || productName.isEmpty()) && deptName != null && !deptName.isEmpty() && !deptName.equals("SearchAllDepartments")) {
+							rsProd = dbm.listProducts(null, deptName);
+							// Si simplemente le dieron search sin escoger ni escribir nada
+						} else if((productName == null || productName.isEmpty()) && (deptName == null || deptName.equals("SearchAllDepartments"))) {
+							rsProd = dbm.listProducts(null);
+						}
 
-                    // Iterate over the ResultSet
+                    // Itera sobre el ResultSet dependiendo de los resultados del if/else if
                     int i = 0;
 
                     while (rsProd.next()) {
@@ -68,16 +79,15 @@
                         i++;
                         %>
                         <tr>
-								<%=rsProd.getString(1)%>, <!-- primero coje el ID -->
+								<%=rsProd.getString(1)%>: <!-- primero coje el ID -->
                             NAME:	<%=rsProd.getString(2)%> <br> <!-- luego, el nombre -->
-								<%=rsProd.getString(3)%>, <!-- luego, la descripcion -->
+								<%=rsProd.getString(3)%><br> <!-- luego, la descripcion -->
                             DEPARTMENT: <%=rsProd.getString(4)%> <br> <!-- de que departamento es? -->
                             BID $<%=rsProd.getString(5)%> <br> <!-- cuanto es que esta la paga? -->
                             DUE DATE: <%=rsProd.getString(6)%> <br> <!-- hasta cuandooooo -->
-								<%=rsProd.getString(7)%>	<!-- pero quien lo subio? -->
 						<!-- debi tirar mas fotos -->
-                          <img src="/MiniEbay<%= rsProd.getString("picture_path") %>" alt="<%= rsProd.getString("name") %>" width="200" style="max-width:200px; height:auto;">
-
+                          <img src="/MiniEbay/images/<%= rsProd.getString("picture_path") %>" alt="<%= rsProd.getString("name") %>" width="200"
+						  style="max-width:200px; height:auto;"> <br>
                              <form action="displayItem.jsp" method="GET">
                                 <!-- guarda la identificacion de forma escondida -->
                                 <input type="hidden" name="productId" value="<%=rsProd.getString(1)%>">
@@ -96,18 +106,18 @@
                     </form>
                     <%
                 }else{
-                    //Close any session that is associated with the user
+				// Si falla, cierra la sesion con el usuario poniendolo en null.
 					session.setAttribute("userName", null);
 
-					//send them back to the login page
+					// y regresalos a la pagina de login
 					response.sendRedirect("loginHashing.html");
                 }
-                //Close the connection to the database
+				// Cierra la conexion a la base de datos para mantener las cosas limpias.
 				dba.close();
 				dbm.close();
             }
         }catch(Exception e){
-            // Print error message if exception occurs
+			// En caso de que haya un error.
             e.printStackTrace();
             response.sendRedirect("loginHashing.html");
 

@@ -64,10 +64,10 @@
 					//Update the session variable
 					session.setAttribute("userName", userName);
 				}
-				   File file ;
-				   int maxFileSize = 5000 * 1024;
-				   int maxMemSize = 5000 * 1024;
-				   String filePath = "C:\\Users\\Angel\\Downloads\\apache-tomcat-11.0.10\\webapps\\MiniEbay\\images\\";
+					File file ;
+					int maxFileSize = 5000 * 1024;
+					int maxMemSize = 5000 * 1024;
+					String filePath = "C:\\Users\\Angel\\Downloads\\apache-tomcat-11.0.10\\webapps\\MiniEbay\\images\\";
 					String picture_path = "images\\"+ request.getParameter("picture_name");
 				 
 				   String contentType = request.getContentType();
