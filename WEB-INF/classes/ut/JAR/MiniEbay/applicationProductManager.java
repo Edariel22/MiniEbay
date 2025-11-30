@@ -92,13 +92,22 @@ public class applicationProductManager{
 	public boolean removeProduct(int productId) {
 		return myDBConn.doDelete("products", "product_id=" + productId);
 	}
-	// 
-	public boolean updateUser(String userName, String hashing, String name, String telephone, String roleId) {
-		applicationUserManager um = new applicationUserManager();
-		boolean result = um.updateUser(userName, hashing, name, telephone, roleId);
-		um.close();
-		return result;
+	
+	
+	// Update product information used by admin
+	public boolean updateProduct(int productId, String name, String deptId, String startBid, String dueDate) {
+		String table = "products";
+		String fields =
+			"name='" + name + "', " +
+			"dept_id='" + deptId + "', " +
+			"start_bid='" + startBid + "', " +
+			"due_date='" + dueDate + "'";
+		String condition = "product_id=" + productId;
+		return myDBConn.doUpdate(table, fields, condition);
 	}
+	
+	// 
+	
 
 
 		

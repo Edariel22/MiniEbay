@@ -68,6 +68,13 @@ public class applicationDBManager{
         String condition = "dept_id = " + deptId;
         return myDBConn.doDelete(table, condition);
     }
+    //update department helper method for adminDepartments.jsp
+    public boolean updateDepartmentAdmin(int deptId, String name, String building) {
+        String table = "departments";
+        String fields = "name='" + name + "', building='" + building + "'";
+        String condition = "dept_id = " + deptId;
+        return myDBConn.doUpdate(table, fields, condition);
+    }
         
 
 
@@ -96,6 +103,13 @@ public class applicationDBManager{
     public boolean removeProductAdmin(int productId) {
         applicationProductManager pm = new applicationProductManager();
         return pm.removeProduct(productId);
+    }
+    // Esto es para cuando un admin modifica un producto.
+    public boolean updateProductAdmin(int productId, String name, String deptId, String startBid, String dueDate) {
+        applicationProductManager pm = new applicationProductManager();
+        boolean result = pm.updateProduct(productId, name, deptId, startBid, dueDate);
+        pm.close();
+        return result;
     }
     public ResultSet getProductById(int productId) {
         applicationProductManager pm = new applicationProductManager();

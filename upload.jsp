@@ -12,8 +12,12 @@
 	</head>
 	<body>
 <%
+// Ensure navigation chain is stable: upload.jsp must always consider sellProduct.jsp as previous page
+Object prev = session.getAttribute("previousPage");
+if (prev == null || !"sellProduct.jsp".equals(prev.toString())) {
 	session.setAttribute("previousPage", "sellProduct.jsp");
-	session.setAttribute("currentPage", "upload_action.jsp");
+}
+session.setAttribute("currentPage", "upload.jsp");
 
 	//Try to connect the database using the classes applicationDBManager & applicationDBAuthenticationGoodComplete
 	try{
@@ -24,7 +28,7 @@
 				response.sendRedirect("loginHashing.html"); // send the User back to the login page
 			}
 			else{
-				String currentPage="upload_action.jsp";
+				String currentPage="upload.jsp";
 				String userName = session.getAttribute("userName").toString();
 				String previousPage = session.getAttribute("previousPage").toString();
 		

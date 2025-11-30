@@ -66,17 +66,28 @@
 					String dept = request.getParameter("dept_name");
 					String startBid = request.getParameter("startBid");
 					String dueDate = request.getParameter("dueDate");
-					String picture = request.getParameter("picture_path");
-					
-				if (name.isEmpty() || desc.isEmpty() || startBid.isEmpty() || dueDate.isEmpty() || picture.isEmpty()) {
-				out.println("<p>Please fill out all fields.</p>");
-									
-				} else {
-				dbm.addProduct(name, desc, dept, startBid, dueDate, picture, userName);
-				out.println("<p>Product listed successfully!</p>");
-				response.sendRedirect("upload.jsp"); // para hacerme la vida mas facil, sube la foto 2 veces
 
-				}
+					// The browser may not send a usable file path here; keep it optional and avoid NullPointerExceptions.
+					String picture = request.getParameter("picture_name");
+					if (picture == null) {
+						picture = "";
+					}
+					
+					if (name == null || name.isEmpty() ||
+						desc == null || desc.isEmpty() ||
+						startBid == null || startBid.isEmpty() ||
+						dueDate == null || dueDate.isEmpty()) {
+						out.println("<p>Please fill out all required fields.</p>");
+									
+					} else {
+						boolean ok = dbm.addProduct(name, desc, dept, startBid, dueDate, picture, userName);
+						if (ok) {
+							out.println("<p>Product listed successfully!</p>");
+							response.sendRedirect("upload.jsp"); // para hacerme la vida mas facil, sube la foto 2 veces
+						} else {
+							out.println("<p>Failed to list product. Please check your inputs (especially date/price format).</p>");
+						}
+					}
 			}
 				%>
 
@@ -123,6 +134,13 @@
 				//Close the connection to the database
 				dba.close();
 				dbm.close();
+
+				// After authentication and DB cleanup, perform any pending redirect
+				if ("true".equals(session.getAttribute("redirectToUpload"))) {
+					session.removeAttribute("redirectToUpload");
+					response.sendRedirect("upload.jsp");
+					return;
+				}
 			}
 		}catch(Exception e){
 			%>Nothing to show!<%

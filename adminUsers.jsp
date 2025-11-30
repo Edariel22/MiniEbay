@@ -6,9 +6,13 @@
 	<head>
 		<title>Admin Users</title>
 	</head>
-	<body>
+<body>
 
 <%
+
+session.setAttribute("previousPage", "welcomeMenu.jsp");
+session.setAttribute("currentPage", "adminUsers.jsp");
+
 try {
 
     //Authenticate if the user is logged in, if not redirect the user to login hashing
@@ -17,7 +21,7 @@ try {
 	}else{
 		String currentPage = "adminUsers.jsp";
         String userName = session.getAttribute("userName").toString();
-        String previousPage = session.getAttribute("currentPage").toString();
+        String previousPage = session.getAttribute("previousPage").toString();
 
 
         //Create dba object

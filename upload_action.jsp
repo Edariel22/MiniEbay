@@ -20,7 +20,11 @@
 </head>
 <body>
 <%
-	session.setAttribute("previousPage", "sellProduct.jsp");
+	// Ensure navigation chain is stable... upload_action.jsp must always consider upload.jsp as previous page
+	Object prev = session.getAttribute("previousPage");
+	if (prev == null || !"upload.jsp".equals(prev.toString())) {
+		session.setAttribute("previousPage", "upload.jsp");
+	}
 	session.setAttribute("currentPage", "upload_action.jsp");
 
 	//Try to connect the database using the classes applicationDBManager & applicationDBAuthenticationGoodComplete
@@ -67,7 +71,7 @@
 				   File file ;
 				   int maxFileSize = 5000 * 1024;
 				   int maxMemSize = 5000 * 1024;
-				   String filePath = "C:\\Users\\Angel\\Downloads\\apache-tomcat-11.0.10\\webapps\\MiniEbay\\images\\";
+				   String filePath = "C:\\Users\\edari\\Downloads\\apache-tomcat-11.0.10-windows-x64\\apache-tomcat-11.0.10\\webapps\\MiniEbay\\images\\";
 					String picture_path = "images\\"+ request.getParameter("picture_name");
 				 
 				   String contentType = request.getContentType();
