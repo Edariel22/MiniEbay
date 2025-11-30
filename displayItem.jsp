@@ -9,33 +9,33 @@
 	<body>
 
 <%
-try {
+	// Try to connect the database using the applicationDBManager class
+    try{
+            //Authenticate if the user is logged in, if not send the user back to the login page
+            if (session.getAttribute("userName") == null || session.getAttribute("currentPage") == null) {
+    			session.setAttribute("currentPage", null);
+    			session.setAttribute("userName", null);
+   	 			response.sendRedirect("loginHashing.html");
+				
+			}else{
+				String productId = request.getParameter("productId");
 
-    //Authenticate if the user is logged in, if not redirect the user to login hashing
-    if (session.getAttribute("userName") == null || session.getAttribute("currentPage") == null) {
-    	session.setAttribute("currentPage", null);
-    	session.setAttribute("userName", null);
-   	 	response.sendRedirect("loginHashing.html");
-	}else{
-		String productId = request.getParameter("productId");
+				String currentPage = "displayItem.jsp";
+				String userName = session.getAttribute("userName").toString();
+				String previousPage = session.getAttribute("currentPage").toString();
+				session.setAttribute("currentPage", "displayItem.jsp");
 
-        String currentPage = "displayItem.jsp";
-        String userName = session.getAttribute("userName").toString();
-        String previousPage = session.getAttribute("currentPage").toString();
-		session.setAttribute("currentPage", "displayItem.jsp");
+				//Create dba object
+				applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
+				System.out.println("Connecting...");
+				System.out.println(dba.toString());
 
+				//Create dbm object
+				applicationDBManager dbm = new applicationDBManager();
+				System.out.println("Connecting...");
+				System.out.println(dbm.toString());
 
-        //Create dba object
-        applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
-        System.out.println("Connecting...");
-        System.out.println(dba.toString());
-
-        //Create dbm object
-        applicationDBManager dbm = new applicationDBManager();
-        System.out.println("Connecting...");
-        System.out.println(dbm.toString());
-
-		session.setAttribute("currentPage", "displayItem.jsp");
+				session.setAttribute("currentPage", "displayItem.jsp");
 
         //Call the verifyUser method to authenticate the user
         ResultSet rsUser = dba.verifyUser(userName, currentPage, previousPage);
@@ -56,7 +56,7 @@ try {
                 session.setAttribute("userName", userName);
             }
 				if (productId != null && !productId.isEmpty()) {
-					ResultSet rs = dbm.getProductById(Integer.parseInt(productId));
+					ResultSet rs = dbm.getProductByID(Integer.parseInt(productId));
 
 					if (rs.next()) {
 						%>

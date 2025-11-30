@@ -23,7 +23,7 @@ if (request.getParameter("addProduct") != null) {
     String startBid = request.getParameter("startBid");
     String dueDate = request.getParameter("dueDate");
     // Use admin helper for adding products
-    dbm.addProductAdmin(name, deptId, startBid, dueDate);
+    dbm.addProduct(name, deptId, startBid, dueDate);
 }
 
 // Remove product
