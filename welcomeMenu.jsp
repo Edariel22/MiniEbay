@@ -15,28 +15,28 @@
 
 	// Intenta conectar con la base de datos.
 	try{
-			//Revisa el proceso de autenticacion.
+			// Revisa el proceso de autenticacion.
 			if (session.getAttribute("userName")==null || session.getAttribute("currentPage")==null) {
 				session.setAttribute("currentPage", null);
 				session.setAttribute("userName", null);
-				response.sendRedirect("loginHashing.html"); //Manda al usuario de vuelta al login.
+				response.sendRedirect("loginHashing.html"); // Manda al usuario de vuelta al login.
 			}
 			else{
 				String currentPage="welcomeMenu.jsp";
 				String userName = session.getAttribute("userName").toString();
 				String previousPage = session.getAttribute("previousPage").toString();
 		
-			//Crea el objeto dba, (database authentication) para poder autenticar al usuario.
+			// Crea el objeto dba, (database authentication) para poder autenticar al usuario.
 				applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
 				System.out.println("Connecting...");
 				System.out.println(dba.toString());
 
-			//Crea el objeto dbm, (database manager) para poder manejar la base de datos.
+			// Crea el objeto dbm, (database manager) para poder manejar la base de datos.
 				applicationDBManager dbm = new applicationDBManager();
 				System.out.println("Connecting...");
 				System.out.println(dbm.toString());
 				
-			// Usando ResulSet, intenta verificar al usuario.
+			// Usando ResultSet, intenta verificar al usuario.
 				ResultSet rs=dba.verifyUser(userName, currentPage, previousPage);
 			
 			// Revisa si el usuario fue autenticado bien.
@@ -62,10 +62,11 @@
 				<!-- Parte html para que me encuentren los productos plz.-->
 				<form action="findProduct.jsp" method="GET">
 					<label for="search">Search:</label>
-					<input type="text" id="productName" name="productName" placeholder="Enter product name">
+					<input type="text" id="prod_name" name="prod_name" placeholder="Enter product name">
 					<button type="submit">Search</button>
 					
 					<%
+					// Recoje los departamentos, para poder escojer entre ellos.
 					ResultSet rsDept=dbm.listAllDepartments();
 					%>
 					<!-- Y parte para que me enseñen de que departamento esta cada cosa. -->
@@ -132,8 +133,7 @@
 					response.sendRedirect("loginHashing.html");
 				}
 
-				// Cierra el ResultSet y las conexiones a la base de datos para mantener las cosas limpias.
-				rs.close();
+				// Cierra las conexiones a la base de datos para mantener las cosas limpias.
 				dba.close();
 				dbm.close();
 			}

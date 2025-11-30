@@ -15,11 +15,11 @@
 
 		// Intenta conectar con la base de datos.
 		try{
-					//Revisa el proceso de autenticacion.
+					// Revisa el proceso de autenticacion.
 				if (session.getAttribute("userName") == null || session.getAttribute("currentPage") == null) {
 					session.setAttribute("currentPage", null);
 					session.setAttribute("userName", null);
-					response.sendRedirect("loginHashing.html");
+					response.sendRedirect("loginHashing.html"); // Manda al usuario de vuelta al login.
 					
 				}else{
 					String productId = request.getParameter("productId");
@@ -63,14 +63,6 @@
 						// Enseña los detalles de cada producto.
 						%>
 
-						<form action="findProduct.jsp" method="GET">
-							<input type="hidden" name="productId" value="<%= request.getParameter("productId") %>">
-							<input type="hidden" name="productName" value="<%= request.getParameter("productName") %>">
-							<input type="hidden" name="dept_name" value="<%= request.getParameter("dept_name") %>">
-							<button type="submit" name="findProduct" value="findProduct">Return to the list of products</button>
-						</form> <br>
-								<br> 
-
 						<form action="welcomeMenu.jsp" method="GET">
 							<button type="submit" name="welcomeMenu" value="welcomeMenu">Back to main page</button>
 						</form> <br> <br>
@@ -103,19 +95,19 @@
 						<%
 					}
 				}else{
-					//Close any session associated with the user
+					// Si falla, cierra la sesion con el usuario poniendolo en null.
 					session.setAttribute("userName", null);
 
-					//return to the login page
+					// Retorna al usuario a la pagina de login.
 					response.sendRedirect("loginHashing.html");
 				}
 
-				// Close the connection to the database
+				// Cierra las conexiones a la base de datos para mantener las cosas limpias.
 				dba.close();
 				dbm.close();
 			} 
 		}catch(Exception e) {
-		//If an exception occurs, print the stack trace
+		// En caso de que haya un error.
 		e.printStackTrace();
 		response.sendRedirect("loginHashing.html");
 	}finally{

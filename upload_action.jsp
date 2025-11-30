@@ -29,7 +29,7 @@
 			if (session.getAttribute("userName")==null || session.getAttribute("currentPage")==null) {
 				session.setAttribute("currentPage", null);
 				session.setAttribute("userName", null);
-				response.sendRedirect("loginHashing.html"); // send the User back to the login page
+				response.sendRedirect("loginHashing.html"); // Manda al usuario de vuelta al login.
 			}
 			else{
 				String currentPage="upload_action.jsp";
@@ -56,12 +56,12 @@
 			// Crea el attributo currentPage.
 				session.setAttribute("currentPage", currentPage);
 					
-				//Create a session variable
+				// Crea una variable de sesion con el nombre del usuario.	
 				if (session.getAttribute("userName")==null ){
 					//create the session variable
 					session.setAttribute("userName", userName);
 				}else{
-					//Update the session variable
+					// O actualizala.
 					session.setAttribute("userName", userName);
 				}
 					File file ;
@@ -101,6 +101,7 @@
 								 
 								}
 						response.sendRedirect("welcomeMenu.jsp");
+
 							} catch (Exception ex) {
 								ex.printStackTrace();
 								out.println("<p>Error occurred: " + ex.getMessage() + "</p>");
@@ -109,21 +110,24 @@
 					} else {
 						out.println("<p>No file uploaded</p>");
 					}
+
 				}else{
-					//Close any session associated with the user
+
+					// Si falla, cierra la sesion con el usuario poniendolo en null.
 					session.setAttribute("userName", null);
 					
-					//return to the login page
+					// Retorna al usuario a la pagina de login.
 					response.sendRedirect("loginHashing.html");
 				}
 				//rs.close();
 
-				//Close the connection to the database
+				// Cierra las conexiones a la base de datos para mantener las cosas limpias.
 				dba.close();
 				dbm.close();
 			}
 		}catch(Exception e){
 			%>Nothing to show!<%
+		// En caso de que haya un error.
 			e.printStackTrace();
 			response.sendRedirect("loginHashing.html");
 		}finally{

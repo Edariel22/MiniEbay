@@ -52,22 +52,22 @@
 
 						// Recoge el Id del departamento y el nombre del producto.
 						String deptName = request.getParameter("dept_name");
-						String productName = request.getParameter("productName");
+						String prodName = request.getParameter("prod_name");
 
 						// Crea un Resulset vacio para poder buscar los productos.
 						ResultSet rsProd = null;
 
 							// Primero busca si el objeto fue buscado, sin escoger un departamento especifico
-					   if  (productName != null && !productName.isEmpty() && (deptName == null || deptName.isEmpty() || deptName.equals("SearchAllDepartments"))) {
-							rsProd = dbm.listProducts(productName);
+					   if  (prodName != null && !prodName.isEmpty() && (deptName == null || deptName.isEmpty() || deptName.equals("SearchAllDepartments"))) {
+							rsProd = dbm.listProducts(prodName);
 							// Luego, busca si se escogio un nombre y un departamento
-						} else if (productName != null && !productName.isEmpty() && deptName != null && !deptName.isEmpty() && !deptName.equals("SearchAllDepartments")) {
-							rsProd = dbm.listProducts(productName, deptName);
+						} else if (prodName != null && !prodName.isEmpty() && deptName != null && !deptName.isEmpty() && !deptName.equals("SearchAllDepartments")) {
+							rsProd = dbm.listProducts(prodName, deptName);
 							// Si no se escogio un nombre, pero si un departamento
-						} else if ((productName == null || productName.isEmpty()) && deptName != null && !deptName.isEmpty() && !deptName.equals("SearchAllDepartments")) {
+						} else if ((prodName == null || prodName.isEmpty()) && deptName != null && !deptName.isEmpty() && !deptName.equals("SearchAllDepartments")) {
 							rsProd = dbm.listProducts(null, deptName);
 							// Si simplemente le dieron search sin escoger ni escribir nada
-						} else if((productName == null || productName.isEmpty()) && (deptName == null || deptName.equals("SearchAllDepartments"))) {
+						} else if((prodName == null || prodName.isEmpty()) && (deptName == null || deptName.equals("SearchAllDepartments"))) {
 							rsProd = dbm.listProducts(null);
 						}
 
@@ -91,7 +91,7 @@
                              <form action="displayItem.jsp" method="GET">
                                 <!-- guarda la identificacion de forma escondida -->
                                 <input type="hidden" name="productId" value="<%=rsProd.getString(1)%>">
-                                <input type="hidden" name="productName" value="<%=productName %>">
+                                <input type="hidden" name="prodName" value="<%=prodName %>">
                                 <input type="hidden" name="dept_name" value="<%=deptName %>">
                                 <input type="submit" value="View Item"> <br> <br>
                             </form>

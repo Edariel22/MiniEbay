@@ -13,9 +13,9 @@
 	session.setAttribute("previousPage", "welcomeMenu.jsp");
 	session.setAttribute("currentPage", "sellProduct.jsp");
 
-	//Try to connect the database using the classes applicationDBManager & applicationDBAuthenticationGoodComplete
+	// Intenta conectar con la base de datos.
 	try{
-			//Check the authentication process
+			// Revisa el proceso de autenticacion.
 			if (session.getAttribute("userName")==null || session.getAttribute("currentPage")==null) {
 				session.setAttribute("currentPage", null);
 				session.setAttribute("userName", null);
@@ -26,35 +26,34 @@
 				String userName = session.getAttribute("userName").toString();
 				String previousPage = session.getAttribute("previousPage").toString();
 		
-			//Create the dba object
+			// Crea el objeto dba, (database authentication) para poder autenticar al usuario.
 				applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
 				System.out.println("Connecting...");
 				System.out.println(dba.toString());
 
-			//Create the dbm object
+			// Crea el objeto dbm, (database manager) para poder manejar la base de datos.
 				applicationDBManager dbm = new applicationDBManager();
 				System.out.println("Connecting...");
 				System.out.println(dbm.toString());
 				
-			//Call the verifyUser method
+			// Usando ResultSet, intenta verificar al usuario.
 				ResultSet rs=dba.verifyUser(userName, currentPage, previousPage);
 			
-			//Check if the user has been authenticated
+			// Revisa si el usuario fue autenticado bien.
 			if (rs.next()){
 				String userActualName=rs.getString(3);
 					
-				//Create the current page attribute
+				// Crea el attributo currentPage.
 				session.setAttribute("currentPage", currentPage);
 					
-				//Create a session variable
+				// Crea una variable de sesion con el nombre del usuario.	
 				if (session.getAttribute("userName")==null ){
-					//create the session variable
 					session.setAttribute("userName", userName);
 				}else{
-					//Update the session variable
+					// O actualizala.
 					session.setAttribute("userName", userName);
 				}
-					// get departments for dropdown
+					// Recoje los departamentos, para poder escojer entre ellos.
 						ResultSet rsDept = dbm.listAllDepartments();
 			
 					// para poderlos subir al miniebay
@@ -97,21 +96,21 @@
 
 					<%
 				}else{
-					//Close any session associated with the user
+					// Si falla, cierra la sesion con el usuario poniendolo en null.
 					session.setAttribute("userName", null);
 					
-					//return to the login page
+					// Retorna al usuario a la pagina de login.
 					response.sendRedirect("loginHashing.html");
 				}
 
-				//Close the connection to the database
-				rs.close();
+				// Cierra las conexiones a la base de datos para mantener las cosas limpias.
 				dba.close();
 				dbm.close();
 			}
 
 		}catch(Exception e){
 			%>Nothing to show!<%
+		// En caso de que haya un error.
 			e.printStackTrace();
 			response.sendRedirect("loginHashing.html");
 		}finally{

@@ -99,8 +99,7 @@
 						// y regresalos a la pagina de login
 							response.sendRedirect("loginHashing.html");
 						}
-					// Cierra la conexion a la base de datos para mantener las cosas limpias.
-					rs.close();
+					// Cierra las conexiones a la base de datos para mantener las cosas limpias.
 					dba.close();
 					dbm.close();
 				}
