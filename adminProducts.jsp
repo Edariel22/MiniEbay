@@ -148,7 +148,7 @@
 	<!-- Opcion para remover un producto -->
 		<h3>Remove Product</h3>
 		<form method="POST" action="adminProducts.jsp">
-		User: <input type="text" name="removeName"><br>
+		Product ID: <input type="text" name="removeName"><br>
 		<input type="submit" name="removeProduct" value="Remove">
 		</form>
 		<a href="welcomeMenu.jsp">Return to Main Menu</a>
