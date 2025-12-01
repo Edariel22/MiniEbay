@@ -141,7 +141,7 @@
 		New Starting Bid: <input type="text" name="newStartBid"><br>
 		New Due Date (YYYY-MM-DD HH:MM:SS): <input type="text" name="newDueDate"><br>
 		New Picture Name: <input type="text" name="newPictureName"><br>
-		New Creation Date: <input type="text" name="newCreationDate"><br>
+		New Creation Date (YYYY-MM-DD HH:MM:SS): <input type="text" name="newCreationDate"><br>
 		New Seller: <input type="text" name="newUserName"><br>
 		<input type="submit" name="modifyProduct" value="Modify">
 		</form>
