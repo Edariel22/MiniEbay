@@ -29,11 +29,6 @@
 				applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
 				System.out.println("Connecting...");
 				System.out.println(dba.toString());
-
-			//Crea el objeto dbm, (database manager) para poder manejar la base de datos.
-				applicationDBManager dbm = new applicationDBManager();
-				System.out.println("Connecting...");
-				System.out.println(dbm.toString());
 				
 			// Usando ResulSet, intenta verificar al usuario.
 				ResultSet rs=dba.verifyUser(userName, currentPage, previousPage);
@@ -43,19 +38,18 @@
           
 			// Añade al usuario (si no hay error ni nada).
 			if (request.getParameter("userName") != null && request.getParameter("addUser") != null) {
-				String u = request.getParameter("userName");
-				String p = request.getParameter("hashing"); // treat as password input
-				String n = request.getParameter("name");
-				String t = request.getParameter("telephone");
-				String r = request.getParameter("roleId");
+				String userN = request.getParameter("userName"); // Nombre para el usuario nuevo
+				String pass = request.getParameter("hashing"); // Password para el usuario
+				String rN = request.getParameter("name"); // Nuevo nombre "real"
+				String tele = request.getParameter("telephone"); // Numero de telefono del nuevo usuario
+				String userRI = request.getParameter("roleId"); // Rol para el usuario
 				
-		
-				String hashed = dba.getHashedValue(u, p);
+				// Añade al nuevo usuario.
+				boolean rsUser = dba.addUser(userN, rN, pass, tele);
+				boolean rsRole = dba.setUserRole(userN,userRI);
 
-				// Add user with hashed password using admin helper
-				boolean res = dbm.addUser(u, hashed, n, t, r);
-
-				if (res) {
+				// Revisa si el usuario fue autenticado bien.
+				if (rsUser && rsRole){
 					out.println("<p>User added successfully.</p>");
 				} else {
 					out.println("<p>Failed to add user.</p>");
@@ -64,18 +58,18 @@
 
 			// Modifica a un usuario existente.
 			if (request.getParameter("modifyUser") != null) {
-				String u = request.getParameter("userName");
-				String p = request.getParameter("hashing");
-				String n = request.getParameter("name");
-				String t = request.getParameter("telephone");
-				String r = request.getParameter("roleId");
+				String userN = request.getParameter("userName"); // Nombre para poder encontrar al usuario
+				String newPass = request.getParameter("hashing"); // Password nuevo para el usuario
+				String newRN = request.getParameter("name"); // Nuevo nombre "real"
+				String newTele = request.getParameter("telephone"); // Nuevo numero de telefono del usuario
+				String newUserRI = request.getParameter("roleId"); // Nuevo rol para el usuario
 				
-				String hashed = dba.getHashedValue(u, p);
 
-				// Modifica el usuario con un ayudante de administrador.
-				boolean res = dbm.updateUser(u, hashed, n, t, r);
+				// Modifica el usuario existente.
+				boolean rsUser = dba.updateUser(userN, newPass, newRN, newTele);
+				boolean rsRole = dba.updateUserRole(userN,newUserRI);
 
-				if (res) {
+				if (rsUser && rsRole){
 					out.println("<p>User modified successfully.</p>");
 				} else {
 					out.println("<p>Failed to modify user.</p>");
@@ -85,25 +79,37 @@
 
 			//Remueve al usuario de la base de datos.
 				if(request.getParameter("removeUser")!=null){
-				String ru = request.getParameter("removeName");
-				dbm.removeUserAdmin(ru);
+				String rU = request.getParameter("removeName");
+				dba.removeUser(rU);
 				out.println("<p>User removed.</p>");
 			}
 
-			//List users
-			ResultSet rs = dbm.listAllUsers();
+			//Crea un ResultSet para enseñar los usuarios y otro para enseñar sus roles.
+			ResultSet rsListU = dba.listUsers();
 			%>
 				<!-- Para que el admin pueda ver los usuarios existentes -->
 					<h2>Admin - User List</h2>
 					<table border="1">
-					<tr><td>Username</td><td>Name</td><td>Telephone</td><td>Role</td></tr>
+					<tr>
+					<td>Username</td>
+					<td>Name</td>
+					<td>Telephone</td>
 					<%
-					while(rs.next()){
+					while(rsListU.next()){
 						out.print("<tr>");
-						out.print("<td>"+rs.getString("userName")+"</td>");
-						out.print("<td>"+rs.getString("name")+"</td>");
-						out.print("<td>"+rs.getString("telephone")+"</td>");
-						out.print("<td>"+rs.getString("roleId")+"</td>");
+						out.print("<td>"+rsListU.getString("userName")+"</td>");
+						out.print("<td>"+rsListU.getString("name")+"</td>");
+						out.print("<td>"+rsListU.getString("telephone")+"</td>");
+						out.print("</tr>");
+					}
+				%>
+					<td>Role per User</td></tr>
+				<%
+				ResultSet rsListR = dba.listRoles();
+					while(rsListR.next()){
+						out.print("<tr>");
+						out.print("<td>"+rsListR.getString("userName")+"</td>");
+						out.print("<td>"+rsListR.getString("roleId")+"</td>");
 						out.print("</tr>");
 					}
 			}else{
@@ -114,10 +120,8 @@
 				response.sendRedirect("loginHashing.html");
 			}
 
-				// Cierra el ResultSet y las conexiones a la base de datos para mantener las cosas limpias.
-				rs.close();
+				// Cierra la conexion a la base de datos para mantener las cosas limpias.
 				dba.close();
-				dbm.close();
 			}
 
 		}catch(Exception e){
@@ -135,7 +139,7 @@
 		<h3>Add User</h3>
 		<form method="POST" action="adminUsers.jsp">
 		User: <input type="text" name="userName"><br>
-		Hash: <input type="text" name="hashing"><br>
+		Hash: <input type="password" name="hashing"><br>
 		Name: <input type="text" name="name"><br>
 		Tel: <input type="text" name="telephone"><br>
 		Role: 
@@ -149,7 +153,7 @@
 		<h3>Modify User</h3>
 		<form method="POST" action="adminUsers.jsp">
 		User: <input type="text" name="userName"><br>
-		Hash: <input type="text" name="hashing"><br>
+		Hash: <input type="password" name="hashing"><br>
 		Name: <input type="text" name="name"><br>
 		Tel: <input type="text" name="telephone"><br>
 		Role: 
@@ -166,5 +170,5 @@
 		<input type="submit" name="removeUser" value="Remove">
 		</form>
 		<a href="welcomeMenu.jsp">Return to Main Menu</a>
-</body>
+	</body>
 </html>

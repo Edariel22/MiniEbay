@@ -51,7 +51,7 @@
 			
 			// Revisa si el usuario fue autenticado bien.
 			if (rs.next()){
-				String userActualName=rs.getString(3);
+				String userActualName=rs.getString("name");
 					
 			// Crea el attributo currentPage.
 				session.setAttribute("currentPage", currentPage);
@@ -105,10 +105,12 @@
 							} catch (Exception ex) {
 								ex.printStackTrace();
 								out.println("<p>Error occurred: " + ex.getMessage() + "</p>");
+								response.sendRedirect("sellProduct.jsp");
 							}
 
 					} else {
-						out.println("<p>No file uploaded</p>");
+						System.out.println("<p>No file uploaded</p>");
+						response.sendRedirect("sellProduct.jsp");
 					}
 
 				}else{

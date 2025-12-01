@@ -85,7 +85,7 @@ public class applicationDBManager{
 		String table="departments";
 		
 		//Busca el departamento que se va a añadir.
-		String values="NULL, " + name + "', '" + building + "'";
+		String values="NULL, '" + name + "', '" + building + "'";
 
 		//Crea un boolean que es falso al principio, por si falla su parte.
 		boolean rs;
@@ -112,17 +112,19 @@ public class applicationDBManager{
  *		@returns:
  *			Regresa ResultSet con en cierto o falso si se logro modificar.
  */
-	public boolean updateProduct(int productId, String newProductName, String newDescription, String newDeptID, String newBid, String newDueDate, String newPicturePath,
+	public boolean updateProduct(int productId, String newProductName, String newDescription, int newDeptId, String newBid, String newDueDate, String newPicturePath,
 	String newAddDate, String newUserName) {
 		//Crea un boolean que es falso al principio, por si falla su parte, y fuera del try para que java no llore.
 		boolean rs = false;
 		try {
 			// Declara y define las tablas que se van a modificar (Primer NULL es el ID).
 			String table = "products";
-			String fields = "NULL, '" + newProductName + "', " + newDescription + "', " + newDeptID + "', " + newDueDate + "', " + newPicturePath +"', '"+ newAddDate +"', '"+ newUserName +"'";
-			
+			// Que lista mas larga lmao.
+			String fields="product_id = '" + productId + "', name = '" + newProductName + "', dept_id = '"
+			+ newDeptId + "', due_date = '" + newDueDate + "', picture_path = '" + newPicturePath
+			+ "', created_at = '" + newAddDate + "', userName = '" + newUserName + "'";
 			//Condicion para que solo se modifique el producto especificado por su ID
-			String condition = "product_id = " + productId ;
+			String condition = "product_id = " + productId;
 			//Actualiza el objeto usando doUpdate.
 			rs = myDBConn.doUpdate(table, fields, condition);
 			
@@ -145,13 +147,12 @@ public class applicationDBManager{
  *	Solo lo pueden usar los admins.
  *		@parameters:
  *			dept_id:			El ID del departamento para encontrarlo facilmente.
- *			newDepartmentID:	El ID nuevo que se le va a asignar al departamento.
  *			newName:			El nuevo nombre que se le va a asignar.
  *			newBuildingName:	El nuevo edificio que se le va a asignar.
  *		@returns:
  *			Regresa ResultSet con en cierto o falso si se logro modificar.
  */
-	public boolean updateDepartment(int dept_id, String newDepartmentId, String newName, String newBuildingName) {
+	public boolean updateDepartment(int dept_id, String newName, String newBuildingName) {
 		// Crea un boolean que es falso al principio, por si falla su parte, fuera del try para que java no llore.
 		boolean rs = false;
 		//Intenta modificar un departamento seleccionado.
@@ -159,8 +160,7 @@ public class applicationDBManager{
 
 			// Declara y define las tablas que se van a modificar.
 			String table = "departments";
-			String fields = "'"+ newDepartmentId + "', '" + newName + "', '" + newBuildingName + "'";;
-	
+			String fields="dept_id = '" + dept_id + "', name = '" + newName + "', building = '" + newBuildingName + "'";
 			// Condicion para que solo se modifique el departamento especificado por su ID.
 			String condition = "dept_id = '" + dept_id + "'";
 	
@@ -296,7 +296,7 @@ public class applicationDBManager{
  *		@returns:
  *			Regresa ResultSet en cierto o falso si se logro borrar el producto.
  */
-	public boolean removeProduct(String productId) {
+	public boolean removeProduct(int productId) {
 
 		// Busca la tabla que se va a modificar.
 		String table = "products";

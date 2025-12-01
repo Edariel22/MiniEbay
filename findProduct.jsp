@@ -37,7 +37,7 @@
 
 					// Revisa si el usuario fue autenticado bien.
 					if (rsUser.next()){
-						String sessionName = rsUser.getString(3);
+						String sessionName = rsUser.getString("name");
 
 						// Crea el attributo currentPage.
 						session.setAttribute("currentPage", currentPage);
@@ -79,18 +79,18 @@
                         i++;
                         %>
                         <tr>
-								<%=rsProd.getString(1)%>: <!-- primero coje el ID -->
-                            NAME:	<%=rsProd.getString(2)%> <br> <!-- luego, el nombre -->
-								<%=rsProd.getString(3)%><br> <!-- luego, la descripcion -->
-                            DEPARTMENT: <%=rsProd.getString(4)%> <br> <!-- de que departamento es? -->
-                            BID $<%=rsProd.getString(5)%> <br> <!-- cuanto es que esta la paga? -->
-                            DUE DATE: <%=rsProd.getString(6)%> <br> <!-- hasta cuandooooo -->
+								<%=rsProd.getString("product_id")%>: <!-- primero coje el ID -->
+                            NAME:	<%=rsProd.getString("name")%> <br> <!-- luego, el nombre -->
+								<%=rsProd.getString("description")%><br> <!-- luego, la descripcion -->
+                            DEPARTMENT: <%=rsProd.getString("dept_id")%> <br> <!-- de que departamento es? -->
+                            BID $<%=rsProd.getString("start_bid")%> <br> <!-- cuanto es que esta la paga? -->
+                            DUE DATE: <%=rsProd.getString("due_date")%> <br> <!-- hasta cuandooooo -->
 						<!-- debi tirar mas fotos -->
                           <img src="/MiniEbay/images/<%= rsProd.getString("picture_path") %>" alt="<%= rsProd.getString("name") %>" width="200"
 						  style="max-width:200px; height:auto;"> <br>
                              <form action="displayItem.jsp" method="GET">
                                 <!-- guarda la identificacion de forma escondida -->
-                                <input type="hidden" name="productId" value="<%=rsProd.getString(1)%>">
+                                <input type="hidden" name="productId" value="<%=rsProd.getString("product_id")%>">
                                 <input type="hidden" name="prodName" value="<%=prodName %>">
                                 <input type="hidden" name="dept_name" value="<%=deptName %>">
                                 <input type="submit" value="View Item"> <br> <br>

@@ -53,7 +53,7 @@
 						// Revisa si el usuario fue autenticado bien.
 						if (rs.next()){
 							// Del Resulset, saca el string numero 3 que contiene el verdadero nombre del usuario.
-							String userActualName=rs.getString(3);
+							String userActualName=rs.getString("name");
 								
 							// Crea el attributo currentPage.
 							session.setAttribute("currentPage", currentPage);
@@ -74,7 +74,7 @@
 							/* Llama la funcion addProduct, para poder llenar sus partes en la tabla de la base de datos,
 							 * Si hay un error por algun caso, esta en booleano para que retorne falso si ese es el caso.
 							 */
-							rsProd=	dbm.addProduct(name, desc, dept, startBid, dueDate, userName, picture_path);
+							rsProd=	dbm.addProduct(name, desc, dept, startBid, dueDate, picture_path, userName);
 
 							// Revisa si el producto fue añadido bien.
 							if (rsProd){

@@ -43,7 +43,7 @@
 			// Revisa si el usuario fue autenticado bien.
 			if (rs.next()){
 				// Del Resulset, saca el string numero 3 que contiene el verdadero nombre del usuario.
-				String userActualName=rs.getString(3);
+				String userActualName=rs.getString("name");
 					
 				// Crea el attributo currentPage.
 				session.setAttribute("currentPage", currentPage);

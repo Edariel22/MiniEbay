@@ -110,54 +110,108 @@ public class applicationDBAuthenticationGoodComplete{
 		
 		
 	}
-	
+/*
+ *	Metodo addUser, para cuando un usuario hace sign up.
+ *			@parameters:
+ *				userName:		Para saber que usuario se va a añadir a la base de datos.
+ *				CompleteName:	Nombre "real" del usuario.
+ *				userPass:		Password para el usuario, se encripta con hashing.
+ *				userTelephone:	Numero de telefono del usuario.
+ *			@returns:
+ *				Retorna cierto o falso dependiendo si logran cambiar los datos.
+ */
 	public boolean addUser(String userName, String completeName, String userPass, String userTelephone)
 	{
 		boolean rs;
 		String table, values, hashingValue;
 		hashingValue=hashingSha256(userName + userPass);
 		table="users";
-		values="'"+userName+"', '" +hashingValue+"', '"+ completeName + "', '" + userTelephone + "'";
+		values="'" + userName + "', '" + hashingValue + "', '" + completeName + "', '" + userTelephone + "'";
 		rs=myDBConn.doInsert(table, values);
 		System.out.println("Insertion result" + rs);
 		return rs;
 	}
 
+/*
+ *	Metodo setUserRole, para asignarle un rol al usuario cuando se crea una cuenta.
+ *	Son dos funciones, ya que cuando se crea un usuario normalmente, siempre va a ser un user normal (rol2), pero por el lado de Admin, se usa la segunda funcion.
+ *			@parameters:
+ *				userName:	Para saber que usuario se le va a dar el rol.
+ *			@returns:
+ *				Retorna cierto o falso dependiendo si logra añadir.
+ */
 	public boolean setUserRole(String userName)
 	{
 		boolean rs;
 		String table, values;
 		table="roleuser";
-		values="'"+userName+"', 'rol2'";
+		values="'" + userName + "', 'rol2'";
 		rs=myDBConn.doInsert(table, values);
 		System.out.println("Insertion result" + rs);
 		return rs;
 	}
 
-	// Update an existing user
-	public boolean updateUser(String userName, String newPass, String newName, String newTelephone, String newRoleId)
+// Version usada solo por el lado de Admin, para escoger el rol de un usuario.
+	public boolean setUserRole(String userName, String userRoleId)
 	{
-		boolean rsUser, rsRole;
-		String table, values, hashingValue;
-		hashingValue=hashingSha256(userName + newPass);
-		System.out.println("Updating user: " + userName);
-		// Modifica al usuario existente.
-		table="users";
-		String userFields = "hashing='" + hashingValue + "', name='" + newName + "', telephone='" + newTelephone + "'";
-		String userCondition = "userName= '" + userName + "'";
-		rsUser = myDBConn.doUpdate(table, userFields, userCondition);
-
-		// Cambia el rol del usuario (Solo los admins lo pueden hacer).
+		boolean rs;
+		String table, values;
 		table="roleuser";
-		String roleFields = "roleId='" + newRoleId + "'";
-		String roleCondition = "userName= '" + userName + "'";
-		rsRole = myDBConn.doUpdate(table, roleFields, roleCondition);
-
-		// Regresa cierto solamente si ambos son ciertos.
-		return rsUser && rsRole;
+		values="'" + userName + "', '" + userRoleId + "'";
+		rs=myDBConn.doInsert(table, values);
+		System.out.println("Insertion result" + rs);
+		return rs;
 	}
 
-    // Metodo removeUser, para remover un usuario.
+/*
+ *	Metodo updateUser, para si un admin decide cambiarle los datos a un usuario.
+ *			@parameters:
+ *				userName:	Para saber que usuario se va a modificar.
+ *				newPass:	Nuevo password para el usuario, se encripta con hashing.
+ *				newName:	Nuevo nombre "real" del usuario.
+ *				newName:	Nuevo numero de telefono del usuario.
+ *			@returns:
+ *				Retorna cierto o falso dependiendo si logran cambiar los datos.
+ */
+	public boolean updateUser(String userName, String newPass, String newName, String newTelephone)
+	{
+		boolean rs;
+		String table, values, hashingValue;
+		hashingValue=hashingSha256(userName + newPass);
+		table="users";
+		String condition = "userName = '" + userName + "'";
+		values="userName = '" + userName + "', hashing = '" + hashingValue + "', name = '" + newName + "', telephone = '" + newTelephone + "'";
+		rs=myDBConn.doUpdate(table, values, condition);
+		System.out.println("Insertion result" + rs);
+		return rs;
+	}
+/*
+ *	Metodo updateUserRole, para si un admin decide cambiarle el rol a un usuario.
+ *			@parameters:
+ *				userName:	Para saber que usuario se va a modificar.
+ *				newRoleID:	Para saber que rol se le va a asignar (rol1 admin, rol2 user).
+ *			@returns:
+ *				Retorna cierto o falso dependiendo si logra cambiar el rol.
+ */
+	public boolean updateUserRole(String userName, String newRoleID)
+	{
+		boolean rs;
+		String table, values;
+		table="roleuser";
+		String condition = "userName = '" + userName + "'";
+		values="userName = '" + userName + "', roleID = '" + newRoleID + "'";
+		rs=myDBConn.doUpdate(table, values, condition);
+		System.out.println("Insertion result" + rs);
+		return rs;
+	}
+
+/*
+ *	Metodo removeUser, para remover un usuario de la base de datos.
+ *			@parameters:
+ *				userName:	Para saber que usuario borrar.
+ *			@returns:
+ *				Retorna cierto o falso dependiendo si logra borrarlo.
+ */
     public boolean removeUser(String userName) {
 
 		//Define the table and condition for deletion
@@ -166,10 +220,44 @@ public class applicationDBAuthenticationGoodComplete{
 		
 		System.out.println("Removing user: " + userName);
 		
-		//Return true if deleted successfully
+		//Retorna cierto si logra borrarlo.
 		return myDBConn.doDelete(table, condition);
 	}
 	
+/*
+ *	Metodos listUsers, enseña todos los usuarios en la base de datos.
+ *		@parameters:
+ *		@returns:
+ *			Regresa ResultSet con el o los usuarios en toda la base de datos. 
+ */
+	public ResultSet listUsers() {
+
+		// Busca en toda la tabla que se va a utilizar (por eso el *).
+		String fields = "*";
+
+		// Busca la tabla que se va a modificar.
+		String table = "users";
+		// Regresa un ResultSet con todos los roles por usuario en la base de datos.
+		return myDBConn.doSelect(fields, table);
+	}
+
+/*
+ *	Metodos listRoles, enseña todos los Roles de los usuarios en la base de datos.
+ *		@parameters:
+ *		@returns:
+ *			Regresa ResultSet con el o los roles de usuario en toda la base de datos. 
+ */
+	public ResultSet listRoles() {
+
+		// Busca solamente en el lado del rol, ya que el userName estaria duplicado.
+		String fields = "*";
+
+		// Busca la tabla que se va a modificar.
+		String table = "roleuser";
+		// Regresa un ResultSet con todos los usuarios en la base de datos.
+		return myDBConn.doSelect(fields, table);
+	}
+
 	/*********
 		hashingSha256 method
 			Generates a hash value using the sha256 algorithm.

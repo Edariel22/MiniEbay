@@ -209,9 +209,10 @@ LOCK TABLES `rolewebpagegood` WRITE;
 /*!40000 ALTER TABLE `rolewebpagegood` DISABLE KEYS */;
 INSERT INTO `rolewebpagegood` VALUES ('rol1','adminDepartments.jsp','2025-11-02'),('rol1','adminProducts.jsp','2025-11-02'),('rol1','adminUsers.jsp','2025-11-02'),
 ('rol1','bidProduct.jsp','2025-11-02'),('rol1','displayItem.jsp','2025-11-02'),('rol1','findProduct.jsp','2025-11-02'),('rol1','sellProduct.jsp','2025-11-02'),
-('rol1','signout.jsp','2025-11-02'),('rol1','validationHashing.jsp','2025-11-02'),('rol1','welcomeMenu.jsp','2025-11-02'),('rol2','bidProduct.jsp','2025-11-02'),
-('rol2','displayItem.jsp','2025-11-02'),('rol2','findProduct.jsp','2025-11-02'),('rol2','sellProduct.jsp','2025-11-02'),('rol2','signout.jsp','2025-11-02'),
-('rol2','validationHashing.jsp','2025-11-02'),('rol2','welcomeMenu.jsp','2025-11-02'),('rol2','upload.jsp','2025-11-02'),('rol2','upload_action.jsp','2025-11-02');
+('rol1','signout.jsp','2025-11-02'),('rol1','validationHashing.jsp','2025-11-02'),('rol1','welcomeMenu.jsp','2025-11-02'),('rol1','upload.jsp','2025-11-02'),
+('rol1','upload_action.jsp','2025-11-02'),('rol2','bidProduct.jsp','2025-11-02'),('rol2','displayItem.jsp','2025-11-02'),('rol2','findProduct.jsp','2025-11-02'),
+('rol2','sellProduct.jsp','2025-11-02'),('rol2','signout.jsp','2025-11-02'),('rol2','validationHashing.jsp','2025-11-02'),('rol2','welcomeMenu.jsp','2025-11-02'),
+('rol2','upload.jsp','2025-11-02'),('rol2','upload_action.jsp','2025-11-02');
 /*!40000 ALTER TABLE `rolewebpagegood` ENABLE KEYS */;
 UNLOCK TABLES;
 
