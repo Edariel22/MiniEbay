@@ -9,8 +9,9 @@
 	<body>
 
 <%
- 	
-	session.setAttribute("previousPage", "welcomeMenu.jsp");
+ 	// La página anterior real antes de llegar aquí es displayItem.jsp,
+	// según la tabla webpageprevious. Usar ese valor o se rompe la autenticación.
+	session.setAttribute("previousPage", "displayItem.jsp");
 	session.setAttribute("currentPage", "bidProduct.jsp");
 
 	// Intenta conectar con la base de datos.
