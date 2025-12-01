@@ -385,42 +385,6 @@ public boolean placeBid(int productId, String userName, String Bid) {
     return rs;
 }
 
-
-/* Metodo modifyBid, para actualizar las ofertas en un producto en caso de que fue mas alta que la que ya estaba.
- *		@parameters:
- *			productId:	Identifica el producto de forma sencilla en la base de datos.
- *			newBid:		Nueva oferta al producto.
- *		@returns:
- *			Regresa ResultSet en cierto o falso si se logro actualizar la oferta.
- */
-	public boolean updateBid(int productId, String newBid) {
-		// Crea un boolean que es falso al principio, por si falla su parte, fuera del try para que java no llore.
-		boolean rs = false;
-		// Intenta modificar la oferta.
-		try {
-
-			// Declara y define las tablas que se van a modificar.
-			String table = "products";
-			String fields = "bids = " + newBid;
-			
-			// Busca el producto que se va a modificar.
-			String condition = "product_id= '" + productId + "'";
-			// Actualiza la oferta usando doUpdate.
-			rs = myDBConn.doUpdate(table, fields, condition);
-			
-			if (rs) {
-				System.out.println("Bid updated for product: " + productId + " successfully.");
-			} else {
-				System.out.println("No product with ID: " + productId + " was found in the database.");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		//Retorna el valor cierto o falso dependiendo si se logro actualizar la oferta.
-		return rs;
-	}
-
 /* Metodo getHighestBid, para cuando se quiere sacar la oferta mas alta del objeto.
  *		@parameters:
  *			productId:	Identifica el producto de forma sencilla en la base de datos.
