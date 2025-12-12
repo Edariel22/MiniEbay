@@ -67,12 +67,12 @@
 					File file ;
 					int maxFileSize = 5000 * 1024;
 					int maxMemSize = 5000 * 1024;
-					String filePath = "C:\\Users\\Angel\\Downloads\\apache-tomcat-11.0.10\\webapps\\MiniEbay\\images\\";
+					String filePath = "C:\\Users\\Angel\\Downloads\\apache-tomcat-11.0.10\\webapps\\MiniEbay\\images\\"; // Depende de la computadora que se este usando.
 					String picture_path = "";
 				// Primero, recoje las variables sacadas del submit de sellProduct.
 					String name = "";
 					String desc = "";
-					String dept = ""; // en realidad es el dept_id para facilidad de guardarlo
+					String dept = ""; // en realidad es el dept_id para facilidad de guardarlo.
 					String startBid = ""; 
 					String dueDate = "";
 					String fileName = "";
@@ -97,25 +97,25 @@
 						 {
 							FileItem fi = (FileItem)i.next();
 								if (fi.isFormField () )  {
-								// If this is a regular form field (not a file)
+								// Si es un valor (en este caso texto, en vez de un file).
 									String fieldName = fi.getFieldName();
-										String fieldValue = fi.getString();  // Get the form field value
+										String fieldValue = fi.getString();  // Valor del field.
 											
-										// Process the form fields here
+										// Aqui es que se procesan los valores que no son files.
 										if ("name".equals(fieldName)) {
-											name = fieldValue;  // Get the 'name' field value
+											name = fieldValue;  // Nombre del producto.
 										} else if ("description".equals(fieldName)) {
-											desc = fieldValue;  // Get the 'desc' field value
+											desc = fieldValue;  // Descripcion del producto.
 										} else if ("dept_name".equals(fieldName)) {
-											dept = fieldValue;  // Get the 'dept' field value
+											dept = fieldValue;  // Id del departamento (para guardarlo en el producto).
 										} else if ("startBid".equals(fieldName)) {
-											startBid = fieldValue;  // Get the 'startBid' field value
+											startBid = fieldValue;  // Valor que comienza la oferta.
 										} else if ("dueDate".equals(fieldName)) {
-											dueDate = fieldValue;  // Get the 'dueDate' field value
+											dueDate = fieldValue;  // Fecha que termina la oferta.
 										} else if ("createdDate".equals(fieldName)) {
-											createdDate = fieldValue;  // Get the 'dueDate' field value
+											createdDate = fieldValue;  // Fecha en que fue creada la oferta
 										}
-							} else {
+							} else { // Aqui va el file (en este caso, la foto).
 									String fieldName = fi.getFieldName();
 											fileName = fi.getName();
 											boolean isInMemory = fi.isInMemory();
