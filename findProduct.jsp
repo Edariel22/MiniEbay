@@ -32,6 +32,11 @@
 					System.out.println("Connecting...");
 					System.out.println(dbm.toString());
 
+					//Crea el objeto dbd, (database department manager) para poder manejar la base de datos (especificamente para el nombre de los departamentos).
+					applicationDeptManager dbd = new applicationDeptManager();
+					System.out.println("Connecting...");
+					System.out.println(dbd.toString());
+
 					// Usando ResulSet, intenta verificar al usuario.
 					ResultSet rsUser = dba.verifyUser(userName, currentPage, previousPage);
 
@@ -56,6 +61,7 @@
 
 						// Crea un Resulset vacio para poder buscar los productos.
 						ResultSet rsProd = null;
+						ResultSet rsDept = null;
 
 							// Primero busca si el objeto fue buscado, sin escoger un departamento especifico
 					   if  (prodName != null && !prodName.isEmpty() && (deptName == null || deptName.isEmpty() || deptName.equals("SearchAllDepartments"))) {
@@ -77,12 +83,18 @@
                     while (rsProd.next()) {
                         // cuenta cada uno de los resultados del query
                         i++;
+							String deptRealName = "";
+							rsDept = dbd.getDepartmentById(rsProd.getInt("dept_id"));
+							if (rsDept.next()) {
+								deptRealName = rsDept.getString("name");
+							}
+							rsDept.close();
                         %>
                         <tr>
 								<%=rsProd.getString("product_id")%>: <!-- primero coje el ID -->
                             NAME:	<%=rsProd.getString("name")%> <br> <!-- luego, el nombre -->
 								<%=rsProd.getString("description")%><br> <!-- luego, la descripcion -->
-                            DEPARTMENT: <%=rsProd.getString("dept_id")%> <br> <!-- de que departamento es? -->
+                            DEPARTMENT: <%=rsProd.getInt("dept_id") + " - " + deptRealName%> <br> <!-- de que departamento es? -->
                             BID $<%=rsProd.getString("start_bid")%> <br> <!-- cuanto es que esta la paga? -->
                             DUE DATE: <%=rsProd.getString("due_date")%> <br> <!-- hasta cuandooooo -->
 						<!-- debi tirar mas fotos -->
@@ -115,6 +127,7 @@
 				// Cierra la conexion a la base de datos para mantener las cosas limpias.
 				dba.close();
 				dbm.close();
+				dbd.close();
             }
         }catch(Exception e){
 			// En caso de que haya un error.

@@ -139,7 +139,7 @@
 		<h3>Add User</h3>
 		<form method="POST" action="adminUsers.jsp">
 		User: <input type="text" name="userName"><br>
-		Hash: <input type="password" name="hashing"><br>
+		Password: <input type="password" name="hashing"><br>
 		Name: <input type="text" name="name"><br>
 		Tel: <input type="text" name="telephone"><br>
 		Role: 
@@ -153,9 +153,9 @@
 		<h3>Modify User</h3>
 		<form method="POST" action="adminUsers.jsp">
 		User: <input type="text" name="userName"><br>
-		Hash: <input type="password" name="hashing"><br>
-		Name: <input type="text" name="name"><br>
-		Tel: <input type="text" name="telephone"><br>
+		New Password: <input type="password" name="hashing"><br>
+		New Name: <input type="text" name="name"><br>
+		New Tel: <input type="text" name="telephone"><br>
 		Role: 
 		<select name="roleId">
 		<option value="rol1">Admin</option>

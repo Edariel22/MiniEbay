@@ -43,13 +43,13 @@ public class applicationDBManager{
  *		@returns:
  *			Regresa ResultSet con en cierto o falso si se logro añadir.
  */
-	public boolean addProduct(String productName, String description, String dept_id, String bid, String dueDate, String picture_path, String userName)
+	public boolean addProduct(String productName, String description, String dept_id, String bid, String dueDate, String picture_path, String createdDate, String userName)
 	{
 		//Busca la tabla que se va a modificar.
 		String table="products";
 
 		//Busca el producto que se va a añadir (primer NULL es ID, y penultimo NULL es fecha de añadido).
-		String values="NULL, '"+ productName +"', '" + description + "', '"+ dept_id +"', '" + bid +"', '" + dueDate +"', '"+ picture_path+ "', NULL , '"+ userName +"'";
+		String values="NULL, '"+ productName +"', '" + description + "', '"+ dept_id +"', '" + bid +"', '" + dueDate +"', '"+ picture_path+ "', '" + createdDate + "', '"+ userName +"'";
 
 		//Crea un boolean que es falso al principio, por si falla su parte.
 		boolean rs;

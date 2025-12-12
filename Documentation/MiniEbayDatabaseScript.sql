@@ -127,7 +127,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Wireless Keyboard','Compact mechanical keyboard',3,45.00,'2025-11-01 23:59:00','keyboard.jpg','2025-11-01 15:17:08','Elias'),(2,'Programming Book','Intro to Java web development',2,15.00,'2025-11-30 23:59:00','book.jpg','2025-11-01 15:17:08','Elias'),(3,'Laptop','Lightweight 14-inch laptop, 16GB RAM',3,650.00,'2025-12-15 23:59:00','laptop.jpg','2025-11-01 15:17:08','Elias'),(7,'Baby Oil','Oily',4,45.00,'2025-12-12 23:59:00','Baby Oil.jpg',NULL,'Elias');
+INSERT INTO `products` VALUES (1,'Wireless Keyboard','Compact mechanical keyboard',3,45.00,'2025-11-01 23:59:00','keyboard.jpg','2025-11-01 15:17:08','Elias'),(2,'Programming Book','Intro to Java web development',2,15.00,'2025-11-30 23:59:00','book.jpg','2025-11-01 15:17:08','Elias'),(3,'Laptop','Lightweight 14-inch laptop, 16GB RAM',3,650.00,'2025-12-15 23:59:00','laptop.jpg','2025-11-01 15:17:08','Elias'),(4,'Baby Oil','Oily',4,45.00,'2025-12-12 23:59:00','Baby Oil.jpg',NULL,'Elias');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -209,10 +209,10 @@ LOCK TABLES `rolewebpagegood` WRITE;
 /*!40000 ALTER TABLE `rolewebpagegood` DISABLE KEYS */;
 INSERT INTO `rolewebpagegood` VALUES ('rol1','adminDepartments.jsp','2025-11-02'),('rol1','adminProducts.jsp','2025-11-02'),('rol1','adminUsers.jsp','2025-11-02'),
 ('rol1','bidProduct.jsp','2025-11-02'),('rol1','displayItem.jsp','2025-11-02'),('rol1','findProduct.jsp','2025-11-02'),('rol1','sellProduct.jsp','2025-11-02'),
-('rol1','signout.jsp','2025-11-02'),('rol1','validationHashing.jsp','2025-11-02'),('rol1','welcomeMenu.jsp','2025-11-02'),('rol1','upload.jsp','2025-11-02'),
-('rol1','upload_action.jsp','2025-11-02'),('rol2','bidProduct.jsp','2025-11-02'),('rol2','displayItem.jsp','2025-11-02'),('rol2','findProduct.jsp','2025-11-02'),
-('rol2','sellProduct.jsp','2025-11-02'),('rol2','signout.jsp','2025-11-02'),('rol2','validationHashing.jsp','2025-11-02'),('rol2','welcomeMenu.jsp','2025-11-02'),
-('rol2','upload.jsp','2025-11-02'),('rol2','upload_action.jsp','2025-11-02');
+('rol1','signout.jsp','2025-11-02'),('rol1','validationHashing.jsp','2025-11-02'),('rol1','welcomeMenu.jsp','2025-11-02'),('rol1','upload_action.jsp','2025-11-02'),
+('rol2','bidProduct.jsp','2025-11-02'),('rol2','displayItem.jsp','2025-11-02'),('rol2','findProduct.jsp','2025-11-02'),('rol2','sellProduct.jsp','2025-11-02'),
+('rol2','signout.jsp','2025-11-02'),('rol2','validationHashing.jsp','2025-11-02'),('rol2','welcomeMenu.jsp','2025-11-02'),('rol2','upload_action.jsp','2025-11-02');
+
 /*!40000 ALTER TABLE `rolewebpagegood` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -270,7 +270,7 @@ INSERT INTO `webpagegood` VALUES ('adminDepartments.jsp','Manage Departments','A
 ('adminUsers.jsp','Manage Users','Admin only','menu1'),('bidProduct.jsp','Bid Product','Place a bid',NULL),('displayItem.jsp','Display Item','Show product details',NULL),
 ('findProduct.jsp','Find Product','Search products','menu1'),('sellProduct.jsp','Sell Product','List a new product','menu1'),('signout.jsp','Sign Out','End session',NULL),
 ('validationHashing.jsp','Login Validation','Internal login check',NULL),('welcomeMenu.jsp','Welcome Menu','Main dashboard','menu1'),
-('upload.jsp','Upload Image','Select the picture to upload',NULL),('upload_action.jsp','Upload Files','Upload pictures',NULL);
+('upload_action.jsp','Upload Files','Upload pictures',NULL);
 /*!40000 ALTER TABLE `webpagegood` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -300,7 +300,7 @@ LOCK TABLES `webpageprevious` WRITE;
 INSERT INTO `webpageprevious` VALUES ('bidProduct.jsp','bidProduct.jsp'),('displayItem.jsp','bidProduct.jsp'),('bidProduct.jsp','displayItem.jsp'),
 ('findProduct.jsp','displayItem.jsp'),('displayItem.jsp','findProduct.jsp'),('welcomeMenu.jsp','validationHashing.jsp'),('adminDepartments.jsp','welcomeMenu.jsp'),
 ('adminProducts.jsp','welcomeMenu.jsp'),('adminUsers.jsp','welcomeMenu.jsp'),('findProduct.jsp','welcomeMenu.jsp'),('sellProduct.jsp','welcomeMenu.jsp'),
-('sellProduct.jsp','sellProduct.jsp'),('signout.jsp','welcomeMenu.jsp'),('upload_action.jsp','upload.jsp'),('upload.jsp','sellProduct.jsp'),('findProduct.jsp','findProduct.jsp'),
+('sellProduct.jsp','sellProduct.jsp'),('signout.jsp','welcomeMenu.jsp'),('upload_action.jsp','sellProduct.jsp'),('findProduct.jsp','findProduct.jsp'),
 ('findProduct.jsp','sellProduct.jsp');
 /*!40000 ALTER TABLE `webpageprevious` ENABLE KEYS */;
 UNLOCK TABLES;

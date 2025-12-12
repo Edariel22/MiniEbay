@@ -2,6 +2,9 @@
 <%@ page import="ut.JAR.miniebay.*" %>
 <%// Importa el paquete java.sql para poder usar la clase de ResultSet %>
 <%@ page import="java.sql.*"%>
+<%//Para poder tener la fecha en que se creo el producto %>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.text.SimpleDateFormat" %>
 
 <html>
 	<head>
@@ -63,16 +66,22 @@
 					String startBid = "";
 					String dueDate = "";
 					String picture_path = "";
+					Date date = new Date();
+					// yyyy en minuscula para el añadir el año, MM es el mes, dd es el dia, HH es la hora, mm en minuscula es minutos, y ss son los segundos.
+					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					String creationDate = formatter.format(date);
+					System.out.println(creationDate);
 				%>
 
 					<h2>Sell a Product</h2>
 					<!--Forma para los datos del objeto nuevo (no foto ya que ese es lo que va luego).-->
-					<form action="upload.jsp" method="POST">
+						<form action="upload_action.jsp" method="post"
+													enctype="multipart/form-data">
 						Name: <input type="text" name="name" required><br>
 						Description: <input type="text" name="description" required><br>
 						Starting Bid $: <input type="text" name="startBid" required><br>
 						Due Date (YYYY-MM-DD HH:MM:SS): <input type="text" name="dueDate" required><br>
-						Picture Name: <input type="text" name="picture_path" required><br>  (please use the same name as the picture you will upload, including the type)<br>
+						Picture:<input type="file" name="picture_name" size="50" /><br />
 						Department:
 						<select name="dept_name">
 							<%
@@ -86,6 +95,7 @@
 							rsDept.close();
 							%>
 						</select><br><br>
+                        <input type="hidden" name="createdDate" value="<%=creationDate%>">
 						<input type="submit" name="addProduct" value="Submit">
 						<input type="reset" value="Reset">
 					</form>

@@ -20,7 +20,7 @@
 	</head>
 <body>
 <%
-	session.setAttribute("previousPage", "upload.jsp");
+	session.setAttribute("previousPage", "sellProduct.jsp");
 	session.setAttribute("currentPage", "upload_action.jsp");
 
 		// Intenta conectar con la base de datos.
@@ -68,8 +68,16 @@
 					int maxFileSize = 5000 * 1024;
 					int maxMemSize = 5000 * 1024;
 					String filePath = "C:\\Users\\Angel\\Downloads\\apache-tomcat-11.0.10\\webapps\\MiniEbay\\images\\";
-					String picture_path = "images\\"+ request.getParameter("picture_name");
-				 
+					String picture_path = "";
+				// Primero, recoje las variables sacadas del submit de sellProduct.
+					String name = "";
+					String desc = "";
+					String dept = ""; // en realidad es el dept_id para facilidad de guardarlo
+					String startBid = ""; 
+					String dueDate = "";
+					String fileName = "";
+					String createdDate =  "";
+					boolean rsProd = false;
 				   String contentType = request.getContentType();
 				   if ((contentType.indexOf("multipart/form-data") >= 0)) {
 				 
@@ -88,23 +96,56 @@
 						 while ( i.hasNext () ) 
 						 {
 							FileItem fi = (FileItem)i.next();
-							if ( !fi.isFormField () )  {
-								String fieldName = fi.getFieldName();
-										String fileName = fi.getName();
-										boolean isInMemory = fi.isInMemory();
-										long sizeInBytes = fi.getSize();
-										file = new File( filePath + fileName) ;
-										Path path = FileSystems.getDefault().getPath(filePath + fileName);
-										fi.write( path ) ;
-										picture_path = "images\\" + fileName;
+								if (fi.isFormField () )  {
+								// If this is a regular form field (not a file)
+									String fieldName = fi.getFieldName();
+										String fieldValue = fi.getString();  // Get the form field value
+											
+										// Process the form fields here
+										if ("name".equals(fieldName)) {
+											name = fieldValue;  // Get the 'name' field value
+										} else if ("description".equals(fieldName)) {
+											desc = fieldValue;  // Get the 'desc' field value
+										} else if ("dept_name".equals(fieldName)) {
+											dept = fieldValue;  // Get the 'dept' field value
+										} else if ("startBid".equals(fieldName)) {
+											startBid = fieldValue;  // Get the 'startBid' field value
+										} else if ("dueDate".equals(fieldName)) {
+											dueDate = fieldValue;  // Get the 'dueDate' field value
+										} else if ("createdDate".equals(fieldName)) {
+											createdDate = fieldValue;  // Get the 'dueDate' field value
+										}
+							} else {
+									String fieldName = fi.getFieldName();
+											fileName = fi.getName();
+											boolean isInMemory = fi.isInMemory();
+											long sizeInBytes = fi.getSize();
+											file = new File( filePath + fileName) ;
+											Path path = FileSystems.getDefault().getPath(filePath + fileName);
+											fi.write( path ) ;
+											picture_path = "images\\" + fileName;
+										}
+									 
 									}
-								 
-								}
-						response.sendRedirect("welcomeMenu.jsp");
+									// Primero, revisa si el usuario completo la informacion antes de añadirlo.
+									if (name ==  "" || desc == "" || dept=="" || startBid == "" || dueDate == "" || createdDate ==  "" || fileName == ""){
+										response.sendRedirect("sellProduct.jsp"); // Manda al usuario de vuelta
+										dbm.close();
+									}
+												
+									/* Llama la funcion addProduct, para poder llenar sus partes en la tabla de la base de datos,
+									 * Si hay un error por algun caso, esta en booleano para que retorne falso si ese es el caso.
+									 */
+									rsProd=	dbm.addProduct(name, desc, dept, startBid, dueDate, fileName, createdDate, userName);
 
+									// Revisa si el producto fue añadido bien.
+									if (rsProd){
+										System.out.println("<p>Product listed successfully!</p>");
+										response.sendRedirect("welcomeMenu.jsp");
+									}
 							} catch (Exception ex) {
 								ex.printStackTrace();
-								out.println("<p>Error occurred: " + ex.getMessage() + "</p>");
+								System.out.println("<p>Error occurred: " + ex.getMessage() + "</p>");
 								response.sendRedirect("sellProduct.jsp");
 							}
 

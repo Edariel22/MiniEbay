@@ -38,6 +38,11 @@
 					System.out.println("Connecting...");
 					System.out.println(dbm.toString());
 
+					//Crea el objeto dbd, (database department manager) para poder manejar la base de datos (especificamente para el nombre de los departamentos).
+					applicationDeptManager dbd = new applicationDeptManager();
+					System.out.println("Connecting...");
+					System.out.println(dbd.toString());
+
 					// Usando ResulSet, intenta verificar al usuario.
 					ResultSet rsUser = dba.verifyUser(userName, currentPage, previousPage);
 
@@ -58,9 +63,16 @@
 
 						//Recoje los detalles del objeto por el ID
 						ResultSet rs = dbm.getProductById(Integer.parseInt(productId));
+						ResultSet rsDept = null;
 
 						if (rs.next()) {
 						// Enseña los detalles de cada producto.
+							String deptRealName = "";
+							rsDept = dbd.getDepartmentById(rs.getInt("dept_id"));
+							if (rsDept.next()) {
+								deptRealName = rsDept.getString("name");
+							}
+							rsDept.close();
 						%>
 
 						<form action="welcomeMenu.jsp" method="GET">
@@ -72,7 +84,7 @@
 						<p>ID: <%= rs.getString("product_id") %></p> <!--Lo primero en la tabla es el ID -->
 						<p>Name: <%= rs.getString("name") %></p> <!--Luego el nombre -->
 						<p>Description: <%= rs.getString("description") %></p> <!--Luego la descripcion -->
-						<p>Department: <%= rs.getString("dept_id") %></p> <!--Luego el departamento donde esta -->
+						<p>Department: <%= rs.getInt("dept_id") + " - " + deptRealName%></p> <!--Luego el departamento donde esta -->
 						<p>Original Bid $<%= rs.getString("start_bid") %></p> <!--Luego, cuanto es la oferta puesta al principio -->
 						<p>Due Date: <%= rs.getString("due_date") %></p> <!--Pero... pa cuando? -->
 						<img src="/MiniEbay/images/<%= rs.getString("picture_path") %>" alt="<%= rs.getString("name")%>"
@@ -105,6 +117,7 @@
 				// Cierra las conexiones a la base de datos para mantener las cosas limpias.
 				dba.close();
 				dbm.close();
+				dbd.close();
 			} 
 		}catch(Exception e) {
 		// En caso de que haya un error.

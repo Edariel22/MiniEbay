@@ -99,7 +99,7 @@
 					</form>
 					
 					<%
-					// Dibujar el menú basado en los roles, como en la versión de coworkers
+					// Dibujar el menu basado en los roles, como en la version de coworkers
 					ResultSet menuRes = dba.menuElements(userName);
 					String currentMenuTitle = "";
 					%>

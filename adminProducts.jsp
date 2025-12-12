@@ -151,6 +151,16 @@
 		Product ID: <input type="text" name="removeName"><br>
 		<input type="submit" name="removeProduct" value="Remove">
 		</form>
+		
+		<h2>Upload an Image (for if a product was modified)</h2>
+		<!--Forma para una foto si se pone una nueva en modify.-->
+		<form action="upload_action.jsp" method="post"
+									enctype="multipart/form-data">
+		Picture:<input type="file" name="picture_name" size="50" /><br />
+						</select><br>
+						<input type="submit" name="addImage" value="Submit">
+						<input type="reset" value="Reset">
+					</form>
 		<a href="welcomeMenu.jsp">Return to Main Menu</a>
 	</body>
 </html>
