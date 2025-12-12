@@ -1,0 +1,45 @@
+Deadline:  November 2nd, 2025
+Description
+You are asked to implement a bid-based-online store
+Requirements
+You are asked to implement a web system with the following capabilities:
+User accounts, including sign up and login.
+The products must be classified by departments (e.g, Electronics, computers, books).
+The user must be able to sell a product classified by department. When registering the product,
+the user must include a product name, a description, a starting bid value, a picture, and a due date.
+The system must provide a search box with the capability of refine the search based on the department. However,
+the default search must be executed on the entire product database.
+The searching results must be listed with the product description (Name, department, type, and current bid) and a picture.
+Once the user selects a product, the system must present a new page with a complete product description including a bigger picture.
+Once the user intent to make a bid for a product, she must be logged into the system. She must enter the bid value,
+and the system must show the highest bid for the product.
+The system must provide an administrator role with the ability to add, modify, and remove users, products, and departments.
+ 
+Submission and defense
+ You are asked to submit your source code using Blackboard on or before November 2nd, 11:59 PM.  This project must be implemented in teams of, at most, 2 students.
+ 
+ You must submit a .zip file with your source code and database script generator for MySQL and your zip file must be identified as follows:
+1_<Student1_last name>_<Student1_ first Name>_<Student2_last name>_<Student2_ first Name>.zip  (e.g. 1_Vergara_Idalides_Alvear_Alcides.zip)
+Rubric
+60% - Program implementation
+20% - Project Defense
+20% - Code documentation including: the database schema, UML diagram, page data-flow and data dictionary.
+ 
+ 
+ 
+Very Important
+Your implementation must follow the discussion in class. The web pages must not include the database connection string, nor the database query strings.
+The access to the database must be encapsulated in Java classes. If this requirement is not met, the penalty is -70.
+Each page must validate the user permission. If this requirement is not met, the penalty is -40.
+Your database must not implement a table with the user’s plain-text password. If this requirement is not met, the penalty is -80.
+For each day of lateness, the penalty is -10.
+The students must defend their project, otherwise the penalty is -100.
+ 
+Academic Integrity
+Each student is expected to work individually on all projects, exams and assignments, unless the professor specifies the opposite.
+You may not share your answers, designs, diagrams, assignments and other works.
+You may not use work from another student, or information that you find on the Internet or any similar resources.
+Failure to comply with these requirements will result in a grade of F in the course for the student(s) breaking these rules.
+Unauthorized group efforts, particularly during exams, will be considered academic dishonesty and the students involved will receive an F in the course.
+You should read Article VIII of the “Reglamento de Estudiantes” to learn more about the possible sanctions that you might experience
+if caught in an act of academic dishonesty.

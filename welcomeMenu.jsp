@@ -1,0 +1,152 @@
+<%@ page import="java.lang.*"%>
+<%@ page import="ut.JAR.miniebay.*" %>
+<%// Importa el paquete java.sql para poder usar la clase de ResultSet %>
+<%@ page import="java.sql.*"%>
+<html>
+	<head>
+		<title>Home page for Mini Ebay!</title>
+	</head>
+	<body>
+	
+<%
+ 	
+	session.setAttribute("previousPage", "validationHashing.jsp");
+	session.setAttribute("currentPage", "welcomeMenu.jsp");
+
+	// Intenta conectar con la base de datos.
+	try{
+			// Revisa el proceso de autenticacion.
+			if (session.getAttribute("userName")==null || session.getAttribute("currentPage")==null) {
+				session.setAttribute("currentPage", null);
+				session.setAttribute("userName", null);
+				response.sendRedirect("loginHashing.html"); // Manda al usuario de vuelta al login.
+			}
+			else{
+				String currentPage="welcomeMenu.jsp";
+				String userName = session.getAttribute("userName").toString();
+				String previousPage = session.getAttribute("previousPage").toString();
+		
+			// Crea el objeto dba, (database authentication) para poder autenticar al usuario.
+				applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
+				System.out.println("Connecting...");
+				System.out.println(dba.toString());
+
+			// Crea el objeto dbm, (database manager) para poder manejar la base de datos.
+				applicationDBManager dbm = new applicationDBManager();
+				System.out.println("Connecting...");
+				System.out.println(dbm.toString());
+				
+			// Usando ResultSet, intenta verificar al usuario.
+				ResultSet rs=dba.verifyUser(userName, currentPage, previousPage);
+			
+			// Revisa si el usuario fue autenticado bien.
+			if (rs.next()){
+				// Del Resulset, saca el string numero 3 que contiene el verdadero nombre del usuario.
+				String userActualName=rs.getString("name");
+					
+				// Crea el attributo currentPage.
+				session.setAttribute("currentPage", currentPage);
+					
+				// Crea una variable de sesion con el nombre del usuario.	
+				if (session.getAttribute("userName")==null ){
+					session.setAttribute("userName", userName);
+
+				}else{
+					// O actualizala.
+					session.setAttribute("userName", userName);
+				}
+					
+				%>
+				Welcome! <%=userActualName%>
+				
+				<!-- Parte html para que me encuentren los productos plz.-->
+				<form action="findProduct.jsp" method="GET">
+					<label for="search">Search:</label>
+					<input type="text" id="prod_name" name="prod_name" placeholder="Enter product name">
+					<button type="submit">Search</button>
+					
+					<%
+					// Recoje los departamentos, para poder escojer entre ellos.
+					ResultSet rsDept=dbm.listAllDepartments();
+					%>
+					<!-- Y parte para que me enseñen de que departamento esta cada cosa. -->
+					<table border="0">
+							<tr>
+								<td> Department </td>
+								<td>
+									<select id="dept_name" name="dept_name" style="width: 200px; font-size: 16px;">
+									<option value="SearchAllDepartments">Search All Departments</option>
+									<%
+										while (rsDept.next()) {
+											String deptId = rsDept.getString("dept_id");
+											String deptName = rsDept.getString("name");
+									%>
+											<option value="<%= deptId %>"><%= deptName %></option>
+									<%
+										}
+										rsDept.close();
+									%>
+								</select>
+
+								</td>
+							</tr>
+						</table>
+					<!-- Por si el usuario quiere cerrar la sesion.-->
+						<input type="reset" id="Submit" value="reset" />
+						<a href="signout.jsp">
+								<button type="button">Sign Out</button>
+							</a>
+					</form>
+					
+					<%
+					// Dibujar el menú basado en los roles, como en la versión de coworkers
+					ResultSet menuRes = dba.menuElements(userName);
+					String currentMenuTitle = "";
+					%>
+					<table>
+					<%
+					while (menuRes.next()) {
+						if (currentMenuTitle.compareTo(menuRes.getString(2)) != 0) {
+							currentMenuTitle = menuRes.getString(2);
+					%>
+							<tr><td><%=currentMenuTitle%></td><td></td></tr>
+					<%
+						}
+					%>
+						<tr>
+							<td>-</td>
+							<td><a href="<%=menuRes.getString(1)%>"><%=menuRes.getString(3)%></a></td>
+						</tr>
+					<%
+					}
+					menuRes.close();
+					%>
+					</table>
+
+					<%
+					
+				}else{
+					// Si falla, cierra la sesion con el usuario poniendolo en null.
+					session.setAttribute("userName", null);
+					
+					// Retorna al usuario a la pagina de login.
+					response.sendRedirect("loginHashing.html");
+				}
+
+				// Cierra las conexiones a la base de datos para mantener las cosas limpias.
+				dba.close();
+				dbm.close();
+			}
+
+		}catch(Exception e){
+			%>Nothing to show!<%
+		// En caso de que haya un error.
+			e.printStackTrace();
+			response.sendRedirect("loginHashing.html");
+
+		}finally{
+			System.out.println("Finally");
+		}
+		%>			
+	</body>
+</html>

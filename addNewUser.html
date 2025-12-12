@@ -1,0 +1,35 @@
+<!-- Pagina html para que se pueda añadir un usuario (sign up),
+   -- incluye un boton para regresar al log in.
+    -->
+<html>
+	<head>
+		<title>Add a new user!</title>
+	</head>
+	<body>
+		<form id="form_1" action="addUser.jsp" method="post">
+			<table border="0">
+				<tr>
+					<td> Username </td>
+					<td><input type="text" id="userName"  name="userName" required/></td>
+				</tr>
+				<tr>
+					<td> Password </td>
+					<td><input type="password" id="userPass"  name="userPass" required/>
+				</tr>
+				<tr>
+					<td> Name </td>
+					<td><input type="text" id="fullName"  name="completeName" required/>
+				</tr>
+				<tr>
+					<td> Telephone </td>
+					<td><input type="text" id="phone number"  name="telephone" required/>
+				</tr>
+			</table>
+			<input type="submit" id="Submit" value="submit" />
+			<input type="reset" id="Submit" value="reset" />
+			<a href="loginHashing.html">
+								<button type="button">Return to Log In</button>
+							</a>
+		</form>
+	</body>
+</html>

@@ -1,0 +1,140 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    <%@ page import="java.io.*,java.util.*, jakarta.servlet.*" %>
+<%@ page import="jakarta.servlet.http.*" %>
+<%@ page import="org.apache.commons.fileupload2.jakarta.servlet5.*" %>
+<%@ page import="org.apache.commons.fileupload2.core.*" %>
+<%@ page import="java.nio.file.*" %>
+<%@ page import="java.lang.*"%>
+<%@ page import="ut.JAR.miniebay.*" %>
+<%// Importa el paquete java.sql para poder usar la clase de ResultSet %>
+<%@ page import="java.sql.*"%>
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>Upload the image</title>
+	</head>
+<body>
+<%
+	session.setAttribute("previousPage", "upload.jsp");
+	session.setAttribute("currentPage", "upload_action.jsp");
+
+		// Intenta conectar con la base de datos.
+	try{
+			//Revisa el proceso de autenticacion.
+			if (session.getAttribute("userName")==null || session.getAttribute("currentPage")==null) {
+				session.setAttribute("currentPage", null);
+				session.setAttribute("userName", null);
+				response.sendRedirect("loginHashing.html"); // Manda al usuario de vuelta al login.
+			}
+			else{
+				String currentPage="upload_action.jsp";
+				String userName = session.getAttribute("userName").toString();
+				String previousPage = session.getAttribute("previousPage").toString();
+		
+			//Crea el objeto dba, (database authentication) para poder autenticar al usuario.
+				applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
+				System.out.println("Connecting...");
+				System.out.println(dba.toString());
+
+			//Crea el objeto dbm, (database manager) para poder manejar la base de datos.
+				applicationDBManager dbm = new applicationDBManager();
+				System.out.println("Connecting...");
+				System.out.println(dbm.toString());
+				
+			// Usando ResulSet, intenta verificar al usuario.
+				ResultSet rs=dba.verifyUser(userName, currentPage, previousPage);
+			
+			// Revisa si el usuario fue autenticado bien.
+			if (rs.next()){
+				String userActualName=rs.getString("name");
+					
+			// Crea el attributo currentPage.
+				session.setAttribute("currentPage", currentPage);
+					
+				// Crea una variable de sesion con el nombre del usuario.	
+				if (session.getAttribute("userName")==null ){
+					//create the session variable
+					session.setAttribute("userName", userName);
+				}else{
+					// O actualizala.
+					session.setAttribute("userName", userName);
+				}
+					File file ;
+					int maxFileSize = 5000 * 1024;
+					int maxMemSize = 5000 * 1024;
+					String filePath = "C:\\Users\\Angel\\Downloads\\apache-tomcat-11.0.10\\webapps\\MiniEbay\\images\\";
+					String picture_path = "images\\"+ request.getParameter("picture_name");
+				 
+				   String contentType = request.getContentType();
+				   if ((contentType.indexOf("multipart/form-data") >= 0)) {
+				 
+					 
+					  DiskFileItemFactory factory = DiskFileItemFactory.builder()
+						.setPath(filePath)
+						.get();      
+					  
+					  
+					 
+					  JakartaServletFileUpload upload = new JakartaServletFileUpload(factory);
+					  upload.setSizeMax( maxFileSize );
+					  try{ 
+						 List fileItems = upload.parseRequest(request);
+						 Iterator i = fileItems.iterator();
+						 while ( i.hasNext () ) 
+						 {
+							FileItem fi = (FileItem)i.next();
+							if ( !fi.isFormField () )  {
+								String fieldName = fi.getFieldName();
+										String fileName = fi.getName();
+										boolean isInMemory = fi.isInMemory();
+										long sizeInBytes = fi.getSize();
+										file = new File( filePath + fileName) ;
+										Path path = FileSystems.getDefault().getPath(filePath + fileName);
+										fi.write( path ) ;
+										picture_path = "images\\" + fileName;
+									}
+								 
+								}
+						response.sendRedirect("welcomeMenu.jsp");
+
+							} catch (Exception ex) {
+								ex.printStackTrace();
+								out.println("<p>Error occurred: " + ex.getMessage() + "</p>");
+								response.sendRedirect("sellProduct.jsp");
+							}
+
+					} else {
+						System.out.println("<p>No file uploaded</p>");
+						response.sendRedirect("sellProduct.jsp");
+					}
+
+				}else{
+
+					// Si falla, cierra la sesion con el usuario poniendolo en null.
+					session.setAttribute("userName", null);
+					
+					// Retorna al usuario a la pagina de login.
+					response.sendRedirect("loginHashing.html");
+				}
+				//rs.close();
+
+				// Cierra las conexiones a la base de datos para mantener las cosas limpias.
+				dba.close();
+				dbm.close();
+			}
+		}catch(Exception e){
+			%>Nothing to show!<%
+		// En caso de que haya un error.
+			e.printStackTrace();
+			response.sendRedirect("loginHashing.html");
+		}finally{
+			System.out.println("Finally");
+		}
+		%>			
+	</body>
+</html>

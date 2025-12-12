@@ -1,0 +1,25 @@
+<!-- Pagina que le permite al usuario login, incluyendo hashing para evitar passwords en plaintext-->
+<html>
+	<head>
+		<title>Web form to Login to Mini Ebay!</title>
+	</head>
+	<body>
+		<form id="form_1" action="validationHashing.jsp" method="post">
+			<table border="0">
+				<tr>
+					<td> Username </td>
+					<td><input type="text" id="userName"  name="userName" /></td>
+				</tr>
+				<tr>
+					<td> Password </td>
+					<td><input type="password" id="userPass"  name="userPass" />
+				</tr>
+			</table>
+			<input type="submit" id="Submit" value="submit" />
+			<input type="reset" id="Submit" value="reset" />
+			<a href="addNewUser.html">
+								<button type="button">Sign Up</button>
+							</a>
+		</form>
+	</body>
+</html>
