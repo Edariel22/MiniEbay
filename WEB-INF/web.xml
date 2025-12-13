@@ -7,7 +7,7 @@
 
     <servlet>
         <servlet-name>getDataBaseJson</servlet-name>
-        <servlet-class>ut.JAR.miniebay.getDataBaseJson</servlet-class>
+        <servlet-class>getDataBaseJson</servlet-class>
     </servlet>
 
     <servlet-mapping>
