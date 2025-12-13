@@ -39,7 +39,9 @@ public class applicationDBManager{
  *			dept_id:		El id del nuevo departamento del producto.
  *			bid:			La  oferta del producto nuevo.
  *			dueDate:		La fecha limite del producto nuevo.
- *			picture_path:	La foto especificamente su path.
+ *			picture_path:	La foto (especificamente su nombre).
+ *			createdDate:	La fecha en que fue añadido el producto.
+ *			userName:		El nombre del usuario que añadio el producto.
  *		@returns:
  *			Regresa ResultSet con en cierto o falso si se logro añadir.
  */

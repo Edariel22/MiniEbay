@@ -39,17 +39,19 @@ public class applicationDBManager{
  *			dept_id:		El id del nuevo departamento del producto.
  *			bid:			La  oferta del producto nuevo.
  *			dueDate:		La fecha limite del producto nuevo.
- *			picture_path:	La foto especificamente su path.
+ *			picture_path:	La foto (especificamente su nombre).
+ *			createdDate:	La fecha en que fue añadido el producto.
+ *			userName:		El nombre del usuario que añadio el producto.
  *		@returns:
  *			Regresa ResultSet con en cierto o falso si se logro añadir.
  */
-	public boolean addProduct(String productName, String description, String dept_id, String bid, String dueDate, String picture_path, String userName)
+	public boolean addProduct(String productName, String description, String dept_id, String bid, String dueDate, String picture_path, String createdDate, String userName)
 	{
 		//Busca la tabla que se va a modificar.
 		String table="products";
 
 		//Busca el producto que se va a añadir (primer NULL es ID, y penultimo NULL es fecha de añadido).
-		String values="NULL, '"+ productName +"', '" + description + "', '"+ dept_id +"', '" + bid +"', '" + dueDate +"', '"+ picture_path+ "', NULL , '"+ userName +"'";
+		String values="NULL, '"+ productName +"', '" + description + "', '"+ dept_id +"', '" + bid +"', '" + dueDate +"', '"+ picture_path+ "', '" + createdDate + "', '"+ userName +"'";
 
 		//Crea un boolean que es falso al principio, por si falla su parte.
 		boolean rs;
