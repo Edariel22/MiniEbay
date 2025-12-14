@@ -77,7 +77,7 @@ public class authenticateApplicationMobile extends HttpServlet {
 	     }
 
 	/****
-		This method perform a dummy authentication process
+		This method perform authentication process
 	***/
    
    
