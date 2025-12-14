@@ -1,11 +1,10 @@
 // Import required java libraries
-package ut.JAR.miniebay;
-
 import java.io.*;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import java.util.*;
 import org.json.*;
+import ut.JAR.miniebay.*;
 import java.sql.*;
 
 /***
@@ -64,7 +63,6 @@ public class getDataBaseJson extends HttpServlet {
 		    //Create the JSONObject cointaing a JSONArray created using the createJSonArray method
 			//name the JSONObject as "contact"
 			finalOutput.put("products", createJSonArray());
-
 	   }catch(Exception e)
 	   {
 		   e.printStackTrace();
@@ -87,21 +85,19 @@ public class getDataBaseJson extends HttpServlet {
 		   JSONArray jsonArray = new JSONArray();
 	   
 	   //Connect the the database
-	   applicationDBManager appDBMg = new applicationDBManager();
-
+		applicationDBManager dbm = new applicationDBManager();
 		int i=0;
 		try{
 			//query the database
-			ResultSet res = appDBMg.listProducts(null);
+		   ResultSet res= dbm.listProducts(null);
 			System.out.println("list all products");
-			
-			while (res.next()) {
+			while (res.next()){				//Add the new JSONObject to the JSONArray in location i
 				System.out.println("ROW → " + res.getString("product_id"));
-				jsonArray.put(createJSon(res));
+				jsonArray.put(i,createJSon(res));
+				i++;
 			}
 			
-			
-		appDBMg.close();
+		dbm.close();
 		
 	} catch(Exception e)
 	   {
@@ -127,11 +123,13 @@ public class getDataBaseJson extends HttpServlet {
 			json.put("id", res.getInt("product_id"));
 			json.put("name", res.getString("name"));
 			json.put("description", res.getString("description"));
-			json.put("price", res.getDouble("start_bid"));
-			json.put("department", res.getInt("dept_id"));
-			json.put("dueDate", res.getString("due_date"));
+			json.put("deptartment_id", res.getInt("dept_id"));
+			json.put("start_bid", res.getDouble("start_bid"));
+			json.put("due_date", res.getString("due_date"));
 			json.put("image", res.getString("picture_path"));
+			json.put("created_at", res.getString("created_at"));
 			json.put("seller", res.getString("userName"));
+	
 			
 	} catch(Exception e)
 	   {

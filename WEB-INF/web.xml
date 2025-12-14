@@ -5,14 +5,36 @@
                              https://jakarta.ee/xml/ns/jakartaee/web-app_6_1.xsd"
          version="6.0">
 
-    <servlet>
-        <servlet-name>getDataBaseJson</servlet-name>
-        <servlet-class>getDataBaseJson</servlet-class>
-    </servlet>
+  <servlet>
 
-    <servlet-mapping>
-        <servlet-name>getDataBaseJson</servlet-name>
-        <url-pattern>/getDataBaseJson</url-pattern>
-    </servlet-mapping>
+    <servlet-name>authenticateApplicationMobile</servlet-name>
+
+    <servlet-class>authenticateApplicationMobile</servlet-class>
+
+  </servlet>
+
+  <servlet-mapping>
+
+    <servlet-name>authenticateApplicationMobile</servlet-name>
+
+    <url-pattern>/authenticateApplicationMobile</url-pattern>
+
+  </servlet-mapping>
+
+  <servlet>
+
+    <servlet-name>getDataBaseJson</servlet-name>
+
+    <servlet-class>getDataBaseJson</servlet-class>
+
+  </servlet>
+
+  <servlet-mapping>
+
+    <servlet-name>getDataBaseJson</servlet-name>
+
+    <url-pattern>/getDataBaseJson</url-pattern>
+
+  </servlet-mapping>
 
 </web-app>
