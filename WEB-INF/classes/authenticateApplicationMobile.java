@@ -93,8 +93,8 @@ public class authenticateApplicationMobile extends HttpServlet {
 			if (rs.next()){
 			  //You got authenticated
 			  //then, generate the JSON object
-			  msg="{\"userName\"=\"" + rs.getString("userName") + "\", \n";
-			  msg+="\"name\"=\""+ rs.getString("name") +"\" \n}";
+			  msg="{\"userName\":\"" + rs.getString("userName") + "\", \n";
+			  msg+="\"name\":\""+ rs.getString("name") +"\" \n}";
 			}
 		  }
 		catch(Exception e)
