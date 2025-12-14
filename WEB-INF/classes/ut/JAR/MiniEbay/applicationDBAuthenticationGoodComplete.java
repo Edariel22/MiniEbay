@@ -225,37 +225,22 @@ public class applicationDBAuthenticationGoodComplete{
 	}
 	
 /*
- *	Metodos listUsers, enseña todos los usuarios en la base de datos.
+ *	Metodos listUsersAndRoles, enseña todos los usuarios en la base de datos con sus roles.
  *		@parameters:
  *		@returns:
- *			Regresa ResultSet con el o los usuarios en toda la base de datos. 
+ *			Regresa ResultSet con el o los usuarios en toda la base de datos con sus roles. 
  */
-	public ResultSet listUsers() {
+	public ResultSet listUsersAndRoles() {
 
-		// Busca en toda la tabla que se va a utilizar (por eso el *).
-		String fields = "*";
+		// Busca en las tablas que se va a utilizar.
+		String fields = "users.userName, roleuser.roleId, users.Name, users.telephone";
 
 		// Busca la tabla que se va a modificar.
-		String table = "users";
+		String table = "users, roleuser";
+
+		String whereClause=" users.userName = roleuser.userName";
 		// Regresa un ResultSet con todos los roles por usuario en la base de datos.
-		return myDBConn.doSelect(fields, table);
-	}
-
-/*
- *	Metodos listRoles, enseña todos los Roles de los usuarios en la base de datos.
- *		@parameters:
- *		@returns:
- *			Regresa ResultSet con el o los roles de usuario en toda la base de datos. 
- */
-	public ResultSet listRoles() {
-
-		// Busca solamente en el lado del rol, ya que el userName estaria duplicado.
-		String fields = "*";
-
-		// Busca la tabla que se va a modificar.
-		String table = "roleuser";
-		// Regresa un ResultSet con todos los usuarios en la base de datos.
-		return myDBConn.doSelect(fields, table);
+		return myDBConn.doSelect(fields, table, whereClause);
 	}
 
 	/*********

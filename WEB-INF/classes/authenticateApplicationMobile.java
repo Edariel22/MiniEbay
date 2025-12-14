@@ -89,14 +89,12 @@ public class authenticateApplicationMobile extends HttpServlet {
 		
 		try{
 			applicationDBAuthenticationGoodComplete dba = new applicationDBAuthenticationGoodComplete();
-			ResultSet res = dba.authenticate(userName, passwd);
-			if (res.next()){
+			ResultSet rs = dba.authenticate(userName, passwd);
+			if (rs.next()){
 			  //You got authenticated
 			  //then, generate the JSON object
-			  msg="{\"userName\"=\"" + res.getString(1) + "\", \n";
-			  msg+="\"hashing\"=\""+ res.getString(2) +"\", \n";
-			  msg+="\"name\"=\""+ res.getString(3) +"\", \n";
-			  msg+="\"telephone\"=\""+ res.getString(4) +"\" \n}";
+			  msg="{\"userName\"=\"" + rs.getString("userName") + "\", \n";
+			  msg+="\"name\"=\""+ rs.getString("name") +"\" \n}";
 			}
 		  }
 		catch(Exception e)

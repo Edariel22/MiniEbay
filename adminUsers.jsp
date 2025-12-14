@@ -85,7 +85,7 @@
 			}
 
 			//Crea un ResultSet para enseñar los usuarios y otro para enseñar sus roles.
-			ResultSet rsListU = dba.listUsers();
+			ResultSet rsList = dba.listUsersAndRoles();
 			%>
 				<!-- Para que el admin pueda ver los usuarios existentes -->
 					<h2>Admin - User List</h2>
@@ -94,22 +94,14 @@
 					<td>Username</td>
 					<td>Name</td>
 					<td>Telephone</td>
+					<td>Roles</td>
 					<%
-					while(rsListU.next()){
+					while(rsList.next()){
 						out.print("<tr>");
-						out.print("<td>"+rsListU.getString("userName")+"</td>");
-						out.print("<td>"+rsListU.getString("name")+"</td>");
-						out.print("<td>"+rsListU.getString("telephone")+"</td>");
-						out.print("</tr>");
-					}
-				%>
-					<td>Role per User</td></tr>
-				<%
-				ResultSet rsListR = dba.listRoles();
-					while(rsListR.next()){
-						out.print("<tr>");
-						out.print("<td>"+rsListR.getString("userName")+"</td>");
-						out.print("<td>"+rsListR.getString("roleId")+"</td>");
+						out.print("<td>"+rsList.getString("userName")+"</td>");
+						out.print("<td>"+rsList.getString("name")+"</td>");
+						out.print("<td>"+rsList.getString("telephone")+"</td>");
+						out.print("<td>"+rsList.getString("roleId")+"</td>");
 						out.print("</tr>");
 					}
 			}else{
