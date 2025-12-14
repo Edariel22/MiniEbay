@@ -89,7 +89,7 @@ public class getDataBaseJson extends HttpServlet {
 		int i=0;
 		try{
 			//query the database
-		   ResultSet res= dbm.listProducts(null);
+			ResultSet res= dbm.listProducts(null);
 			System.out.println("list all products");
 			while (res.next()){				//Add the new JSONObject to the JSONArray in location i
 				System.out.println("ROW → " + res.getString("product_id"));
@@ -116,6 +116,7 @@ public class getDataBaseJson extends HttpServlet {
    */ 
    public JSONObject createJSon(ResultSet res)
    {
+	   	applicationDeptManager dbd = new applicationDeptManager();
 	   //Create the JSONObject
 	   JSONObject json = new JSONObject();
 	   try{
@@ -123,13 +124,19 @@ public class getDataBaseJson extends HttpServlet {
 			json.put("id", res.getInt("product_id"));
 			json.put("name", res.getString("name"));
 			json.put("description", res.getString("description"));
-			json.put("deptartment_id", res.getInt("dept_id"));
+			json.put("department_id", res.getInt("dept_id"));
+			ResultSet	rsDept = dbd.getDepartmentById(res.getInt("dept_id"));
+				if (rsDept.next()) {
+			json.put("department_name", rsDept.getString("name"));
+				}
+				rsDept.close();
+
 			json.put("start_bid", res.getDouble("start_bid"));
 			json.put("due_date", res.getString("due_date"));
 			json.put("image", res.getString("picture_path"));
 			json.put("created_at", res.getString("created_at"));
 			json.put("seller", res.getString("userName"));
-	
+		dbd.close();
 			
 	} catch(Exception e)
 	   {

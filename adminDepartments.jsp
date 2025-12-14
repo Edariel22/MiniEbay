@@ -90,7 +90,7 @@
 					<table border="1">
 					<tr>
 					<td>Department ID</td>
-					<td>Deparment Name</td>
+					<td>Department Name</td>
 					<td>Building</td>
 					<%
 					while(rsListD.next()){

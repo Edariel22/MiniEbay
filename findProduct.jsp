@@ -95,8 +95,7 @@
                             NAME:	<%=rsProd.getString("name")%> <br> <!-- luego, el nombre -->
 								<%=rsProd.getString("description")%><br> <!-- luego, la descripcion -->
                             DEPARTMENT: <%=rsProd.getInt("dept_id") + " - " + deptRealName%> <br> <!-- de que departamento es? -->
-                            BID $<%=rsProd.getString("start_bid")%> <br> <!-- cuanto es que esta la paga? -->
-                            DUE DATE: <%=rsProd.getString("due_date")%> <br> <!-- hasta cuandooooo -->
+                            BID: $<%=rsProd.getString("start_bid")%> <br> <!-- cuanto es que esta la paga? -->
 						<!-- debi tirar mas fotos -->
                           <img src="/MiniEbay/images/<%= rsProd.getString("picture_path") %>" alt="<%= rsProd.getString("name") %>" width="200"
 						  style="max-width:200px; height:auto;"> <br>
