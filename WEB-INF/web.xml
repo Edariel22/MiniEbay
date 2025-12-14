@@ -36,5 +36,21 @@
     <url-pattern>/getDataBaseJson</url-pattern>
 
   </servlet-mapping>
+  
+    <servlet>
+
+    <servlet-name>getDepartmentJson</servlet-name>
+
+    <servlet-class>getDepartmentJson</servlet-class>
+
+  </servlet>
+
+  <servlet-mapping>
+
+    <servlet-name>getDepartmentJson</servlet-name>
+
+    <url-pattern>/getDepartmentJson</url-pattern>
+
+  </servlet-mapping>
 
 </web-app>
