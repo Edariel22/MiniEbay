@@ -5,52 +5,48 @@
                              https://jakarta.ee/xml/ns/jakartaee/web-app_6_1.xsd"
          version="6.0">
 
+  <!-- Authentication Servlet -->
   <servlet>
-
     <servlet-name>authenticateApplicationMobile</servlet-name>
-
     <servlet-class>authenticateApplicationMobile</servlet-class>
-
   </servlet>
 
   <servlet-mapping>
-
     <servlet-name>authenticateApplicationMobile</servlet-name>
-
     <url-pattern>/authenticateApplicationMobile</url-pattern>
-
   </servlet-mapping>
 
+  <!-- Database JSON Servlet -->
   <servlet>
-
     <servlet-name>getDataBaseJson</servlet-name>
-
     <servlet-class>getDataBaseJson</servlet-class>
-
   </servlet>
 
   <servlet-mapping>
-
     <servlet-name>getDataBaseJson</servlet-name>
-
     <url-pattern>/getDataBaseJson</url-pattern>
-
   </servlet-mapping>
-  
-    <servlet>
 
+  <!-- Department JSON Servlet -->
+  <servlet>
     <servlet-name>getDepartmentJson</servlet-name>
-
     <servlet-class>getDepartmentJson</servlet-class>
-
   </servlet>
 
   <servlet-mapping>
-
     <servlet-name>getDepartmentJson</servlet-name>
-
     <url-pattern>/getDepartmentJson</url-pattern>
+  </servlet-mapping>
 
+  <!-- Place Bid Servlet -->
+  <servlet>
+    <servlet-name>placeBidMobile</servlet-name>
+    <servlet-class>placeBidMobile</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>placeBidMobile</servlet-name>
+    <url-pattern>/placeBidMobile</url-pattern>
   </servlet-mapping>
 
 </web-app>
