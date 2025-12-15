@@ -1,0 +1,28 @@
+h1 {    	color: navy;
+    	margin-left: 20px;
+	background-color: #AA44EE;}
+p {   	color: blue;
+	font-size: 20px;
+	text-align: center;
+	background-color: white;}
+	
+/********************************************************************************************
+Border properties
+********************************************************************************************/
+p.dotted {border-style: dotted;}
+p.dashed {border-style: dashed;}
+p.mix {border-style: dotted dashed solid double;}
+/*********************************************************************************************
+Pseudo classes
+
+*********************************************************************************************/
+
+/* unvisited link */
+a:link {    color: #8888FF; }
+/* visited link */ 
+a:visited {     color: #00FFFF; }
+/* mouse over link */
+a:hover {    color: #8B4F00; }
+/* selected link */
+a:active {    color: #888888; }
+

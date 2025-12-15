@@ -116,10 +116,11 @@ public class placeBidMobile extends HttpServlet {
 			rsProd.close();
 			rsHighest.close();
 			dbm.close();
-		  }
-		catch(Exception e)
-		{}
-		finally{
+	} catch(Exception e)
+	   {
+		   e.printStackTrace();
+	   }
+	   finally{
 		//Return the actual message
 			return msg;
 		}

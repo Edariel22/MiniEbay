@@ -106,6 +106,11 @@
 					<table>
 					<%
 					while (menuRes.next()) {
+						// Como el menu dibuja todas las paginas inmediatas, hacer un check por welcomeMenu (por redundancia) y findProduct (porque el search ya esta ahi).
+						if ("welcomeMenu.jsp".equals(menuRes.getString(1)) || "findProduct.jsp".equals(menuRes.getString(1))) {
+						continue;
+						}
+						
 						if (currentMenuTitle.compareTo(menuRes.getString(2)) != 0) {
 							currentMenuTitle = menuRes.getString(2);
 					%>
