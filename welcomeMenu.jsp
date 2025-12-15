@@ -75,7 +75,7 @@
 								<td> Department </td>
 								<td>
 									<select id="dept_name" name="dept_name" style="width: 200px; font-size: 16px;">
-									<option value="SearchAllDepartments">Search All Departments</option>
+									<option value="SearchAllDepartments">All Departments</option>
 									<%
 										while (rsDept.next()) {
 											String deptId = rsDept.getString("dept_id");
